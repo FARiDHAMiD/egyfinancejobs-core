@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <title>Egy Finance Jobs | Post Job</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <!-- External CSS libraries -->
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-submenu.css">
+
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/magnific-popup.css">
+    <link rel="stylesheet" type="text/css" href="../css/daterangepicker.css">
+    <link rel="stylesheet" href="../css/leaflet.css" type="text/css">
+    <link rel="stylesheet" href="../css/map.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" type="text/css" href="../fonts/linearicons/style.css">
+    <link rel="stylesheet" type="text/css" href="../css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/dropzone.css">
+    <link rel="stylesheet" type="text/css" href="../css/slick.css">
+    <link rel="stylesheet" type="text/css" href="../css/select2.min.css" rel="stylesheet" />
+
+    <!-- Custom stylesheet -->
+    <link rel="stylesheet" type="text/css" id="style_sheet" href="../css/skins/midnight-blue.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+
+    <!-- Favicon icon -->
+    <link rel="shortcut icon" href="../img/fav-icon.png" type="image/x-icon">
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link rel="stylesheet" type="text/css" href="../css/ie10-viewport-bug-workaround.css">
+
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script  src="../js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script  src="../js/html5shiv.min.js"></script>
+    <script  src="../js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="bg-gray-light">
+
+    <!-- Main header start -->
+    <header class="main-header header-transparent sticky-header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand logo" href="index.html">
+                    <img src="../img/logo.png" alt="logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav header-ml">
+                        <li class="nav-item">
+                            <a class="nav-link" href="posted-jobs.html">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <div class="dropdown btns">
+                                <a class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                    Posts
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="posted-jobs.html">Manage jobs</a>
+                                    <a class="dropdown-item" href="posted-jobs.html">Manage internships</a>
+                                    <a class="dropdown-item" href="post-job.html">Add New job</a>
+                                    <a class="dropdown-item" href="post-job.html">Add New Internship</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="users.html">
+                                Users
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="navbar-buttons ml-auto">
+                        <ul>
+                            <li>
+                                <div class="btn-group dropleft user-menu-quick-links">
+                                    <a type="button" class="dropdown-toggle" data-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <img src="../img/avatar.png" alt="avatar">
+                                        Username
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <div class="d-flex align-items-center px-3 pt-2">
+                                            <div>
+                                                <div class="user-image-circle">
+                                                    <img src="../img/avatar.png" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="pl-3">
+                                                <p class="text-dark m-0"><strong>Username</strong></p>
+                                                <p class="text-sm text-dark-light m-0">Etislate Egypt</p>
+                                                <p class="text-sm text-dark-light m-0 text-gray">Username@gmail.com</p>
+                                                <a href="company-profile.html"
+                                                    class="btn button-theme bg-transport p-1">View Company
+                                                    Profile</a>
+                                            </div>
+                                        </div>
+                                        <hr class="my-2">
+                                        <a class="dropdown-item" href="pricing-plans.html">Plans & Pricies</a>
+                                        <a class="dropdown-item" href="edit-company-profile.html">Edit Company Page</a>
+                                        <a class="dropdown-item" href="users.html">Manage Users</a>
+                                        <a class="dropdown-item" href="account-settings.html">Account Settings</a>
+                                        <a class="dropdown-item" href="../contact-us.html">Contact Us</a>
+                                        <a class="dropdown-item" href="#">Log Out</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Main header end -->
+
+    <!-- create profile section start -->
+    <div id="multi-step-form-container" class="py">
+        <div class="container">
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
+                        <!-- Step 1 -->
+                        <li class="form-stepper-active text-center form-stepper-list" step="1">
+                            <a class="mx-2">
+                                <div class="step-label">Step 1/2</div>
+                                <span class="form-stepper-circle">
+                                    <span>1</span>
+                                </span>
+                                <div class="label">Job Info</div>
+                            </a>
+                        </li>
+                        <!-- Step 2 -->
+                        <li class="form-stepper-unfinished text-center form-stepper-list" step="2">
+                            <a class="mx-2">
+                                <div class="step-label">Step 2/2</div>
+                                <span class="form-stepper-circle text-muted">
+                                    <span>2</span>
+                                </span>
+                                <div class="label text-muted">Application form</div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Form content box start -->
+                    <div class="form-content-box w-100">
+                        <div class="details text-left">
+                            <!-- Form start -->
+                            <form id="userAccountSetupForm" enctype="multipart/form-data" method="get">
+                                <section id="step-1" class="form-step">
+                                    <div class="section-header mb-5">
+                                        <h2 class="form-title text-center mb-0">Post New Job</h2>
+                                        <hr>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="fs-18">Post Type</label>
+                                        <select type="text" name="" class="input-text">
+                                            <option value="">Job</option>
+                                            <option value="">Internship</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="fs-18">Job Title</label>
+                                        <input type="text" name="" class="input-text">
+                                    </div>
+                                    <div class="btn-group-toggle row" data-toggle="buttons">
+                                        <div class="col-12 form-group mb-1">
+                                            <label class="fs-18">Job Type</label> <span>(max.
+                                                3)</span>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn button-theme radio-btn w-100 px-3 active">
+                                                <input checked name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Full Time
+                                                    <i class="fa fa-plus-circle fa-lg plus-icon" aria-hidden="true"></i>
+                                                    <i class="fa fa-check-circle fa-lg check-icon"
+                                                        aria-hidden="true"></i>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn button-theme radio-btn w-100 px-3">
+                                                <input name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Part Time
+                                                    <i class="fa fa-plus-circle fa-lg plus-icon" aria-hidden="true"></i>
+                                                    <i class="fa fa-check-circle fa-lg check-icon"
+                                                        aria-hidden="true"></i>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn button-theme radio-btn w-100 px-3">
+                                                <input name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Freelance / Project
+                                                    <i class="fa fa-plus-circle fa-lg plus-icon" aria-hidden="true"></i>
+                                                    <i class="fa fa-check-circle fa-lg check-icon"
+                                                        aria-hidden="true"></i>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn button-theme radio-btn w-100 px-3">
+                                                <input name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Work From Home
+                                                    <i class="fa fa-plus-circle fa-lg plus-icon" aria-hidden="true"></i>
+                                                    <i class="fa fa-check-circle fa-lg check-icon"
+                                                        aria-hidden="true"></i>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn button-theme radio-btn w-100 px-3">
+                                                <input name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Voulanteering
+                                                    <i class="fa fa-plus-circle fa-lg plus-icon" aria-hidden="true"></i>
+                                                    <i class="fa fa-check-circle fa-lg check-icon"
+                                                        aria-hidden="true"></i>
+                                                </p>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="fs-18">Job Category</label> <span>(max. 3)</span>
+                                        <select class="multiple-select w-100 input-text"
+                                            data-placeholder="Select at least one job category" name=""
+                                            multiple="multiple">
+                                            <option value="AL">Acountant</option>
+                                            <option value="AL">Acountant</option>
+                                            <option value="AL">Acountant</option>
+                                            <option value="AL">Acountant</option>
+                                            <option value="AL">Acountant</option>
+                                            <option value="WY">Acountant</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="fs-18">City</label>
+                                        <select class="w-100 input-text" name="">
+                                            <option value="" disabled>Select</option>
+                                            <option value="">cairo</option>
+                                            <option value="">cairo</option>
+                                            <option value="">cairo</option>
+                                            <option value="">cairo</option>
+                                            <option value="">cairo</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="btn-group-toggle row" data-toggle="buttons">
+                                        <div class="col-12 form-group mb-1"><label class="fs-18">Career Level</label>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn px-3 button-theme radio-btn w-100 active">
+                                                <input checked name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Experienced
+                                                </p>
+                                                <span>(Non Manager)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn px-3 button-theme radio-btn w-100">
+                                                <input name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Manager
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn px-3 button-theme radio-btn w-100">
+                                                <input name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Senior Management
+                                                </p>
+                                                <span>(e.g. Ceo, ..etc)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn px-3 button-theme radio-btn w-100">
+                                                <input name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Entry Level
+                                                </p>
+                                                <span>Fresh / Junior</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-auto mb-2 px-2">
+                                            <label class="btn px-3 button-theme radio-btn w-100">
+                                                <input name="oben_job_type" value="Full Time" type="checkbox"
+                                                    id="option1" autocomplete="off">
+                                                <p class="m-0">
+                                                    Student
+                                                </p>
+                                                <span>Undergrad / Postgrad</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="fs-18">Years of Experience</label>
+                                        <select type="text" name="country" class="input-text">
+                                            <option selected value="years_of_experience" disabled>Select
+                                            </option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="fs-18">Salary EGP per Month</label>
+                                        <input id="email" type="email" name="expected_salary" class="input-text"
+                                            placeholder="EGP/ Month">
+                                    </div>
+                                    <div class="form-group d-flex align-items-center">
+                                        <div class="btn-group-toggle d-inline" data-toggle="buttons">
+                                            <label class="btn button-theme radio-btn inline-checkbox">
+                                                <input name="hide_salary" value="hide_salary" type="checkbox"
+                                                    autocomplete="off">
+                                                <p class="m-0">
+                                                    <i class="fa fa-check fa-lg check-icon" aria-hidden="true"></i>
+                                                </p>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <p class="section-subtitle mb-0 text-sm">Hide my salary in job post</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="fs-18">Job Description</label>
+                                        <textarea name="" class="input-text" placeholder="Job Description"
+                                            rows="5"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="fs-18">Job Requirements</label>
+                                        <textarea name="" class="input-text" placeholder="Job Requirements"
+                                            rows="5"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="fs-18">Keywords</label>
+                                        <p>Enter keywords including any related job titles, technologies, or keywords
+                                            the candidate should have in his CV.</p>
+                                        <select class="multiple-select w-100 input-text" data-placeholder="Select...."
+                                            name="" multiple="multiple">
+                                            <option value="AL">Acountant</option>
+                                            <option value="AL">Acountant</option>
+                                            <option value="AL">Acountant</option>
+                                            <option value="AL">Acountant</option>
+                                            <option value="AL">Acountant</option>
+                                            <option value="WY">Acountant</option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-3 text-right">
+                                        <button class="btn button-theme btn-navigate-form-step" type="button"
+                                            step_number="2">Save & Continue</button>
+                                    </div>
+                                </section>
+
+
+                                <section id="step-2" class="form-step d-none">
+                                    <div class="section-header">
+                                        <h2 class="form-title text-center mb-0">Application form</h2>
+                                        <hr>
+                                    </div>
+
+                                    <div class="form-group mt-4">
+                                        <label class="fs-18">Job Options</label>
+                                        <div class="form-group d-flex align-items-center mb-1 mt-2">
+                                            <div class="btn-group-toggle d-inline" data-toggle="buttons">
+                                                <label class="btn button-theme radio-btn inline-checkbox">
+                                                    <input name="hide_salary" value="hide_salary" type="checkbox"
+                                                        autocomplete="off">
+                                                    <p class="m-0">
+                                                        <i class="fa fa-check fa-lg check-icon" aria-hidden="true"></i>
+                                                    </p>
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <p class="section-subtitle mb-0 text-sm">Hide my salary in job post</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex align-items-center">
+                                            <div class="btn-group-toggle d-inline" data-toggle="buttons">
+                                                <label class="btn button-theme radio-btn inline-checkbox">
+                                                    <input name="hide_salary" value="hide_salary" type="checkbox"
+                                                        autocomplete="off">
+                                                    <p class="m-0">
+                                                        <i class="fa fa-check fa-lg check-icon" aria-hidden="true"></i>
+                                                    </p>
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <p class="section-subtitle mb-0 text-sm">I don't need questions form
+                                                    when candidates apply on the job</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group mt-4">
+                                        <label class="fs-18">Screening Questions</label>
+
+                                        <div class="repeater-container" repeater-field-name="image_fields">
+                                            <div class="repeater-box">
+                                                <div class="repeater mb-2">
+                                                    <div class="row m-0 align-items-center">
+                                                        <div class="col-sm-10 col-8 pl-0">
+                                                            <div class="form-group m-sm-0 mb-2">
+                                                                <input id="email" type="email" name="expected_salary"
+                                                                    class="input-text" placeholder="Questions">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-2 col-4 text-end pr-0">
+                                                            <button type="button"
+                                                                class="btn btn-danger btn-sm m-0 remove-repeater-row"><i
+                                                                    class="fa fa-trash h-100"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="justify-content-between mt-2">
+                                                <button type="button" class="btn btn-sm button-theme px-3 add_new_file">
+                                                    Add New Questions</button>
+                                                <button type="button" data-toggle="modal"
+                                                    data-target="#preview-questions"
+                                                    class="btn btn-sm button-theme bg-transparent px-3 add_new_file">
+                                                    Preview Questions</button>
+                                            </div>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="preview-questions" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-md"
+                                                    role="document">
+                                                    <div class="modal-content">
+                                                        <button type="button" class="close modal-close-btn"
+                                                            data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                        <div class="modal-header">
+                                                            <h2 class="h2 text-blue">Screening
+                                                                Questions
+                                                                Preview</h2>
+                                                        </div>
+                                                        <div class="modal-body py-3">
+                                                            <h2 class="h4">Accountant</h2>
+                                                            <p class="text-black">The hiring team at NPI also requires
+                                                                that you answer the below questions. Providing excellent
+                                                                answers significantly increases your chances of being
+                                                                selected for an interview.?</p>
+
+
+                                                            <div class="form-group">
+                                                                <label class="fs-18">What skills or knowledge would make
+                                                                    you
+                                                                    better at your current role?</label>
+                                                                <textarea name="" class="input-text"
+                                                                    placeholder="Write your answer here.."
+                                                                    rows="5"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                    <div class="mt-3 d-flex justify-content-between flex-md-row flex-column">
+                                        <button class="btn button-theme btn-navigate-form-step mb-md-0 mb-3"
+                                            type="button" step_number="1">Previous Step</button>
+                                        <button data-toggle="modal" data-target="#save-job" class="btn button-theme"
+                                            type="button">Save</button>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="save-job" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <button type="button" class="close modal-close-btn" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <div class="modal-body text-center py-5">
+                                                    <div class="text-center">
+                                                        <img src="../img/envelope-checked.png" alt="">
+                                                    </div>
+                                                    <h2 class="h4">Your Post is Pending Approval</h2>
+                                                    <p class="text-black">It will be published once verification when we
+                                                        approve your information by our team within 1-2 business days
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </form>
+                            <!-- Form end -->
+                        </div>
+                    </div>
+                    <!-- Form content box end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- create profile section end -->
+
+
+
+    <!-- Footer start -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="row">
+                <div class="col-lg-5 col-md-6">
+                    <div class="footer-item clearfix">
+                        <img src="../img/white-logo.png" alt="logo" class="f-logo">
+                        <p class="footer-description">
+                            Online Recruitment Solutions for top enterprises and organizations Since May 2012, we
+                            successfully served 10,000+ top companies and employers in Egypt.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-item">
+                        <h4>Get started</h4>
+                        <ul class="links">
+                            <li>
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                                <a href="login.html">Log in</a>
+                            </li>
+                            <li>
+                                <a href="register.html">Register</a>
+                            </li>
+                            <li>
+                                <a href="employer/index.html">For Employers</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-item">
+                        <h4>Learn More</h4>
+                        <ul class="links">
+                            <li>
+                                <a href="about-us.html">About Us</a>
+                            </li>
+                            <li>
+                                <a href="contact-us.html">Contact Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-item">
+                        <h4>Follow Us</h4>
+                        <ul class="social-list clearfix">
+                            <li><a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer end -->
+
+    <!-- Sub footer start -->
+    <div class="sub-footer">
+        <div class="container">
+            <div class="text-center">
+                <p class="copy">Copyright ©2022 Egy finance jobs . All rights reserved. Use of this site is subject
+                    to certain Terms and Conditions.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Sub footer end -->
+
+    <!-- Full Page Search -->
+    <div id="full-page-search">
+        <button type="button" class="close">×</button>
+        <form action="index.html#">
+            <input type="search" value="" placeholder="type keyword(s) here" />
+            <button type="submit" class="btn btn-sm button-theme">Search</button>
+        </form>
+    </div>
+
+    <script src="../js/jquery-2.2.0.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-submenu.js"></script>
+    <script src="../js/rangeslider.js"></script>
+    <script src="../js/jquery.mb.YTPlayer.js"></script>
+    <script src="../js/bootstrap-select.min.js"></script>
+    <script src="../js/jquery.easing.1.3.js"></script>
+    <script src="../js/jquery.scrollUp.js"></script>
+    <script src="../js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="../js/leaflet.js"></script>
+    <script src="../js/leaflet-providers.js"></script>
+    <script src="../js/leaflet.markercluster.js"></script>
+    <script src="../js/moment.min.js"></script>
+    <script src="../js/daterangepicker.min.js"></script>
+    <script src="../js/dropzone.js"></script>
+    <script src="../js/slick.min.js"></script>
+    <script src="../js/jquery.filterizr.js"></script>
+    <script src="../js/jquery.magnific-popup.min.js"></script>
+    <script src="../js/jquery.countdown.js"></script>
+    <script src="../js/maps.js"></script>
+    <script src="../js/select2.min.js"></script>
+
+    <script src="../js/app.js"></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Custom javascript -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+</body>
+
+</html>
