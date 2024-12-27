@@ -25,6 +25,7 @@ class User extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $fillable = [
+        'uuid',
         'first_name',
         'last_name',
         'email',
@@ -32,6 +33,7 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
         'email_verified_at',
         'cv',
+        'google_id'
     ];
 
     /**
@@ -64,30 +66,28 @@ class User extends Authenticatable implements HasMedia
     }
     public function employee_experiences()
     {
-        return $this->hasMany(Experience::class, 'employee_id')->orderBy('currently_work_there','DESC')->orderBy('ending_in','DESC')->latest();
+        return $this->hasMany(Experience::class, 'employee_id')->orderBy('currently_work_there', 'DESC')->orderBy('ending_in', 'DESC')->latest();
     }
     public function employee_educations()
     {
-        return $this->hasMany(Education::class, 'employee_id')->orderBy('degree_date','DESC')->latest();
+        return $this->hasMany(Education::class, 'employee_id')->orderBy('degree_date', 'DESC')->latest();
     }
     public function employee_skills2($category = null)
     {
-            return $this->hasMany(EmployeeSkill::class, 'employee_id');
-
+        return $this->hasMany(EmployeeSkill::class, 'employee_id');
     }
     public function employee_skills($category = null)
     {
-        if(empty($category)){
+        if (empty($category)) {
             return $this->hasMany(EmployeeSkill::class, 'employee_id')
-            ->join('skills', 'employee_skills.skill_id', '=', 'skills.id')
-            ->get('employee_skills.*');
-        }else{
+                ->join('skills', 'employee_skills.skill_id', '=', 'skills.id')
+                ->get('employee_skills.*');
+        } else {
             return $this->hasMany(EmployeeSkill::class, 'employee_id')
-            ->join('skills', 'employee_skills.skill_id', '=', 'skills.id')
-            ->where('skills.category', $category)
-            ->get('employee_skills.*');
+                ->join('skills', 'employee_skills.skill_id', '=', 'skills.id')
+                ->where('skills.category', $category)
+                ->get('employee_skills.*');
         }
-
     }
     public function employee_social_links()
     {
@@ -96,7 +96,7 @@ class User extends Authenticatable implements HasMedia
 
     public function image_certificate()
     {
-        return $this->hasMany(CertificateImage::class,'user_id');
+        return $this->hasMany(CertificateImage::class, 'user_id');
     }
 
     public function job_types()
@@ -144,5 +144,4 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Job::class, 'employer_id');
     }
-
 }

@@ -31,7 +31,10 @@ Route::group(['middleware' => ['web', 'admin']], function () {
     Route::resource('/universities', 'UniversityController');
 
     Route::get('/job-applications', 'HomeController@job_applications')->name('admin.job_applications');
-    Route::post('/job-applications/{id}', 'JobApplicationController@update')->name('admin.job_applications');
+    Route::post('/job-applications/{id}', 'JobApplicationController@update')->name('admin.job_application');
+    // delete job application by user
+    Route::post('/job-applications/{id}', 'JobApplicationController@destroy')->name('job_application.admin.destroy');
+    // Route::post('/job-applications/{id}', 'JobApplicationController@update')->name('admin.job_applications');
 
     Route::get('/logout', 'AuthController@logout')->name('admin.logout');
 });

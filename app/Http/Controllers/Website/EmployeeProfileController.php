@@ -26,7 +26,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
-
+use Carbon\Carbon;
 
 
 class EmployeeProfileController extends Controller
@@ -68,17 +68,17 @@ class EmployeeProfileController extends Controller
         ]);
     }
 
-    public function view_profile($employee_id = null)
+    public function view_profile($uuid = null)
     {
         if (auth()->check() && auth()->user()->hasRole('employee')) {
             $employee = auth()->user();
-        } else if ($employee_id != null) {
-            $employee = User::findOrFail($employee_id);
+        } else if ($uuid != null) {
+            $employee = User::where('uuid', '=', $uuid)->firstOrFail();
         } else {
             return redirect()->route('website.home');
         }
         if ($employee->employee_profile == null) {
-            session()->flash('alert_message', ['message' => 'Complete your profile first', 'icon' => 'danger']);
+            session()->flash('alert_message', ['message' => 'Please, Complete your profile first!', 'icon' => 'danger']);
             return redirect()->route('employee.profile.create');
         }
         $data = [
@@ -127,6 +127,7 @@ class EmployeeProfileController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
+
         $request->validate([
             'career_level_id' => 'required|string|max:50',
             'open_job_type_ids' => 'required|array|min:1',
@@ -134,13 +135,18 @@ class EmployeeProfileController extends Controller
             'job_title_id' => 'required|string|max:50',
             'job_category_ids' => 'required|array|min:1',
             'job_category_ids.*' => 'required|numeric|exists:job_categories,id',
-            'accepted_salary' => 'required|numeric',
-            'birthdate' => 'required|date',
+            'accepted_salary' => 'required|numeric|min:1|max:1000000',
+            'birthdate' => [
+                'required',
+                'date',
+                'before:' . Carbon::now()->subYears(18),
+                'after:' . Carbon::now()->subYears(70),
+            ],
             'gender' => 'required|in:male,female',
             'country_id' => 'required|numeric|exists:countries,id',
             'city_id' => 'numeric|exists:cities,id',
             'area_id' => 'numeric|exists:areas,id',
-            'phone' => 'required|string|max:100',
+            'phone' => 'required|digits:11',
 
             'experience' => 'required|array|min:1',
             'experience.job_title' => 'required|string|max:255',
@@ -148,7 +154,12 @@ class EmployeeProfileController extends Controller
             'experience.job_category_id' => 'required|numeric|exists:job_categories,id',
             'experience.company_industry_id' => 'required|numeric|exists:industries,id',
             'experience.job_type_id' => 'required|numeric|exists:job_types,id',
-            'experience.starting_from' => 'required|date',
+            'experience.starting_from' => [
+                'required',
+                'date',
+                'before:' . Carbon::now(),
+                'after:' . Carbon::create($request->birthdate)->addYears(14),
+            ],
             'experience.ending_in' => 'nullable|required_without:experience.currently_work_there|date|after_or_equal:experience.starting_from',
             'experience.currently_work_there' => 'nullable|required_without:experience.ending_in|in:on',
 
@@ -156,7 +167,12 @@ class EmployeeProfileController extends Controller
             'education.education_level_id' => 'required',
             'education.degree_details' => 'required|max:255',
             'education.university_id' => 'required',
-            'education.degree_date' => 'required|date',
+            'education.degree_date' => [
+                'required',
+                'date',
+                'before:' . Carbon::now()->addYears(6),
+                'after:' . Carbon::create($request->birthdate)->addYears(16),
+            ],
             'education.grade' => 'required',
             'education.certificate_image' => 'nullable|file|mimes:pdf',
         ]);
@@ -192,7 +208,7 @@ class EmployeeProfileController extends Controller
             'ending_in' => $request->experience['ending_in'],
         ]);
 
-        $employee = EmployeeProfile::create([
+        EmployeeProfile::create([
             'employee_id' => $user->id,
             'career_level_id' => $request->career_level_id,
             'job_title_id' => $request->job_title_id,
@@ -260,15 +276,24 @@ class EmployeeProfileController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'birthdate' => 'required|date',
+            'birthdate' => [
+                'required',
+                'date',
+                'before:' . Carbon::now()->subYears(18),
+                'after:' . Carbon::now()->subYears(70),
+            ],
+
             'gender' => 'required|in:male,female',
             'marital_status' => 'required|in:unspecified,single,married',
             'military_status' => 'required|in:exempted,completed,postponed,not applicable',
             'country_id' => 'required|integer',
             'city_id' => 'integer',
             'area_id' => 'integer',
-            'phone' => 'required|string|max:20',
+            'phone' => 'required|digits:11',
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($employee->id)],
+        ], [
+            'birthdate.before' => 'يجب ألا يقل السن عن 18 سنة',
+            'birthdate.after' => 'يجب ألا يزيد السن عن 70 سنة',
         ]);
 
 
@@ -346,7 +371,7 @@ class EmployeeProfileController extends Controller
             'job_title_id' => 'required|string|max:50',
             'job_category_ids' => 'required|array|min:1',
             'job_category_ids.*' => 'required|numeric|exists:job_categories,id',
-            'accepted_salary' => 'required|numeric',
+            'accepted_salary' => 'required|numeric|min:1|max:1000000',
         ]);
 
 
@@ -390,13 +415,19 @@ class EmployeeProfileController extends Controller
 
     public function update_experiences(Request $request, $experience_id)
     {
+        $employee = auth()->user();
         $request->validate([
             'job_title' => 'required|string|max:255',
             'company_name' => 'required|string|max:255',
             'job_category_id' => 'required|numeric|exists:job_categories,id',
             'company_industry_id' => 'required|numeric|exists:industries,id',
             'job_type_id' => 'required|numeric|exists:job_types,id',
-            'starting_from' => 'required|date',
+            'starting_from' => [
+                'required',
+                'date',
+                'before:' . Carbon::now(),
+                'after:' .  Carbon::create($employee->employee_profile->birthdate)->addYears(14),
+            ],
             'ending_in' => 'nullable|required_without:currently_work_there|date|after_or_equal:starting_from',
             'currently_work_there' => 'nullable|required_without:ending_in|in:on',
         ]);
@@ -427,7 +458,12 @@ class EmployeeProfileController extends Controller
             'job_category_id' => 'required|numeric|exists:job_categories,id',
             'company_industry_id' => 'required|numeric|exists:industries,id',
             'job_type_id' => 'required|numeric|exists:job_types,id',
-            'starting_from' => 'required|date',
+            'starting_from' => [
+                'required',
+                'date',
+                'before:' . Carbon::now(),
+                'after:' .  Carbon::create($employee->employee_profile->birthdate)->addYears(14),
+            ],
             'ending_in' => 'nullable|required_without:currently_work_there|date|after_or_equal:starting_from',
             'currently_work_there' => 'nullable|required_without:ending_in|in:on',
         ]);
@@ -450,9 +486,17 @@ class EmployeeProfileController extends Controller
 
     public function destroy_experiences($experience_id)
     {
-        Experience::find($experience_id)->delete();
-        session()->flash('alert_message', ['message' => 'The experience has been deleted successfully', 'icon' => 'success']);
-        return redirect()->back();
+        $employee = auth()->user();
+        $qs = Experience::WhereIn('employee_id', [$employee->employee_profile->employee_id])->distinct()->get()->count();
+        // check if this is the last user/employee experience
+        if ($qs <= 1) {
+            session()->flash('alert_message', ['message' => 'At least one job experience is required!', 'icon' => 'danger']);
+            return redirect()->back();
+        } else {
+            Experience::find($experience_id)->delete();
+            session()->flash('alert_message', ['message' => 'The experience has been deleted successfully', 'icon' => 'success']);
+            return redirect()->back();
+        }
     }
 
 
@@ -474,12 +518,17 @@ class EmployeeProfileController extends Controller
 
     public function update_educations(Request $request, $education_id)
     {
-
+        $employee = auth()->user();
         $request->validate([
             'education_level_id' => 'required',
-            'degree_details' => 'required|max:255',
+            'degree_details' => 'required|max:100',
             'university_id' => 'required',
-            'degree_date' => 'required|date',
+            'degree_date' => [
+                'required',
+                'date',
+                'before:' . Carbon::now()->addYears(6),
+                'after:' .  Carbon::create($employee->employee_profile->birthdate)->addYears(16),
+            ],
             'grade' => 'required',
             "certificate_image" => 'nullable|mimes:pdf',
 
@@ -516,9 +565,14 @@ class EmployeeProfileController extends Controller
 
         $request->validate([
             'education_level_id' => 'required',
-            'degree_details' => 'required|max:255',
+            'degree_details' => 'required|max:100',
             'university_id' => 'required',
-            'degree_date' => 'required|date',
+            'degree_date' => [
+                'required',
+                'date',
+                'before:' . Carbon::now()->addYears(6),
+                'after:' . Carbon::create($employee->employee_profile->birthdate)->addYears(16),
+            ],
             'grade' => 'required',
             'certificate_image' => 'nullable|file|mimes:pdf',
         ]);
@@ -550,9 +604,17 @@ class EmployeeProfileController extends Controller
 
     public function destroy_educations($education_id)
     {
-        Education::find($education_id)->delete();
-        session()->flash('alert_message', ['message' => 'The education degree has been deleted successfully', 'icon' => 'success']);
-        return redirect()->back();
+        $employee = auth()->user();
+        $qs = Education::WhereIn('employee_id', [$employee->employee_profile->employee_id])->distinct()->get()->count();
+        // check if this is the last user/employee education degree
+        if ($qs <= 1) {
+            session()->flash('alert_message', ['message' => 'At least one Education Degree is required!', 'icon' => 'danger']);
+            return redirect()->back();
+        } else {
+            Education::find($education_id)->delete();
+            session()->flash('alert_message', ['message' => 'The education degree has been deleted successfully', 'icon' => 'success']);
+            return redirect()->back();
+        }
     }
 
     public function edit_skills()

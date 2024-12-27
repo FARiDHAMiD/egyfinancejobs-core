@@ -30,4 +30,20 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'google' => [
+
+        'client_id' => '414636721224-oi1v4k2333ur977b9rt86pv89pnl99f4.apps.googleusercontent.com',
+
+        'client_secret' => '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',
+
+        'redirect' => 'https://egyfinancejobs.com/auth/google/callback',
+
+    ],
+
+    'recaptcha' => [
+        'key' => env('RECAPTCHA_SITE_KEY'),
+        'secret' => env('RECAPTCHA_SECRET_KEY'),
+        'site' => env('RECAPTCHA_SECRET_KEY'),
+    ]
+
 ];

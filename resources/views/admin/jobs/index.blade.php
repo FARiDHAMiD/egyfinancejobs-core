@@ -137,7 +137,7 @@
                         <tbody>
                             @foreach ($jobs as $job)
                                 <tr>
-                                    <td><a href="{{ route('website.job-details', $job->id) }}" target="_blank">{{ $job->job_title}}</a></td>
+                                    <td><a href="{{ route('website.job-details', $job->job_uuid) }}" target="_blank">{{ $job->job_title}}</a></td>
                                     <td>
                                         @if ($job->employer_profile)
                                             <a href="{{ route('employer.profile', $job->employer_profile->employer_id) }}" target="_blank">{{ $job->employer_profile->company_name}}</a>

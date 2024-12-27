@@ -10,6 +10,7 @@ class Job extends Model
 {
 
     protected $fillable = [
+        'job_uuid',
         'employer_id',
         'job_title',
         'country_id',

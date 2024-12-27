@@ -12,6 +12,15 @@
 
                             <!-- Name -->
                             <h1 class="form-title text-center">Log in to your account</h1>
+                            <div class="d-flex justify-content-center my-2">
+                                <h2 class="btn-group d-flex w-100" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-success text-light"><i
+                                            class="fa fa-google"></i></button>
+                                    <a href="{{ route('redirect.google') }}" type="button" class="btn btn-primary w-100" style="font-weight: bold">Login
+                                        Using Google Account</a>
+                                </h2>
+                            </div>
+    
                             <!-- Form start -->
                             @error('login_error')
                                 <div class="text-danger text-center mb-4">

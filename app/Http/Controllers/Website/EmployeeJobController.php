@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Models\Job;
+use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use App\Models\JobApplicationAnswer;
 use App\Models\User;
@@ -20,7 +21,6 @@ class EmployeeJobController extends Controller
             'saved_jobs' => $employee->saved_jobs,
         ];
         return view('website.employee.jobs.saved-jobs', $data);
-
     }
 
     public function save_job($job_id)
@@ -41,19 +41,18 @@ class EmployeeJobController extends Controller
     public function apply_job(Request $request, $job_id)
     {
         $job = Job::where('id', $job_id)->with('questions')->first();
-      if(count($job->questions) > 0){
-          $request->validate([
-              'answers' => 'required|array',
-              'answers.*' => 'required|string|max:255',
-          ]);
-
-      }
+        if (count($job->questions) > 0) {
+            $request->validate([
+                'answers' => 'required|array',
+                'answers.*' => 'required|string|max:255',
+            ]);
+        }
 
         $user = auth()->user();
         $user->applied_jobs()->attach($job_id, ['created_at' => now(), 'updated_at' => now()]);
         $job_application = $user->job_applications()->where('job_id', $job_id)->first();
-        if($request->has('answers')){
-            foreach($request->answers as $question_id => $answer){
+        if ($request->has('answers')) {
+            foreach ($request->answers as $question_id => $answer) {
                 JobApplicationAnswer::create([
                     'job_id' => $job_id,
                     'job_application_id' => $job_application->id,
@@ -65,10 +64,10 @@ class EmployeeJobController extends Controller
         }
         // notify Admin
         $admin = User::whereRoleIs('admin')->first();
-        if($admin){
+        if ($admin) {
             $title = "$user->first_name applied for $job->job_title #$job_application->id";
             $url = route('admin-mark-notification-as_readed');
-            $admin->notify( new AdminNotification($title, $url));
+            $admin->notify(new AdminNotification($title, $url));
         }
         session()->flash('alert_message', ['message' => 'The job has been applied successfully', 'icon' => 'success']);
         return redirect()->back();
@@ -82,11 +81,24 @@ class EmployeeJobController extends Controller
             'page_title' => 'applications | jobs | Employee | Egy Finance',
             'applications' => $employee->applications,
         ];
-        if(request()->has('notify')){
+        if (request()->has('notify')) {
             $employee->notifications->where('id', request()->notify)->markAsRead();
         }
         return view('website.employee.jobs.applications', $data);
-
     }
 
+    public function destroy_application($id)
+    {
+        // dd($id);
+        $jobApplication = JobApplication::findOrFail($id);
+        $jobApplicationAnswers = JobApplicationAnswer::where('job_application_id', $id)->get();
+
+        // Delete Multiple answers associated with this user
+        JobApplicationAnswer::destroy($jobApplicationAnswers);
+
+        // Delete job application
+        $jobApplication->delete();
+        session()->flash('alert_message', ['message' => 'The application has been deleted successfully', 'icon' => 'success']);
+        return redirect()->back();
+    }
 }

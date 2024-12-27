@@ -24,7 +24,7 @@
                             <div class="description">
                                 <div class="float-left">
                                     <h5 class="title"><a
-                                            href="{{ route('website.job-details', $job->id) }}">{{ $job->job_title }}</a>
+                                            href="{{ route('website.job-details', $job->job_uuid) }}">{{ $job->job_title }}</a>
                                     </h5>
                                     <div class="candidate-listing-footer">
                                         <ul>

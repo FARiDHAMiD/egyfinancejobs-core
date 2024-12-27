@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+// Use google api to sign up with gmail
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('redirect.google');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 // Auth Routes
 Route::group(['middleware' => ['guest']], function () {
@@ -38,11 +41,15 @@ Route::namespace('Website')->group(function () {
     Route::name('website.')->group(function () {
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('/jobs', 'JobController@index')->name('jobs');
-        Route::get('/jobs/{id}', 'JobController@show')->name('job-details');
+        Route::get('/jobs/{job_uuid}', 'JobController@show')->name('job-details');
     });
 
     Route::get('/employee/profile/view/{id?}', 'EmployeeProfileController@view_profile')->name('employee.profile.view');
     //employee routes
+
+    // delete job application by user
+    Route::get('/employee/jobs/destroy-application/{id}', 'EmployeeJobController@destroy_application')->name('job_application.destroy');
+
     Route::name('employee.')->middleware('EmployeeMiddleware')->group(function () {
         Route::get('/employee/create-profile', 'EmployeeProfileController@create')->name('profile.create');
         Route::post('/employee/create-profile', 'EmployeeProfileController@store')->name('profile.store');
@@ -92,7 +99,7 @@ Route::namespace('Website')->group(function () {
 
         Route::get('employee/jobs/save-job/{id}', 'EmployeeJobController@save_job')->name('jobs.save-job');
         Route::get('employee/jobs/unsave-job/{id}', 'EmployeeJobController@unsave_job')->name('jobs.unsave-job');
-        Route::get('employee/jobs/apply-job/{id}', 'EmployeeJobController@apply_job')->name('jobs.apply-job');
+        Route::get('employee/jobs/apply-job/{id}', 'EmployeeJobController@apply_job')->name('jobs.apply-job.get');
         Route::post('employee/jobs/apply-job/{id}', 'EmployeeJobController@apply_job')->name('jobs.apply-job');
         Route::get('/employee/jobs/saved-jobs', 'EmployeeJobController@saved_jobs')->name('jobs.saved-jobs');
         Route::get('/employee/jobs/applications', 'EmployeeJobController@applications')->name('jobs.applications');

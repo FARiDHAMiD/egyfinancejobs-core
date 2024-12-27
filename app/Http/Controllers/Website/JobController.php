@@ -32,43 +32,59 @@ class JobController extends Controller
 
         // $jobsQuery = Job::latest(); 
         $jobsQuery = Job::when(count($selectedCountries) > 0, function ($query) use ($selectedCountries) {
-            return $query->whereIn('jobs.country_id', $selectedCountries);
+            return $query->whereIn('jobs.country_id', $selectedCountries)->latest();
         })
             ->when(count($selectedCities) > 0, function ($query) use ($selectedCities) {
-                return $query->whereIn('jobs.city_id', $selectedCities);
+                return $query->whereIn('jobs.city_id', $selectedCities)->latest();
             })
             ->when($request->city_id, function ($query) use ($request) {
                 return $query->where('jobs.city_id', $request->city_id);
             })
             ->when(count($selectedAreas) > 0, function ($query) use ($selectedAreas) {
-                return $query->whereIn('jobs.area_id', $selectedAreas);
+                return $query->whereIn('jobs.area_id', $selectedAreas)->latest();
             })
             ->when(count($selectedCareerLevels) > 0, function ($query) use ($selectedCareerLevels) {
-                return $query->whereIn('jobs.career_level_id', $selectedCareerLevels);
+                return $query->whereIn('jobs.career_level_id', $selectedCareerLevels)->latest();
             })
             ->when(count($selectedJobCategories) > 0, function ($query) use ($selectedJobCategories) {
-                return $query->whereIn('jobs.category_id', $selectedJobCategories);
+                return $query->whereIn('jobs.category_id', $selectedJobCategories)->latest();
             })
             ->when(count($selectedJobTypes) > 0, function ($query) use ($selectedJobTypes) {
-                return $query->whereIn('jobs.type_id', $selectedJobTypes);
+                return $query->whereIn('jobs.type_id', $selectedJobTypes)->latest();
             })
             ->when($selectedExperienceYears != null, function ($query) use ($selectedExperienceYears) {
-                return $query->where('jobs.years_experience', $selectedExperienceYears);
+                return $query->where('jobs.years_experience', $selectedExperienceYears)->latest();
             })
             ->when(in_array('past_week', $selectedPostedDate), function ($query) {
-                return $query->where('jobs.created_at', '>=', Carbon::now()->subWeek());
+                return $query->where('jobs.created_at', '>=', Carbon::now()->subWeek())->latest();
             })
             ->when(in_array('past_month', $selectedPostedDate), function ($query) {
-                return $query->where('jobs.created_at', '>=', Carbon::now()->subMonth());
+                return $query->where('jobs.created_at', '>=', Carbon::now()->subMonth())->latest();
             })
             ->when($searchQuery != null, function ($query) use ($searchQuery) {
                 return $query->where(function ($query) use ($searchQuery) {
                     $query->where('job_title', 'LIKE', "%$searchQuery%")
                         ->orWhere('job_description', 'LIKE', "%$searchQuery%")
                         ->orWhere('job_requirements', 'LIKE', "%$searchQuery%");
-                });
-            });
+                })->latest();
+            })->latest();
 
+        // $qs = Job::join('cities', 'jobs.city_id', '=', 'cities.id')
+        //     ->join('areas', 'jobs.area_id', '=', 'areas.id')
+        //     ->join('job_categories', 'jobs.category_id', '=', 'job_categories.id')
+        //     ->join('job_types', 'jobs.category_id', '=', 'job_types.id')
+        //     ->select(
+        //         'job_categories.name as Category',
+        //         'job_types.name as Type',
+        //         'jobs.job_title as Job Title',
+        //         'jobs.job_description as Job Description',
+        //         'jobs.job_requirements as Job Requirements',
+        //         'cities.name as City',
+        //         'areas.name as Area',
+        //     )
+        //     // ->orderBy('users.updated_at', 'desc')
+        //     ->get();
+        // return ($jobsQuery->get());
 
 
         if (auth()->check() && auth()->user()->hasRole('employee') && auth()->user()->employee_profile != null) {
@@ -117,6 +133,12 @@ class JobController extends Controller
             $query->whereIn('jobs.id', $all_jobs_ids->pluck('id'));
         })->orderBy('jobs_count', 'desc')->get();
 
+        if (28 < $all_jobs_ids->count()) {
+            $filter = true;
+        } else {
+            $filter = false;
+        }
+
 
         $data = [
             'page_name' => 'jobs',
@@ -159,9 +181,9 @@ class JobController extends Controller
      * @param  \App\Models\Job  $Job
      * @return \Illuminate\Http\Response
      */
-    public function show($job_id)
+    public function show($job_uuid)
     {
-        $job = Job::find($job_id);
+        $job = Job::where('job_uuid', '=', $job_uuid)->firstOrFail();
         $similar_jobs = Job::where(['category_id' => $job->category_id, 'employer_id' => $job->employer_id])
             ->where('jobs.id', '!=', $job->id);
         if (auth()->check() && auth()->user()->hasRole('employee') && auth()->user()->employee_profile != null) {
