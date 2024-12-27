@@ -13,7 +13,7 @@
     <div class="banner-inner">
         <div class="container">
             <div class="text-center">
-                <p>Searching for Financial vacancies? One Step far!</p>
+                <p>Searching for Financial vacancies? One More !</p>
                 <h1 class="b-text banner-title">Find the Best Financial Jobs</h1>
                 <div class="inline-search-area ml-auto mr-auto">
                     <form action="{{route('website.jobs')}}" method="get">
