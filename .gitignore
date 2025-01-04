@@ -26,3 +26,4 @@ docker-compose.override.yml
 /.vscode
 *.zip
 storage/debugbar
+config/services.php
