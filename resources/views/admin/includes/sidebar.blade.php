@@ -35,8 +35,8 @@
     </li>
 
     <li class="nav-item {{ isset($page_name) && $page_name == 'locations' ? 'active' : '' }}">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
             <i class="fas fa-fw fa-map-marker"></i>
             <span>Locations</span>
         </a>
@@ -83,6 +83,12 @@
         <a class="nav-link" href="{{route('job-types.index')}}">
             <i class="fas fa-fw fa-toolbox"></i>
             <span>Job Type</span></a>
+    </li>
+
+    <li class="nav-item {{ isset($page_name) && $page_name == 'currencies' ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('currencies.index')}}">
+            <i class="fas fa-fw fa-coins"></i>
+            <span>Currencies</span></a>
     </li>
 
     <li class="nav-item {{ isset($page_name) && $page_name == 'skills' ? 'active' : '' }}">

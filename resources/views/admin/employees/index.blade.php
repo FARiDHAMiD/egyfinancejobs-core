@@ -57,10 +57,10 @@
                                 value="{{@$search['to_date']}}" placeholder="To Date">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="m-2">
                         <button type="submit" class="btn btn-success b-sharp" style="width: 100%;">Search</button>
                     </div>
-                    <div class="col-md-2">
+                    <div class="m-2">
                         <a href="{{\Request::url()}}" class="btn btn-info b-sharp" style="width: 100%;">Reset</a>
                     </div>
                 </div>

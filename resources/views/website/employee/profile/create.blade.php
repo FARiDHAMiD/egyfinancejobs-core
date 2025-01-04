@@ -119,9 +119,9 @@
                                             you are looking for?
                                         </p>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-md-6 col-12">
                                         <div class="form-group">
-                                            <select class="w-100 input-text" name="job_title_id">
+                                            <select class="w-100 input-text form-control is-valid" name="job_title_id">
                                                 <option value="">Select</option>
                                                 @foreach ($job_titles as $job_title)
                                                 <option {{ old('job_title_id') !=null ? ( $job_title->id ==
@@ -185,8 +185,8 @@
                                             </label>
                                         </div>
                                         <div>
-                                            <p class="section-subtitle mb-0 text-sm"> Show my minimum salary from
-                                                campanies</p>
+                                            <p class="section-subtitle mb-0 text-sm"> Show my minimum salary for
+                                                employers</p>
                                             <p class="text-sm">We'll only use your minimum salary to recommend jobs
                                                 for you</p>
                                         </div>
@@ -273,7 +273,7 @@
                                                 <div class="form-group">
                                                     <label>Country</label>
                                                     <select type="text" name="country_id"
-                                                        class="input-text country-selection">
+                                                        class="input-text country-selection form-control">
                                                         <option selected value="" disabled>Select</option>
                                                         @foreach ($countries as $country)
                                                         <option {{ old('country_id')==$country->id ? 'selected' : '' }}
@@ -289,7 +289,7 @@
                                                 <div class="form-group">
                                                     <label>City</label>
                                                     <select type="text" name="city_id"
-                                                        class="input-text city-selection">
+                                                        class="input-text city-selection form-control">
                                                         <option selected value="" disabled>Select</option>
                                                         @foreach ($cities as $city)
                                                         <option {{ old('city_id')==$city->id ? 'selected' : '' }}
@@ -306,7 +306,7 @@
                                                 <div class="form-group">
                                                     <label>Area</label>
                                                     <select type="text" name="area_id"
-                                                        class="input-text area-selection">
+                                                        class="input-text area-selection form-control">
                                                         <option selected value="" disabled>Select</option>
                                                         @foreach ($areas as $area)
                                                         <option {{ old('area_id')==$area->id ? 'selected' : '' }}
@@ -387,7 +387,7 @@
                                                 <div class="form-group">
                                                     <label>Job Category</label>
                                                     <select type="text" name="experience[job_category_id]"
-                                                        class="input-text">
+                                                        class="input-text form-control">
                                                         <option selected value="" disabled>Select
                                                         </option>
                                                         @foreach ($job_categories as $job_category)
@@ -407,7 +407,7 @@
                                                 <div class="form-group">
                                                     <label>Company Industry</label>
                                                     <select type="text" name="experience[company_industry_id]"
-                                                        class="input-text">
+                                                        class="input-text form-control">
                                                         <option selected value="" disabled>Select
                                                         </option>
                                                         @foreach ($industries as $industry)
@@ -521,7 +521,7 @@
                                                     <label>What is your educational level?</label>
                                                     <p>If you are currently studying, select your expected degree.</p>
                                                     <select type="text" name="education[education_level_id]"
-                                                        class="input-text">
+                                                        class="input-text form-control">
                                                         <option selected value="" disabled>
                                                             select
                                                         </option>
@@ -542,7 +542,7 @@
                                                 <div class="form-group">
                                                     <label>University/Institution</label>
                                                     <select type="text" name="education[university_id]"
-                                                        class="input-text">
+                                                        class="input-text form-control">
                                                         <option selected value="" disabled>
                                                             e.g.,Ain Shams University, National Institute of
                                                             Technology, ...
@@ -578,7 +578,7 @@
                                                 <div class="form-group">
                                                     <label>Grade</label>
 
-                                                    <select name="education[grade]" class="input-text">
+                                                    <select name="education[grade]" class="input-text form-control">
                                                         <option value="">please selecte your grade</option>
                                                         <option {{ old('education') !=null ?
                                                             (old('education')['grade']=='Fair' ? 'selected' : '' ) : ''

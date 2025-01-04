@@ -36,9 +36,14 @@
                                 class="fa fa-pencil-square-o"></i></button></a>
                     @endif
                 </div>
+
+                {{-- General Info Section --}}
                 <div class="job-box">
                     <div class="job-info mb-4">
                         <div class="row">
+
+                            @if ((auth()->check() && (auth()->user()->hasRole('admin') ||
+                            auth()->check() && auth()->user()->hasRole('employee'))))
                             <div class="col-xl-6 border-right">
                                 <h2 class="h5 mb-3 mt-4">General Info:
                                 </h2>
@@ -59,16 +64,12 @@
                                     </div>
                                     <div class="col-sm-7">
                                         <p class="text-black mb-0 text-sm">
-                                            @if ((auth()->check() && (auth()->user()->hasRole('admin') ||
-                                            auth()->user()->hasRole('employee'))) || $profile->show_salary == 1)
                                             {{ number_format($profile->accepted_salary, 0) }} EGP
-                                            @else
-                                            Confidential
-                                            @endif
 
                                         </p>
                                     </div>
                                 </div>
+
                                 <hr class="my-1">
                                 <div class="row">
                                     <div class="col-sm-5">
@@ -112,7 +113,11 @@
                                 </div>
                                 @endif
                             </div>
+                            @endif
+
                             <div class="col-xl-6">
+                                @if ((auth()->check() && (auth()->user()->hasRole('admin') ||
+                                auth()->check() && auth()->user()->hasRole('employee'))))
                                 <div>
                                     <h2 class="h5 mb-3 mt-4">Contact Info:</h2>
                                     <p class="mb-0"><a href="#" class="text-black">{{ $profile->phone }}</a>
@@ -121,6 +126,9 @@
                                     <p class="mb-0"><a href="#" class="text-black">{{ $employee->email }}</a>
                                     </p>
                                 </div>
+                                @endif
+
+                                {{-- Career Intersts / job types --}}
                                 <div>
                                     <h2 class="h5 mb-3 mt-4">Career Interests: </h2>
                                     <div class="row">
@@ -136,6 +144,7 @@
                                             </p>
                                         </div>
                                     </div>
+
                                     <hr class="my-1">
                                     <div class="row">
                                         <div class="col-12">
@@ -206,7 +215,7 @@
                     </div>
                 </div>
 
-
+                {{-- Work Experience Section --}}
                 <div class="job-box">
                     <div class="job-info">
                         <div class="row mb-3">
@@ -233,6 +242,8 @@
 
                     </div>
                 </div>
+
+                {{-- Education Section --}}
                 <div class="job-box">
                     <div class="job-info">
                         <div class="row mb-3">
@@ -251,14 +262,15 @@
                                 @if($education->getFirstMedia('education_certificate'))
                                 <p><strong>Certificate:</strong> <span>{{$education->certificate_title}}</span> | <a
                                         target="_blank"
-                                        href="{{$education->getFirstMedia('education_certificate')->getUrl()}}">view <i
-                                            class="fa fa-eye"></i></a> </p>
+                                        href="{{$education->getFirstMedia('education_certificate')->getUrl()}}">view
+                                        <i class="fa fa-eye"></i></a> </p>
                                 @endif
                             </div>
                         </div>
                         @endforeach
                     </div>
                 </div>
+
                 @if ($employee->employee_achievements != null)
                 <div class="job-box">
                     <div class="job-info text-center">
@@ -267,21 +279,22 @@
                     </div>
                 </div>
                 @endif
+
                 @if ($employee->getFirstMedia('employee_certificates'))
                 <div class="job-box">
                     <div class="job-info text-center">
                         <h2 class="h5 mb-1">Certificates</h2>
                         @foreach ($employee->getMedia('employee_certificates') as $item)
                         <div class="up-files mt-4">
-                            <div class="file-input mb-3"
-                                style="display: flex; justify-content: space-between; border:1px solid #17479e; border-radius: 5px; padding:3px;">
+                            <div class="mb-3 text-primary"
+                                style="display: flex; justify-content: space-between; padding:3px;">
                                 <div class="custom-file text-left">
                                     <a href="{{ $item->getFullUrl() }}" target="_blank" rel="noopener noreferrer">{{
                                         $item->file_name }}</a>
                                 </div>
-                                <a target="_blank" href="{{ $item->getFullUrl() }}" class="btn btn-info">View</a>
                             </div>
                         </div>
+                        <hr class="my-1">
                         @endforeach
                     </div>
                 </div>
@@ -326,6 +339,13 @@
 
                         </ul>
 
+
+                    </div>
+                    {{-- QR Code generator --}}
+                    <div class="d-flex justify-content-center mt-2">
+                        {!!
+                        DNS2D::getBarcodeHTML('https://egyfinancejobs.com/employee/profile/view/'.$employee->uuid,
+                        'QRCODE', 3, 3) !!}
                     </div>
                 </div>
                 @if ($employee->getFirstMedia('employee_cv'))

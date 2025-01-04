@@ -16,6 +16,9 @@ Route::group(['middleware' => ['web', 'admin']], function () {
     Route::resource('/employers', 'EmployerController');
     Route::resource('/employees', 'EmployeeController');
 
+    // force create new job with similar requirements
+    Route::post('/jobs/force_submit',  'JobController@force_submit')->name('admin.job.force_submit');
+
     Route::resource('/countries', 'CountryController');
     Route::resource('/cities', 'CityController');
     Route::resource('/areas', 'AreaController');
@@ -28,6 +31,7 @@ Route::group(['middleware' => ['web', 'admin']], function () {
     Route::resource('/job-titles', 'JobTitleController');
     Route::resource('/job-types', 'JobTypeController');
     Route::resource('/skills', 'SkillController');
+    Route::resource('/currencies', 'CurrencyController');
     Route::resource('/universities', 'UniversityController');
 
     Route::get('/job-applications', 'HomeController@job_applications')->name('admin.job_applications');

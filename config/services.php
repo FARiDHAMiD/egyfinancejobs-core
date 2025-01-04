@@ -32,11 +32,13 @@ return [
 
     'google' => [
 
-        'client_id' => '414636721224-oi1v4k2333ur977b9rt86pv89pnl99f4.apps.googleusercontent.com',
+        'client_id' => '414636721224-9ca4udj6589k2ekbat1c075b6jsevrk3.apps.googleusercontent.com',
 
-        'client_secret' => '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',
+        'client_secret' => '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',
 
-        'redirect' => 'https://egyfinancejobs.com/auth/google/callback',
+        // 'redirect' => 'https://egyfinancejobs.com/auth/google/callback',
+        'redirect' => 'http://localhost:8000/auth/google/callback',
+        // 'redirect' => 'http://farid.local:8000/auth/google/callback',
 
     ],
 

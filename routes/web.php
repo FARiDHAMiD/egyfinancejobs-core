@@ -14,6 +14,11 @@ use App\Http\Controllers\GoogleController;
 |
 */
 
+// Simple-Qrcode Generator 
+Route::get('/welcome', function () {
+    return view('welcome');
+});
+
 // Use google api to sign up with gmail
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('redirect.google');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
@@ -110,6 +115,7 @@ Route::namespace('Website')->group(function () {
 
     //employee routes
     Route::name('employer.')->group(function () {
-        Route::get('/employer/{id?}', 'EmployerProfileController@profile')->name('profile');
+        Route::get('/employer/{uuid}', 'EmployerProfileController@profile')->name('profile');
+        Route::get('/employer_profile/{id}', 'EmployerProfileController@employer_profile')->name('profile.employer_id'); // same previous route but using id instead of uuid
     });
 });

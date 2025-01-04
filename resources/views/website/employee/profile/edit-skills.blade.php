@@ -59,7 +59,7 @@
                                                                     <div class="form-group">
                                                                         <label>Proficiency:</label>
                                                                         <select type="text" name="proficiency"
-                                                                            class="input-text">
+                                                                            class="form-control">
                                                                             <option {{$employee_skill->skill_level == 1 ? 'selected' : ''}} value="1">1</option>
                                                                             <option {{$employee_skill->skill_level == 2 ? 'selected' : ''}} value="2">2</option>
                                                                             <option {{$employee_skill->skill_level == 3 ? 'selected' : ''}} value="3">3</option>
@@ -102,7 +102,7 @@
                                                         <div class="form-group">
                                                             <label>skill:</label>
                                                             <select type="text" name="skill_id"
-                                                                class="input-text">
+                                                                class="form-control">
                                                                 <option selected value="" disabled>
                                                                     select
                                                                 </option>
@@ -121,7 +121,7 @@
                                                         <div class="form-group">
                                                             <label>Proficiency:</label>
                                                             <select type="text" name="proficiency"
-                                                                class="input-text">
+                                                                class="form-control">
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>
@@ -194,7 +194,7 @@
                                                                     <div class="form-group">
                                                                         <label>Proficiency:</label>
                                                                         <select type="text" name="proficiency"
-                                                                            class="input-text">
+                                                                            class="form-control">
                                                                             <option {{$employee_skill->skill_level == 1 ? 'selected' : ''}} value="1">1</option>
                                                                             <option {{$employee_skill->skill_level == 2 ? 'selected' : ''}} value="2">2</option>
                                                                             <option {{$employee_skill->skill_level == 3 ? 'selected' : ''}} value="3">3</option>
@@ -236,7 +236,7 @@
                                                         <div class="form-group">
                                                             <label>skill:</label>
                                                             <select type="text" name="skill_id"
-                                                                class="input-text">
+                                                                class="form-control">
                                                                 <option selected value="" disabled>
                                                                     select
                                                                 </option>
@@ -255,7 +255,7 @@
                                                         <div class="form-group">
                                                             <label>Proficiency:</label>
                                                             <select type="text" name="proficiency"
-                                                                class="input-text">
+                                                                class="form-control">
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>
@@ -327,7 +327,7 @@
                                                                     <div class="form-group">
                                                                         <label>Proficiency:</label>
                                                                         <select type="text" name="proficiency"
-                                                                            class="input-text">
+                                                                            class="form-control">
                                                                             <option {{$employee_skill->skill_level == 1 ? 'selected' : ''}} value="1">1</option>
                                                                             <option {{$employee_skill->skill_level == 2 ? 'selected' : ''}} value="2">2</option>
                                                                             <option {{$employee_skill->skill_level == 3 ? 'selected' : ''}} value="3">3</option>
@@ -369,7 +369,7 @@
                                                         <div class="form-group">
                                                             <label>skill:</label>
                                                             <select type="text" name="skill_id"
-                                                                class="input-text">
+                                                                class="form-control">
                                                                 <option selected value="" disabled>
                                                                     select
                                                                 </option>
@@ -388,7 +388,7 @@
                                                         <div class="form-group">
                                                             <label>Proficiency:</label>
                                                             <select type="text" name="proficiency"
-                                                                class="input-text">
+                                                                class="form-control">
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>
@@ -460,7 +460,7 @@
                                                                     <div class="form-group">
                                                                         <label>Proficiency:</label>
                                                                         <select type="text" name="proficiency"
-                                                                            class="input-text">
+                                                                            class="form-control">
                                                                             <option {{$employee_skill->skill_level == 1 ? 'selected' : ''}} value="1">1</option>
                                                                             <option {{$employee_skill->skill_level == 2 ? 'selected' : ''}} value="2">2</option>
                                                                             <option {{$employee_skill->skill_level == 3 ? 'selected' : ''}} value="3">3</option>
@@ -502,7 +502,7 @@
                                                         <div class="form-group">
                                                             <label>skill:</label>
                                                             <select type="text" name="skill_id"
-                                                                class="input-text">
+                                                                class="form-control">
                                                                 <option selected value="" disabled>
                                                                     select
                                                                 </option>
@@ -521,7 +521,7 @@
                                                         <div class="form-group">
                                                             <label>Proficiency:</label>
                                                             <select type="text" name="proficiency"
-                                                                class="input-text">
+                                                                class="form-control">
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>

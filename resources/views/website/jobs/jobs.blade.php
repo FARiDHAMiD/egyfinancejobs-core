@@ -459,32 +459,43 @@
                             </button>
                         </form>
                     </div>
+                    {{-- end filter section --}}
                 </div>
             </div>
             <div class="col-xl-8 col-lg-8 col-md-12">
                 @foreach ($jobs as $job)
                 <div class="job-box">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="company-logo">
-                            <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
-                                alt="brand" class="img-fluid">
-
+                    <div class="row">
+                        <div class="col-md-7 col-5 d-flex justify-content-between align-items-center">
+                            <div class="company-logo">
+                                <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
+                                    alt="brand" class="img-fluid">
+                            </div>
                         </div>
-
-                        <span class="job-period-type justify-content-start align-items-end"><i
-                                class="fa fa-calendar-check-o"></i>
-                            {{ $job->type->name }}
-                        </span>
-                        <span class="job-period-type"><i class="flaticon-time"></i>
-                            {{ $job->created_at->diffForHumans() }}
-                        </span>
-
+                        <div class="col-md-5 col-7 text-right">
+                            <span class="mr-2"><i class="fa fa-calendar-check-o"></i>
+                                {{ $job->type->name }}
+                            </span>
+                            <span class=""><i class="flaticon-time"></i>
+                                {{ $job->created_at->diffForHumans() }}
+                            </span>
+                        </div>
                     </div>
                     <div class="description">
                         <div class="float-left">
-                            <h5 class="title"><a href="{{ route('website.job-details', $job->job_uuid) }}">{{
-                                    $job->job_title }}</a>
-                            </h5>
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="title"><a href="{{ route('website.job-details', $job->job_uuid) }}">{{
+                                            $job->job_title }}</a>
+                                    </h5>
+                                </div>
+                                <div class="col-4 text-right">
+                                    @if($job->featured)
+                                    <img src="{{ asset('/website/img/star.png') }}" alt="brand" class="img-fluid"
+                                        width="40" height="40">
+                                    @endif
+                                </div>
+                            </div>
                             <div class="candidate-listing-footer">
                                 <ul>
                                     <li><i class="flaticon-work"></i> {{

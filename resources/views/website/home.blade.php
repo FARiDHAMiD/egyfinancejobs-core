@@ -48,12 +48,16 @@
             <div class="row slick-carousel position-relative"
                 data-slick='{"slidesToShow": 5, "responsive":[{"breakpoint": 1024,"settings":{"slidesToShow": 3}}, {"breakpoint": 768,"settings":{"slidesToShow": 2}}]}'>
 
-                @foreach ($latest_companies as $employer)
+                @foreach ($featured_companies as $employer)
                 <div class="slick-slide-item">
-                    <a href="{{ route('employer.profile', $employer->id) }}">
+                    <a href="{{ route('employer.profile', $employer->uuid) }}" data-toggle="tooltip"
+                        data-placement="top" title="{{$employer->company_name}}">
                         <img style="height: 120px;object-fit: cover"
                             src="{{ empty($employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $employer->getFirstMedia('company_logo')->getUrl() }}"
                             alt="brand" class="img-fluid">
+                        <div>
+                            <h5 class="text-muted text-center">{{$employer->company_name}}</h5>
+                        </div>
                     </a>
                 </div>
                 @endforeach
@@ -78,26 +82,46 @@
         <div class="row">
 
             @foreach ($latest_jobs as $job)
-            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                <div class="categorie-box home-latest-jobs">
-                    <a href="{{ route('website.job-details', $job->job_uuid) }}">
-                        <h3 class="job-title">{{ $job->job_title }} </h3>
-                    </a>
-                    <p class="job-location">{{ $job->employer_profile->company_name ?? '' }}</p>
-                    <div class="row">
-                        <div class="col-7">
-                            <span class="job-date-posted"> <i class="flaticon-time"></i> {{
-                                $job->created_at->diffForHumans() }} </span>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-12">
+                <a href="{{ route('website.job-details', $job->job_uuid) }}">
+                    <div class="categorie-box home-latest-jobs">
+                        <div class="row my-0">
+                            <div class="col-7">
+                                <h3 class="job-title">{{ $job->job_title }} </h3>
+                            </div>
+                            <div class="col-2 text-right">
+                                @if($job->featured)
+                                <img src="{{ asset('/website/img/star.png') }}" alt="brand" class="img-fluid" width="40"
+                                    height="40">
+                                @endif
+                            </div>
+                            <div class="col-3">
+                                <div class="company-logo">
+                                    @if($job->employer)
+                                    <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
+                                        alt="brand" class="img-fluid">
+                                    @endif
+                                </div>
+                            </div>
 
                         </div>
-                        <div class="col-5 text-right">
-                            <span class="job-date-posted text-end text-sm"> <i class="fa fa-map-marker"></i> {{
-                                $job->city->name
-                                }} </span>
+                        <p class="job-location">{{ $job->employer_profile->company_name ?? '' }}</p>
+                        <p class="text-muted">{{ substr($job->job_excerpt, 0, 80) ?? '' }}</p>
+                        <div class="row">
+                            <div class="col-7">
+                                <span class="job-date-posted"> <i class="flaticon-time"></i> {{
+                                    $job->created_at->diffForHumans() }} </span>
+
+                            </div>
+                            <div class="col-5 text-right">
+                                <span class="job-date-posted text-end text-sm"> <i class="fa fa-map-marker"></i> {{
+                                    $job->city->name
+                                    }} </span>
+                            </div>
                         </div>
+
                     </div>
-
-                </div>
+                </a>
             </div>
             @endforeach
 
@@ -127,21 +151,21 @@
                 <div class="counter-box">
                     <img src="{{ url('/website') }}/img/profiles.png">
                     <p class="counter">{{$employers}}</p>
-                    <p>Number of employers</p>
+                    <p>Employers</p>
                 </div>
             </div>
             <div class="col-md-4 col-12">
                 <div class="counter-box mid">
                     <img src="{{ url('/website') }}/img/visitors.png">
                     <p class="counter">{{$employee}}</p>
-                    <p>Number of Employee</p>
+                    <p>Employees</p>
                 </div>
             </div>
             <div class="col-md-4 col-12">
                 <div class="counter-box">
                     <img src="{{ url('/website') }}/img/clients_rate.png">
                     <p class="counter">{{$jobs}}</p>
-                    <p>Number of jobs</p>
+                    <p>Job Vacancies</p>
 
                 </div>
             </div>

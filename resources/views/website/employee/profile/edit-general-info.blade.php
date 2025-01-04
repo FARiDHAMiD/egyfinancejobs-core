@@ -216,7 +216,7 @@
                                             <div class="form-group">
                                                 <label>Country</label>
                                                 <select type="text" name="country_id"
-                                                    class="input-text country-selection">
+                                                    class="country-selection form-control">
                                                     <option selected value="" disabled>Select</option>
                                                     @foreach ($countries as $country)
                                                         <option
@@ -233,7 +233,7 @@
                                             <div class="form-group">
                                                 <label>City</label>
                                                 <select type="text" name="city_id"
-                                                    class="input-text city-selection">
+                                                    class="form-control city-selection">
                                                     <option selected value="" disabled>Select</option>
                                                     @foreach ($cities as $city)
                                                         <option {{ $profile->city_id  == $city->id ? 'selected' : '' }}
@@ -250,7 +250,7 @@
                                             <div class="form-group">
                                                 <label>Area</label>
                                                 <select type="text" name="area_id"
-                                                    class="input-text area-selection">
+                                                    class="form-control area-selection">
                                                     <option selected value="" disabled>Select</option>
                                                     @foreach ($areas as $area)
                                                         <option {{ $profile->area_id  == $area->id ? 'selected' : '' }}

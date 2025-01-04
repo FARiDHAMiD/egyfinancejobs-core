@@ -19,6 +19,7 @@ class EmployerProfile extends Model
         'country_id',
         'city_id',
         'area_id',
+        'featured', //default 0
     ];
 
     use HasFactory;

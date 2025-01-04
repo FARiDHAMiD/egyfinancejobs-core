@@ -843,6 +843,9 @@ class EmployeeProfileController extends Controller
             'page_name' => 'change_password',
             'page_title' => 'Change Password | Profile | Employee | Egy Finance',
         ];
+        if (auth()->user()->google_id) {
+            return redirect()->back();
+        }
         return view('website.employee.profile.change-password', $data);
     }
     public function change_password_update(Request $request)
@@ -876,6 +879,10 @@ class EmployeeProfileController extends Controller
             'page_name' => 'delete_account',
             'page_title' => 'Delete Account | Profile | Employee | Egy Finance',
         ];
+        if (auth()->user()->google_id) {
+            return redirect()->back();
+        }
+
         return view('website.employee.profile.delete-account', $data);
     }
     public function delete_account_post(Request $request)

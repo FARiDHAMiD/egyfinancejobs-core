@@ -16,7 +16,7 @@
                             class="employer-banner" alt="">
                     </div>
                 </div>
-                <div class="col-lg-9 col-sm-8 mt-4">
+                <div class="col-lg-6 col-sm-8 mt-4">
                     <h1 class="h4 mb-1">{{$employer_profile->company_name}}</h1>
                     <p>{{$industry}} . {{$city}}, {{$country}} . {{$employer_profile->company_size}} employees</p>
                     <div class="employer-links">
@@ -32,6 +32,12 @@
                         </ul>
                     </div>
                 </div>
+                @if($employer_profile->featured)
+                <div class="col-lg-3 col-sm-8 mt-4">
+                    <img src="{{ asset('/website/img/featured.png') }}" class="img-fluid m-0" style="float: right;"
+                        alt="" width="120" height="120">
+                </div>
+                @endif
             </div>
             <div class="btn-group mt-3" role="group" aria-label="Basic example">
                 <a href="#" type="button" class="btn button-theme">Company Profile</a>
@@ -105,28 +111,28 @@
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="row">
-                                    <div class="col-lg-3 col-sm-5">
+                                    <div class="col-lg-4 col-sm-5">
                                         <p class="mb-1"><strong class="text-black">Location:</strong></p>
                                     </div>
-                                    <div class="col-lg-9 col-sm-7">
+                                    <div class="col-lg-8 col-sm-7">
                                         <p class="text-black mb-1">{{$city}}, {{$country}}</p>
                                     </div>
                                 </div>
                                 <hr class="my-2 d-sm-none d-block">
                                 <div class="row">
-                                    <div class="col-lg-3 col-sm-5">
+                                    <div class="col-lg-4 col-sm-5">
                                         <p class="mb-1"><strong class="text-black">Industry:</strong></p>
                                     </div>
-                                    <div class="col-lg-9 col-sm-7">
+                                    <div class="col-lg-8 col-sm-7">
                                         <p class="text-black mb-1">{{$industry}}</p>
                                     </div>
                                 </div>
                                 <hr class="my-2 d-sm-none d-block">
                                 <div class="row">
-                                    <div class="col-lg-3 col-sm-5">
+                                    <div class="col-lg-4 col-sm-5">
                                         <p class="mb-1"><strong class="text-black">Company Size:</strong></p>
                                     </div>
-                                    <div class="col-lg-9 col-sm-7">
+                                    <div class="col-lg-8 col-sm-7">
                                         <p class="text-black mb-1"> {{$employer_profile->company_size}} employees</p>
                                     </div>
                                 </div>
@@ -140,43 +146,53 @@
                     </p>
                 </div>
 
-
-
-
-
                 <div id="jobs" class="card py-3 px-4 mb-3">
                     <div class="job-info mb-4">
                         <h2 class="h4 mb-3">Open vacancies at {{$employer_profile->company_name}}</h2>
                     </div>
                     <div class="row">
-                        @foreach ($employer->employer_jobs as $job)
-                        <div class="col-md-6">
-                            <div class="job-box">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <span class="job-period-type"><i class="flaticon-time"></i>
-                                        {{ $job->type->name }}</span>
-                                </div>
-                                <div class="description">
-                                    <div>
-                                        <h5 class="title"><a
-                                                href="{{ route('website.job-details', $job->job_uuid) }}">{{
-                                                $job->job_title }}</a>
-                                        </h5>
-                                        <div class="candidate-listing-footer">
-                                            <ul>
-                                                <li><i class="flaticon-work"></i>
-                                                    {{ $job->employer_profile->company_name }}</li>
-                                                <li><i class="flaticon-pin"></i> {{ empty($job->area) ? null :
-                                                    $job->area->name }},
-                                                    {{ empty($job->city) ? null : $job->city->name }}, {{
-                                                    $job->country->name }}</li>
-                                            </ul>
+                        @foreach ($emp_jobs as $job)
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-12">
+                            <a href="{{ route('website.job-details', $job->job_uuid) }}">
+                                <div class="categorie-box home-latest-jobs">
+                                    <div class="row my-0">
+                                        <div class="col-7">
+                                            <h3 class="job-title">{{ $job->job_title }} </h3>
+                                        </div>
+                                        <div class="col-2 text-right">
+                                            @if($job->featured)
+                                            <img src="{{ asset('/website/img/star.png') }}" alt="brand"
+                                                class="img-fluid" width="40" height="40">
+                                            @endif
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="company-logo">
+                                                @if($job->employer)
+                                                <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
+                                                    alt="brand" class="img-fluid">
+                                                @endif
+                                            </div>
+                                        </div>
 
-                                            {{-- <h6>Deadline: <span class="text-success">Jan 31, 2019</span></h6> --}}
+                                    </div>
+                                    <p class="job-location">{{ $job->employer_profile->company_name ?? '' }}</p>
+                                    <p class="text-muted">{{ substr($job->job_excerpt, 0, 80) ?? '' }}</p>
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <span class="job-date-posted"> <i class="flaticon-time"></i> {{
+                                                $job->created_at->diffForHumans() }} </span>
+
+                                        </div>
+                                        <div class="col-5 text-right">
+                                            <span class="job-date-posted text-end text-sm"> <i
+                                                    class="fa fa-map-marker"></i> {{
+                                                $job->city->name
+                                                }} </span>
                                         </div>
                                     </div>
+
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         @endforeach
                     </div>

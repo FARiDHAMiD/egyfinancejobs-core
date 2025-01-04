@@ -70,7 +70,7 @@
                                                             <div class="form-group">
                                                                 <label>Job Category</label>
                                                                 <select type="text" name="job_category_id"
-                                                                    class="input-text">
+                                                                    class="form-control">
                                                                     <option selected value="" disabled>Select</option>
                                                                     @foreach ($job_categories as $job_category)
                                                                     <option {{ $experience->job_category_id ==
@@ -83,7 +83,7 @@
                                                             <div class="form-group">
                                                                 <label>Company Industry</label>
                                                                 <select type="text" name="company_industry_id"
-                                                                    class="input-text">
+                                                                    class="form-control">
                                                                     <option selected value="" disabled>Select</option>
                                                                     @foreach ($industries as $industry)
                                                                     <option {{ $experience->company_industry_id ==
@@ -235,7 +235,7 @@
                                                             <div class="form-group">
                                                                 <label>Job category</label>
                                                                 <select type="text" name="job_category_id"
-                                                                    class="input-text">
+                                                                    class="form-control">
                                                                     <option selected value="" disabled>Select
                                                                     </option>
                                                                     @foreach ($job_categories as $job_category)
@@ -253,7 +253,7 @@
                                                             <div class="form-group">
                                                                 <label>Company Industry</label>
                                                                 <select type="text" name="company_industry_id"
-                                                                    class="input-text">
+                                                                    class="form-control">
                                                                     <option selected value="" disabled>Select
                                                                     </option>
                                                                     @foreach ($industries as $industry)

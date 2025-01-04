@@ -26,8 +26,10 @@
         <div class="card-header py-3">
             <div class="row">
                 <div class="col-md-6">
-                    <h6 class="m-0 font-weight-bold text-primary">Filter Options: <span
-                            class="text-lg text-danger text-center"> Temp Disabled</span></h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Filter Options: </h6>
+                </div>
+                <div class="col-md-6">
+                    <span class="text-lg text-muted text-end"> Working on it...</span>
                 </div>
             </div>
         </div>
@@ -168,10 +170,10 @@
                                 placeholder="Apply Code">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 my-1">
                         <button type="submit" class="btn btn-success b-sharp" style="width: 100%;">Search</button>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 my-1">
                         <a href="{{\Request::url()}}" class="btn btn-info b-sharp" style="width: 100%;">Reset</a>
                     </div>
                 </div>
@@ -283,7 +285,7 @@
                             <td><a href="{{ route('website.job-details', $application->job->job_uuid) }}"
                                     target="_blank">{{ $application->job->job_title }}</a></td>
                             <td>
-                                <a href="{{ route('employer.profile', optional($application->job->employer_profile)->employer_id) }}"
+                                <a href="{{ route('employer.profile.employer_id', optional($application->job->employer_profile)->employer_id ?? '') }}"
                                     target="_blank">
                                     {{ optional($application->job->employer_profile)->company_name}}
                                 </a>

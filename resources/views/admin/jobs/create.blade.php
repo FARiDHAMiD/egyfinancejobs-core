@@ -1,5 +1,32 @@
 @extends('admin.app')
 @section('admin.content')
+
+@if (session()->has('submit_anyway'))
+<div class="modal fade" id="alert-message-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center alert alert-{{ session()->get('submit_anyway')['icon'] }}">
+                    {{ session()->get('submit_anyway')['message'] }}
+                    <a target="_blank" href="{{route('jobs.index')}}" class="btn btn-outline-dark">Check recent
+                        jobs!</a>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" id="force_submit">Submit
+                        Anyway</button>
+                    <a href="" class="btn btn-danger">Cancel Job</a>
+                </div>
+                {{ session()->forget('submit_anyway') }}
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -10,13 +37,10 @@
                 @method('post')
                 @csrf
                 <div class="row">
-
-
-
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-5 mb-3">
                         <div>
-                            <label class="text-dark"><strong>Employer</strong></label>
-                            <select name="employer" class="form-control @error('employer') is-invalid @enderror">
+                            <label class="text-dark"><strong>Company</strong></label>
+                            {{-- <select name="employer" class="form-control @error('employer') is-invalid @enderror">
                                 <option value="">Select employer</option>
                                 @foreach ($employers as $employer)
                                 <option value="{{ $employer->id }}" {{ old('employer')==$employer->id ? 'selected' : ''
@@ -26,14 +50,27 @@
                                     $employer->employer_profile->company_name : '' }}
                                 </option>
                                 @endforeach
-                            </select>
+                            </select> --}}
+                            <input id="employerInput" list="companyList" class="form-control"
+                                placeholder="Select Company / Employer" autocomplete="off">
+                            <datalist id="companyList">
+                                @foreach ($employers as $employer)
+                                <option data-value="{{$employer->id}}"
+                                    value="{{ $employer->employer_profile->company_name }}">
+                                    {{ $employer->first_name }} {{ $employer->last_name }}
+                                    {{ $employer->employer_profile != null ? ' | ' .
+                                    $employer->employer_profile->company_name : '' }}
+                                </option>
+                                @endforeach
+                            </datalist>
+                            <input type="hidden" name="employer" id="employerInput-hidden">
 
                             @error('employer')
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <div>
                             <label class="text-dark"><strong>Job Title</strong></label>
                             <input type="text" name="job_title"
@@ -44,10 +81,20 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-3 mb-3">
+                        <span class="text-muted">Job will appear in latest jobs / on top of job listings page</span>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" {{ old('featured')==1 ? 'checked'
+                                : '' }} name="featured" id="featured">
+                            <label class="text-success" for="featured">
+                                Is Featured
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="text-dark"><strong>Country</strong></label>
-                            <select type="text" name="country"
+                            <select type="text" name="country" id="country"
                                 class="form-control country-selection @error('country') is-invalid @enderror ">
                                 <option value="">select country</option>
                                 @foreach ($countries as $country)
@@ -65,7 +112,7 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="text-dark"><strong>City</strong></label>
-                            <select type="text" name="city"
+                            <select type="text" name="city" id="city"
                                 class="form-control city-selection @error('city') is-invalid @enderror">
                                 <option value="">Select City</option>
                                 @foreach ($cities as $city)
@@ -83,7 +130,7 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="text-dark"><strong>Area</strong></label>
-                            <select type="text" name="area"
+                            <select type="text" name="area" id="area"
                                 class="form-control area-selection @error('area') is-invalid @enderror">
                                 <option value="">Select Area</option>
                                 @foreach ($areas as $area)
@@ -101,7 +148,7 @@
                     <div class="col-md-6 mb-3">
                         <div>
                             <label class="text-dark"><strong>Job Category</strong></label>
-                            <select name="job_category"
+                            <select name="job_category" id="category"
                                 class="form-control @error('job_category') is-invalid @enderror">
                                 <option value="">Select category</option>
                                 @foreach ($job_categories as $job_category)
@@ -119,7 +166,7 @@
                     <div class="col-md-6 mb-3">
                         <div>
                             <label class="text-dark"><strong>Education Level</strong></label>
-                            <select name="education_level"
+                            <select name="education_level" id="education_level"
                                 class="form-control @error('education_level') is-invalid @enderror">
                                 <option value="">Select educational level</option>
                                 @foreach ($education_levels as $level)
@@ -137,8 +184,8 @@
                     <div class="col-md-6 mb-3">
                         <div>
                             <label class="text-dark"><strong>Job Type</strong></label>
-                            <select name="type" class="form-control @error('type') is-invalid @enderror">
-                                <option value="">Select educational level</option>
+                            <select name="type" class="form-control @error('type') is-invalid @enderror" id="type">
+                                <option value="">Select job type</option>
                                 @foreach ($types as $type)
                                 <option value="{{ $type->id }}" {{ old('type')==$type->id ? 'selected' : '' }}>
                                     {{ $type->name }}
@@ -153,7 +200,7 @@
                     <div class="col-md-6 mb-3">
                         <div>
                             <label class="text-dark"><strong>Career Level</strong></label>
-                            <select name="career_level"
+                            <select name="career_level" id="career_level"
                                 class="form-control @error('career_level') is-invalid @enderror">
                                 <option value="">Select career level</option>
                                 @foreach ($career_levels as $career_level)
@@ -168,25 +215,75 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-2 col-6 mb-3">
                         <div>
-                            <label class="text-dark"><strong>Years of experience</strong></label>
-                            <input type="text" name="years_experience"
-                                class="form-control @error('years_experience') is-invalid @enderror "
-                                value="{{ old('years_experience') }}">
-                            @error('years_experience')
+                            <label class="text-dark"><strong>Experience from</strong></label>
+                            <input type="text" name="years_experience_from"
+                                class="form-control @error('years_experience_from') is-invalid @enderror "
+                                value="{{ old('years_experience_from') }}">
+                            @error('years_experience_from')
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-2 col-6 mb-3">
                         <div>
-                            <label class="text-dark"><strong>Salary</strong></label>
-                            <input type="number" name="salary"
-                                class="form-control @error('salary') is-invalid @enderror " value="{{ old('salary') }}">
-                            @error('salary')
+                            <label class="text-dark"><strong>Experience to</strong></label>
+                            <input type="text" name="years_experience_to"
+                                class="form-control @error('years_experience_to') is-invalid @enderror "
+                                value="{{ old('years_experience_to') }}">
+                            @error('years_experience_to')
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 mb-3">
+                        <div>
+                            <label class="text-dark"><strong>Salary From</strong></label>
+                            <input type="number" name="salary_from"
+                                class="form-control @error('salary_from') is-invalid @enderror "
+                                value="{{ old('salary_from') }}">
+                            @error('salary_from')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 mb-3">
+                        <div>
+                            <label class="text-dark"><strong>Salary To</strong></label>
+                            <input type="number" name="salary_to"
+                                class="form-control @error('salary_to') is-invalid @enderror "
+                                value="{{ old('salary_to') }}">
+                            @error('salary_to')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-6 mb-0">
+                        <label for="currency" class="text-dark"><strong>Currency</strong></label>
+                        <select name="currency" id="currency"
+                            class="form-control @error('currency') is-invalid @enderror">
+                            @foreach ($currencies as $currency)
+                            <option value="{{ $currency->id }}" {{ old('currency')==$currency->id ?
+                                'selected' : '' }}>
+                                {{ $currency->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-6 mb-3">
+                        <div class="form-check mt-4">
+                            <input class="form-check-input" type="radio" name="net_gross" id="flexRadioDefault1"
+                                checked>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Net
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="net_gross" id="flexRadioDefault2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Gross
+                            </label>
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
@@ -302,5 +399,75 @@
             </form>
         </div>
     </div>
+    <div id="submitSuccess" style="display: none;" class="alert alert-success alert-dismissible fade show col-sm-8"
+        role="alert">Form submitted successfully
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="قريب"></button>
+    </div>
+    <div id="submitFail" style="display: none;" class="alert alert-warning alert-dismissible fade show col-sm-8"
+        role="alert">Form Failed
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="قريب"></button>
+    </div>
+
 </div>
+@endsection
+@section('scripts')
+
+<script type="text/javascript">
+    $("#employerInput").on('input', function () {
+    var val = this.value;
+    var shownVal = document.getElementById("employerInput").value;
+    var value2send = document.querySelector("#companyList option[value='"+shownVal+"']").dataset.value;
+    var reult = $("#employerInput-hidden").val(value2send)
+    console.log(reult)
+    });
+
+</script>
+
+{{-- force store job --}}
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+        $(document).on('click', '#force_submit', function(e){
+            e.preventDefault();
+            $.ajax({
+            type: "POST",
+            url: "{{ route('admin.job.force_submit') }}",
+            data: {
+                '_token' : "{{ csrf_token() }}",
+                'employer_id' : '3', // test employer id
+                'job_title' : $("input[name='job_title']").val(),
+                'country_id' : $('#country').find(":selected").val(),
+                'city_id' : $('#city').find(":selected").val(),
+                'area_id' : $('#area').find(":selected").val(),
+                'category_id' : $('#category').find(":selected").val(),
+                'education_level_id' : $('#education_level').find(":selected").val(),
+                'type_id' : $('#type').find(":selected").val(),
+                'career_level_id' : $('#career_level').find(":selected").val(),
+                'job_description' : $("textarea[name='job_description']").val(),
+                'job_excerpt' : $("textarea[name='job_excerpt']").val(),
+                'job_requirements' : $("textarea[name='job_requirements']").val(),
+                'external_url' : $("input[name='external_url']").val(),
+                'external_email' : $("input[name='external_email']").val(),
+                'featured' : $("input[name='featured']").val(),
+                'currency_id' : $('#currency').find(":selected").val(),
+                'years_experience_from' : $("input[name='years_experience_from']").val(),
+                'years_experience_to' : $("input[name='years_experience_to']").val(),
+                'salary_from' : $("input[name='salary_from']").val(),
+                'salary_to' : $("input[name='salary_to']").val(),
+                'net_gross' : $("input[name='net_gross']").val(),
+            },
+            dataType: "",
+            success: function (response) {
+                window.location.href = "{{ route('jobs.index') }}";
+            },
+            error: function () { 
+                $('#submitFail').show();
+            }
+        });
+    });
+</script>
+
 @endsection

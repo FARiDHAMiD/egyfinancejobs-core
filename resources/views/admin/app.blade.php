@@ -60,6 +60,7 @@
     <script>
         $("#alert-message-modal").modal('show');
     </script>
+    @yield('scripts')
 </body>
 
 </html>

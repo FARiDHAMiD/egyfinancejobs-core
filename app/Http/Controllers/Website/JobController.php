@@ -13,6 +13,8 @@ use App\Models\Area;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
+use App\Models\EmployerProfile;
+use App\Models\User;
 use DB;
 use Carbon\Carbon;
 
@@ -133,7 +135,7 @@ class JobController extends Controller
             $query->whereIn('jobs.id', $all_jobs_ids->pluck('id'));
         })->orderBy('jobs_count', 'desc')->get();
 
-        if (28 < $all_jobs_ids->count()) {
+        if ($jobs->count() < $all_jobs_ids->count()) {
             $filter = true;
         } else {
             $filter = false;
@@ -184,6 +186,7 @@ class JobController extends Controller
     public function show($job_uuid)
     {
         $job = Job::where('job_uuid', '=', $job_uuid)->firstOrFail();
+        $employer = User::where('id', '=', $job->employer_id)->get();
         $similar_jobs = Job::where(['category_id' => $job->category_id, 'employer_id' => $job->employer_id])
             ->where('jobs.id', '!=', $job->id);
         if (auth()->check() && auth()->user()->hasRole('employee') && auth()->user()->employee_profile != null) {
@@ -202,6 +205,7 @@ class JobController extends Controller
             'page_name' => 'job_details',
             'page_title' => $job->job_title . ' | Jobs | Egy Finance',
             'job' => $job,
+            'employer' => $employer,
             'similar_jobs' => $similar_jobs,
         ];
 

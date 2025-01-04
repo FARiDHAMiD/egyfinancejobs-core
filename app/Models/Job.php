@@ -20,16 +20,28 @@ class Job extends Model
         'education_level_id',
         'type_id',
         'career_level_id',
-        'years_experience',
-        'salary',
         'job_description',
         'job_excerpt',
         'job_requirements',
         'external_url',
         'external_email',
+        'currency_id',
+        'salary_from',
+        'salary_to',
+        'years_experience_from',
+        'years_experience_to',
+        'net_gross',
+        'show_salary',
+        'featured', //default 0
+        'user_id',
     ];
 
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function type()
     {
@@ -37,7 +49,7 @@ class Job extends Model
     }
     public function category()
     {
-        return $this->belongsTo(JobCategory::class,'category_id');
+        return $this->belongsTo(JobCategory::class, 'category_id');
     }
 
     public function career_level()
@@ -74,9 +86,14 @@ class Job extends Model
     {
         return $this->belongsToMany(Skill::class);
     }
+
+    public function currencies()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id', 'id');
+    }
+
     public function questions()
     {
         return $this->hasMany(JobQuestion::class);
     }
-
 }

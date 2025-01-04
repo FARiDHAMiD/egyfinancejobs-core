@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <select class="w-100 input-text" name="job_title_id">
+                                        <select class="w-100 form-control" name="job_title_id">
                                             <option value="">Select</option>
                                             @foreach ($job_titles as $job_title)
                                                 <option

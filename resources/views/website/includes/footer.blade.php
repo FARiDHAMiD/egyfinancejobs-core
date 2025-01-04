@@ -2,13 +2,17 @@
 <footer class="footer">
     <div class="container footer-inner">
         <div class="row">
-            <div class="col-lg-5 col-md-6">
+            <div class="col-lg-2 col-md-6 col-6">
                 <div class="footer-item clearfix">
                     <img src="{{ url('/website') }}/img/white-logo.png" alt="logo" class="f-logo">
                     <p class="footer-description">
-                       {{ about_us()->about_company }}
+                        {{ about_us()->about_company }}
                     </p>
                 </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-6">
+                <img src="{{ asset('/website/img/egyfinancejobs_QR.png') }}" alt="brand" class="img-fluid" width="90"
+                    height="90">
             </div>
             <div class="col-lg-2 col-md-6">
                 <div class="footer-item">
@@ -22,7 +26,7 @@
                         </li>
 
                         <li>
-                            <a href="JavaScript::void();"><i class="fa fa-phone"></i>{{ about_us()->phone}}</a>
+                            <a href="tel:+2001015891836"><i class="fa fa-phone"></i> 01015891836</a>
                         </li>
                     </ul>
                 </div>
@@ -45,9 +49,14 @@
                 <div class="footer-item">
                     <h4>Follow Us</h4>
                     <ul class="social-list clearfix">
-                        <li><a href="{{ about_us()->facebook}}" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="{{ about_us()->twitter}}" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="{{ about_us()->linkedin}}" target="_blank" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+                        <li><a href="https://www.facebook.com/profile.php?id=61553917499086&mibextid=ZbWKwL"
+                                target="_blank" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://wa.me/+201001085717?text=Hello%20Egyfinancejobs" target="_blank"
+                                class="whatsapp"><i class="fa fa-whatsapp"></i></a></li>
+                        <li><a href="https://t.me/+201025612355" target="_blank" class="telegram"><i
+                                    class="fa fa-telegram"></i></a></li>
+                        <li><a href="https://www.linkedin.com/company/egy-finance-jobs" target="_blank"
+                                class="linkedin"><i class="fa fa-linkedin"></i></a></li>
 
                     </ul>
                 </div>

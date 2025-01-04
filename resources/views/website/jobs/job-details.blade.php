@@ -6,19 +6,36 @@
         <div class="row">
             <div class="col-xl-8 col-lg-8 col-md-12 order-lg-1 order-2">
                 <div class="job-box">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="company-logo">
-                            <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
-                                alt="brand" class="img-fluid">
-
+                    <div class="row">
+                        <div class="col-md-7 col-5 d-flex justify-content-between align-items-center">
+                            <div class="company-logo">
+                                <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
+                                    alt="brand" class="img-fluid">
+                            </div>
                         </div>
-                        <span class="job-period-type"><i class="flaticon-time"></i> {{ $job->type->name }}</span>
+                        <div class="col-md-5 col-7 text-right">
+                            <span class="mr-2"><i class="fa fa-calendar-check-o"></i>
+                                {{ $job->type->name }}
+                            </span>
+                            <span class=""><i class="flaticon-time"></i>
+                                {{ $job->created_at->diffForHumans() }}
+                            </span>
+                        </div>
                     </div>
                     <div class="description">
-
                         <div>
                             {{-- <h5 class="title"><a href="job-details.html">{{ $job->job_title }}</a></h5> --}}
-                            <h5 class="title"><a>{{ $job->job_title }}</a></h5>
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="title"><a>{{ $job->job_title }}</a></h5>
+                                </div>
+                                <div class="col-4 text-right">
+                                    @if($job->featured)
+                                    <img src="{{ asset('/website/img/star.png') }}" alt="brand" class="img-fluid"
+                                        width="40" height="40">
+                                    @endif
+                                </div>
+                            </div>
                             <div class="candidate-listing-footer">
                                 <ul>
                                     <li><i class="flaticon-work"></i> {{
@@ -27,8 +44,6 @@
                                         {{ empty($job->city) ? null : $job->city->name }}, {{ $job->country->name }}
                                     </li>
                                 </ul>
-
-                                <p class="mb-0">Posted {{ $job->created_at->diffForHumans() }}</p>
                                 {{-- <h6>Deadline: <span class="text-success">Jan 31, 2019</span></h6> --}}
                             </div>
                         </div>
@@ -88,21 +103,21 @@
                                                 <hr>
                                                 <ul class="social-list clearfix">
                                                     <li><a href="#"
-                                                            data-href="https://www.facebook.com/sharer.php?u={{ route('website.job-details', $job->id) }}"
+                                                            data-href="https://www.facebook.com/sharer.php?u={{ route('website.job-details', $job->job_uuid) }}"
                                                             class="share_button facebook"><i
                                                                 class="fa fa-facebook"></i></a>
 
                                                     </li>
 
                                                     <li><a href="#"
-                                                            data-href="https://twitter.com/intent/tweet?url={{ route('website.job-details', $job->id) }}"
+                                                            data-href="https://twitter.com/intent/tweet?url={{ route('website.job-details', $job->job_uuid) }}"
                                                             class="share_button twitter"><i
                                                                 class="fa fa-twitter"></i></a>
                                                     </li>
                                                     <li><a href="#"
-                                                            data-href="https://www.linkedin.com/sharing/share-offsite/?url={{ route('website.job-details', $job->id) }}"
+                                                            data-href="https://www.linkedin.com/sharing/share-offsite/?url={{ route('website.job-details', $job->job_uuid) }}"
                                                             class="share_button linkedin"><i class="fa fa-linkedin"></i>
-                                                    <li><a href="{{ route('website.job-details', $job->id) }}"
+                                                    <li><a href="{{ route('website.job-details', $job->job_uuid) }}"
                                                             class="copyLink"><i class="fa fa-copy"></i></a>
                                                         <p class="copyMessage" style="display: none;">Link copied!</p>
 
@@ -171,9 +186,17 @@
                             <div class="col-lg-3">
                                 <p class="mb-1"><strong class="text-black">Experience Needed:</strong></p>
                             </div>
+                            @if($job->years_experience_from)
                             <div class="col-lg-9">
-                                <p class="text-black mb-1">{{ $job->years_experience }} Years</p>
+                                <p class="text-black mb-1">{{ $job->years_experience_from }} to {{
+                                    $job->years_experience_to }} Years</p>
                             </div>
+                            @else
+                            <div class="col-lg-9">
+                                <p class="text-black mb-1">N/A</p>
+                            </div>
+                            @endif
+
                         </div>
                         <div class="row">
                             <div class="col-lg-3">
@@ -195,9 +218,16 @@
                             <div class="col-lg-3">
                                 <p class="mb-1"><strong class="text-black">Salary:</strong></p>
                             </div>
+                            @if($job->salary_from)
                             <div class="col-lg-9">
-                                <p class="text-black mb-1">{{ $job->salary }}</p>
+                                <p class="text-black mb-1">{{ $job->salary_from }} - {{$job->salary_to}} {{
+                                    $job->currencies->name ?? '' }} | {{ $job->net_gross ? 'Net' : 'Gross' }}</p>
                             </div>
+                            @else
+                            <div class="col-lg-9">
+                                <p class="text-black mb-1">N/A</p>
+                            </div>
+                            @endif
                         </div>
                         <div class="row">
                             <div class="col-lg-3">
@@ -217,6 +247,14 @@
                         </ul>
                     </div>
                 </div>
+                @if($job->job_excerpt)
+                <div class="job-box">
+                    <div class="job-info mb-4">
+                        <h2 class="h4">Job Exerpt</h2>
+                        {{ $job->job_excerpt }}
+                    </div>
+                </div>
+                @endif
                 <div class="job-box">
                     <div class="job-info mb-4">
                         <h2 class="h4">Job Description</h2>
@@ -237,36 +275,38 @@
 
                     @foreach ($similar_jobs as $job)
                     <div class="col-xl-6">
-                        <div class="job-box">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div class="company-logo">
-                                    <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
-                                        alt="brand" class="img-fluid">
-
+                        <a href="{{ route('website.job-details', $job->job_uuid) }}">{{
+                            $job->job_title }}
+                            <div class="job-box">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="company-logo">
+                                        <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
+                                            alt="brand" class="img-fluid">
+                                    </div>
+                                    <span class="job-period-type"><i class="flaticon-time"></i>
+                                        {{ $job->type->name }}</span>
                                 </div>
-                                <span class="job-period-type"><i class="flaticon-time"></i>
-                                    {{ $job->type->name }}</span>
-                            </div>
-                            <div class="description">
-                                <div>
-                                    <h5 class="title"><a href="{{ route('website.job-details', $job->id) }}">{{
-                                            $job->job_title }}</a>
-                                    </h5>
-                                    <div class="candidate-listing-footer">
-                                        <ul>
-                                            <li><i class="flaticon-work"></i>
-                                                {{ optional($job->employer_profile)->company_name??'N/A' }}</li>
-                                            <li><i class="flaticon-pin"></i> {{empty($job->area) ? null :
-                                                $job->area->name }},
-                                                {{ empty($job->city) ? null : $job->city->name }}, {{
-                                                $job->country->name }}</li>
-                                        </ul>
+                                <div class="description">
+                                    <div>
+                                        <h5 class="title">
 
-                                        {{-- <h6>Deadline: <span class="text-success">Jan 31, 2019</span></h6> --}}
+                                        </h5>
+                                        <div class="candidate-listing-footer">
+                                            <ul>
+                                                <li><i class="flaticon-work"></i>
+                                                    {{ optional($job->employer_profile)->company_name??'N/A' }}</li>
+                                                <li><i class="flaticon-pin"></i> {{empty($job->area) ? null :
+                                                    $job->area->name }},
+                                                    {{ empty($job->city) ? null : $job->city->name }}, {{
+                                                    $job->country->name }}</li>
+                                            </ul>
+
+                                            {{-- <h6>Deadline: <span class="text-success">Jan 31, 2019</span></h6> --}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     @endforeach
 
@@ -275,7 +315,7 @@
                 @endif
 
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-12 order-lg-2 order-1">
+            <div class="col-xl-4 col-lg-4 col-md-12 order-lg-2 order-2">
                 <div class="sidebar-right py-4 px-3">
                     <h3 class="company-name">About {{ optional($job->employer_profile)->company_name??'N/A' }}</h3>
                     <p class="text-dark-light mt-2">{{ optional(optional($job->employer_profile)->industry)->name }}</p>
@@ -288,11 +328,9 @@
                     </p>
 
                     <p class="text-dark-light">{{ optional($job->employer_profile)->company_description }}</p>
-
                     @if($job->employer_profile)
-
-                    <a class="company-jobs-link"
-                        href="{{route('employer.profile', optional($job->employer_profile)->employer_id)}}">View Company
+                    <a class="company-jobs-link" href="{{route('employer.profile', $employer[0]->uuid)}}">View
+                        Company
                         Profile</a>
                     @endif
                 </div>
