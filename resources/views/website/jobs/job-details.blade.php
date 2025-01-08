@@ -19,6 +19,15 @@
                             </span>
                             <span class=""><i class="flaticon-time"></i>
                                 {{ $job->created_at->diffForHumans() }}
+                                @if(auth()->check() && auth()->user()->hasRole('admin'))
+                                <br>
+                                created by {{'@' . $job->user->first_name . ' ' . $job->user->last_name }}
+                                @endif
+                                <br>
+                                @if($job->featured)
+                                <img src="{{ asset('/website/img/star.png') }}" alt="brand" class="img-fluid" width="40"
+                                    height="40">
+                                @endif
                             </span>
                         </div>
                     </div>
@@ -28,12 +37,6 @@
                             <div class="row">
                                 <div class="col-8">
                                     <h5 class="title"><a>{{ $job->job_title }}</a></h5>
-                                </div>
-                                <div class="col-4 text-right">
-                                    @if($job->featured)
-                                    <img src="{{ asset('/website/img/star.png') }}" alt="brand" class="img-fluid"
-                                        width="40" height="40">
-                                    @endif
                                 </div>
                             </div>
                             <div class="candidate-listing-footer">
@@ -221,7 +224,7 @@
                             @if($job->salary_from)
                             <div class="col-lg-9">
                                 <p class="text-black mb-1">{{ $job->salary_from }} - {{$job->salary_to}} {{
-                                    $job->currencies->name ?? '' }} | {{ $job->net_gross ? 'Net' : 'Gross' }}</p>
+                                    $job->currencies->name ?? '' }} | {{ $job->net_gross == 0 ? 'Net' : 'Gross' }}</p>
                             </div>
                             @else
                             <div class="col-lg-9">
@@ -329,11 +332,49 @@
 
                     <p class="text-dark-light">{{ optional($job->employer_profile)->company_description }}</p>
                     @if($job->employer_profile)
-                    <a class="company-jobs-link" href="{{route('employer.profile', $employer[0]->uuid)}}">View
-                        Company
-                        Profile</a>
+                    <a class="company-jobs-link" href="{{route('employer.profile', $employer[0]->uuid)}}">
+                        View Company Profile</a>
                     @endif
                 </div>
+
+                @if(auth()->check() && auth()->user()->hasRole('admin'))
+                <div class="sidebar-right py-4 px-3">
+                    <h3 class="company-name">{{$job_applications->count()}} {{$job_applications->count() == 1 ?
+                        'Candidate' : 'Candidates'}} for this job</h3>
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr class="text-muted">
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Applied</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($job_applications as $app)
+                                <tr>
+
+                                    <td>{{$loop->iteration}}</td>
+                                    <td><a target="_blank"
+                                            href="{{route('admin.employee.applications.asnwers', [$app->id, $app->employee_id])}}">
+                                            {{$app->employee->first_name}} {{$app->employee->last_name}}
+                                        </a>
+                                    </td>
+                                    <td>{{$app->application_statu->name}}</td>
+                                    <td>{{date('d-M', strtotime($app->created_at))}}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if($job->employer_profile)
+                    <a target="_blank" class="company-jobs-link text-primary" href="{{route('admin.home')}}">
+                        All Applications</a>
+                    @endif
+                </div>
+                @endif
             </div>
         </div>
     </div>

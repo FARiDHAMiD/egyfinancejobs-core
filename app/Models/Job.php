@@ -34,6 +34,7 @@ class Job extends Model
         'show_salary',
         'featured', //default 0
         'user_id',
+        'archived', //default 0
     ];
 
     use HasFactory;

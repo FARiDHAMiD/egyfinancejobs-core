@@ -17,7 +17,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('website.jobs') }}">
+                        <a class="nav-link {{ isset($page_name) && $page_name == 'jobs' ? 'active' : '' }}"
+                            href="{{ route('website.jobs') }}">
                             Find Jobs
                         </a>
                     </li>
@@ -30,6 +31,11 @@
                     <li class="nav-item">
                         <a href="{{ route('employee_register_page') }}"
                             class="nav-link link-color bg-transparent">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-color bg-transparent" href="{{ route('website.jobs') }}">
+                            Post Job!
+                        </a>
                     </li>
                     {{-- <li class="nav-item">
                         <a href="employer/index.html" class="nav-link link-color bg-transparent">For
@@ -164,12 +170,18 @@
                 @else
                 <ul class="navbar-nav ml-auto mb-3">
                     <li class="nav-item">
+                        @if(auth()->user()->hasRole('admin'))
+                        <a href="{{ route('admin.home') }}" class="nav-link link-color">You are admin!</a>
+                        @else
                         <a href="{{ route('login_page') }}" class="nav-link link-color">Login</a>
+                        @endif
                     </li>
+                    @if(!auth()->user()->hasRole('admin'))
                     <li class="nav-item">
                         <a href="{{ route('employee_register_page') }}"
                             class="nav-link link-color bg-transparent">Register</a>
                     </li>
+                    @endif
                     {{-- <li class="nav-item">
                         <a href="employer/index.html" class="nav-link link-color bg-transparent">For
                             Employers</a>

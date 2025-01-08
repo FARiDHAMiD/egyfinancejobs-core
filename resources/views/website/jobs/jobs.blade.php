@@ -479,6 +479,11 @@
                             <span class=""><i class="flaticon-time"></i>
                                 {{ $job->created_at->diffForHumans() }}
                             </span>
+                            <br>
+                            @if($job->featured)
+                            <img src="{{ asset('/website/img/star.png') }}" alt="brand" class="img-fluid" width="40"
+                                height="40">
+                            @endif
                         </div>
                     </div>
                     <div class="description">
@@ -488,12 +493,6 @@
                                     <h5 class="title"><a href="{{ route('website.job-details', $job->job_uuid) }}">{{
                                             $job->job_title }}</a>
                                     </h5>
-                                </div>
-                                <div class="col-4 text-right">
-                                    @if($job->featured)
-                                    <img src="{{ asset('/website/img/star.png') }}" alt="brand" class="img-fluid"
-                                        width="40" height="40">
-                                    @endif
                                 </div>
                             </div>
                             <div class="candidate-listing-footer">
@@ -531,11 +530,11 @@
 
 
                             <button class="btn button-theme bg-transparent" type="button" data-toggle="modal"
-                                data-target="#share-buttons-{{ $job->id }}">
+                                data-target="#share-buttons-{{ $job->job_uuid }}">
                                 Share
                             </button>
                             <!-- Modal -->
-                            <div class="modal fade" id="share-buttons-{{ $job->id }}" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="share-buttons-{{ $job->job_uuid }}" tabindex="-1" role="dialog"
                                 aria-labelledby="share-buttons-{{ $job->id }}Title" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -548,21 +547,19 @@
                                                 <h4>share this job on</h4>
                                                 <hr>
                                                 <ul class="social-list clearfix">
-                                                    <li><a href="#"
-                                                            data-href="https://www.facebook.com/sharer.php?u={{ route('website.job-details', $job->id) }}"
-                                                            class="share_button facebook"><i
-                                                                class="fa fa-facebook"></i></a></li>
-                                                    <li><a href="#"
-                                                            data-href="https://twitter.com/intent/tweet?url={{ route('website.job-details', $job->id) }}"
-                                                            class="share_button twitter"><i
-                                                                class="fa fa-twitter"></i></a>
+                                                    <li><a target="_blank"
+                                                            href="https://www.facebook.com/sharer/sharer.php?u={{ route('website.job-details', $job->job_uuid) }}"
+                                                            class="facebook"><i class="fa fa-facebook"></i></a></li>
+
+                                                    <li><a target="_blank"
+                                                            href="https://x.com/intent/tweet?text={{$job->job_title}}&url={{ route('website.job-details', $job->job_uuid) }}"
+                                                            class="twitter"><i class="fa fa-twitter"></i></a>
                                                     </li>
-                                                    <li><a href="#"
-                                                            data-href="https://www.linkedin.com/sharing/share-offsite/?url={{ route('website.job-details', $job->id) }}"
-                                                            class="share_button linkedin"><i
-                                                                class="fa fa-linkedin"></i></a>
+                                                    <li><a target="_blank"
+                                                            href="https://www.linkedin.com/shareArticle?mini=true&url={{ route('website.job-details', $job->job_uuid)}}&title={{ $job->job_title }}&summary={{ $job->job_description }}&source={{ route('website.home') }}"
+                                                            class="linkedin"><i class="fa fa-linkedin"></i></a>
                                                     </li>
-                                                    <li><a href="{{ route('website.job-details', $job->id) }}"
+                                                    <li><a href="{{ route('website.job-details', $job->job_uuid) }}"
                                                             class="copyLink"><i class="fa fa-copy"></i></a>
                                                         <p class="copyMessage" style="display: none;">Link copied!</p>
 

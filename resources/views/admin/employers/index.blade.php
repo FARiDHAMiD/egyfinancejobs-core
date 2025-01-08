@@ -117,7 +117,7 @@
                         @php $employer_profile = $employer->employer_profile; @endphp
                         <tr>
                             <td><a href="{{ route('employer.profile', $employer->uuid) }}" target="_blank">{{
-                                    $employer->first_name }} {{ $employer->last_name }}</a></td>
+                                    $employer->first_name }}</a></td>
                             <td>{{ $employer_profile->mobile_number ?? ''}}</td>
                             <td><a href="{{ route('employer.profile', $employer->uuid) }}" target="_blank">{{
                                     $employer_profile->company_name ?? '' }}</a></td>

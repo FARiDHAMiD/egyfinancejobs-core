@@ -11,7 +11,8 @@
                 <div class="form-content-box w-100 my-0">
                     <div class="details text-left">
                         <!-- Form start -->
-                        <form enctype="multipart/form-data" method="post" action="{{route('employee.profile.general-info.update')}}">
+                        <form enctype="multipart/form-data" method="post"
+                            action="{{route('employee.profile.general-info.update')}}">
                             @csrf
 
                             <div class="section-header">
@@ -19,7 +20,9 @@
                                     <div class="mb-3 col-lg-8 d-flex align-items-center">
                                         <div class="mr-3">
                                             <div class="user-image-circle">
-                                                <img class="image" src="{{ empty($employee->getFirstMedia('employee_profile')) ? asset('/website/img/avatar.png') : $employee->getFirstMedia('employee_profile')->getUrl() }}" alt="">
+                                                <img class="image"
+                                                    src="{{ empty($employee->getFirstMedia('employee_profile')) ? asset('/website/img/avatar.png') : $employee->getFirstMedia('employee_profile')->getUrl() }}"
+                                                    alt="">
                                             </div>
                                         </div>
                                         <div>
@@ -33,7 +36,8 @@
                                         <label for="profile_img" class="btn btn-default py-2">
                                             Upload Your image
                                         </label>
-                                        <input id="profile_img" type="file" name="profile_img" class="d-none image-input">
+                                        <input id="profile_img" type="file" name="profile_img"
+                                            class="d-none image-input">
                                     </div>
                                 </div>
                             </div>
@@ -50,7 +54,8 @@
                                             <div class="form-group">
                                                 <label>First Name</label>
                                                 <input type="text" name="first_name" class="input-text"
-                                                    placeholder="Enter your first name" value="{{$employee->first_name}}">
+                                                    placeholder="Enter your first name"
+                                                    value="{{$employee->first_name}}">
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -60,6 +65,23 @@
                                                     placeholder="Enter your last name" value="{{$employee->last_name}}">
                                             </div>
                                         </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Bio</label>
+                                                @if($profile->bio)
+                                                <textarea name="bio"
+                                                    class="form-control @error('bio') is-invalid @enderror" cols="30"
+                                                    rows="2">{{$profile->bio}}</textarea>
+                                                @else
+                                                <textarea name="bio"
+                                                    class="form-control @error('bio') is-invalid @enderror" cols="30"
+                                                    rows="2">{{old('bio')}}</textarea>
+                                                @endif
+                                            </div>
+                                            @error('bio')
+                                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="row datedrop-box">
                                         <div class="col-12 form-group mb-0">
@@ -67,7 +89,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input value="{{$profile->birthdate}}" type="date" name="birthdate" class="input-text">
+                                                <input value="{{$profile->birthdate}}" type="date" name="birthdate"
+                                                    class="input-text">
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -80,8 +103,8 @@
                                                     <label
                                                         class="btn button-theme radio-btn inline-radio {{ $profile->gender == 'male' ? 'active' : '' }} ">
                                                         <input {{ $profile->gender == 'male' ? 'checked' : '' }}
-                                                            name="gender" value="male" type="radio"
-                                                            autocomplete="off">
+                                                        name="gender" value="male" type="radio"
+                                                        autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -93,8 +116,8 @@
                                                     <label
                                                         class="btn button-theme radio-btn inline-radio {{ $profile->gender == 'female' ? 'active' : '' }}">
                                                         <input {{ $profile->gender == 'female' ? 'checked' : '' }}
-                                                            name="gender" value="female" type="radio"
-                                                            autocomplete="off">
+                                                        name="gender" value="female" type="radio"
+                                                        autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -112,9 +135,11 @@
                                                 data-toggle="buttons">
 
                                                 <div class="mr-4">
-                                                    <label class="btn button-theme radio-btn inline-radio {{ $profile->marital_status == 'unspecified' ? 'active' : '' }}">
-                                                        <input {{ $profile->marital_status == 'unspecified' ? 'active' : '' }} checked name="marital_status" value="unspecified"
-                                                            type="radio" autocomplete="off">
+                                                    <label
+                                                        class="btn button-theme radio-btn inline-radio {{ $profile->marital_status == 'unspecified' ? 'active' : '' }}">
+                                                        <input {{ $profile->marital_status == 'unspecified' ? 'active' :
+                                                        '' }} checked name="marital_status" value="unspecified"
+                                                        type="radio" autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -123,9 +148,11 @@
                                                     <label class="mb-0">Unspecified</label>
                                                 </div>
                                                 <div class="mr-4">
-                                                    <label class="btn button-theme radio-btn inline-radio {{ $profile->marital_status == 'single' ? 'active' : '' }}">
-                                                        <input {{ $profile->marital_status == 'single' ? 'active' : '' }} name="marital_status" value="single" type="radio"
-                                                            autocomplete="off">
+                                                    <label
+                                                        class="btn button-theme radio-btn inline-radio {{ $profile->marital_status == 'single' ? 'active' : '' }}">
+                                                        <input {{ $profile->marital_status == 'single' ? 'active' : ''
+                                                        }} name="marital_status" value="single" type="radio"
+                                                        autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -134,9 +161,11 @@
                                                     <label class="mb-0">Single</label>
                                                 </div>
                                                 <div>
-                                                    <label class="btn button-theme radio-btn inline-radio {{ $profile->marital_status == 'married' ? 'active' : '' }}">
-                                                        <input {{ $profile->marital_status == 'married' ? 'active' : '' }} name="marital_status" value="married" type="radio"
-                                                            autocomplete="off">
+                                                    <label
+                                                        class="btn button-theme radio-btn inline-radio {{ $profile->marital_status == 'married' ? 'active' : '' }}">
+                                                        <input {{ $profile->marital_status == 'married' ? 'active' : ''
+                                                        }} name="marital_status" value="married" type="radio"
+                                                        autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -154,9 +183,11 @@
                                                 data-toggle="buttons">
 
                                                 <div class="mr-4">
-                                                    <label class="btn button-theme radio-btn inline-radio {{ $profile->military_status == 'exempted' ? 'active' : '' }}">
-                                                        <input {{ $profile->military_status == 'exempted' ? 'active' : '' }} checked name="military_status" value="exempted"
-                                                            type="radio" autocomplete="off">
+                                                    <label
+                                                        class="btn button-theme radio-btn inline-radio {{ $profile->military_status == 'exempted' ? 'active' : '' }}">
+                                                        <input {{ $profile->military_status == 'exempted' ? 'active' :
+                                                        '' }} checked name="military_status" value="exempted"
+                                                        type="radio" autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -165,9 +196,11 @@
                                                     <label class="mb-0">Exempted</label>
                                                 </div>
                                                 <div class="mr-4">
-                                                    <label class="btn button-theme radio-btn inline-radio {{ $profile->military_status == 'completed' ? 'active' : '' }}">
-                                                        <input {{ $profile->military_status == 'completed' ? 'active' : '' }} checked name="military_status" value="completed"
-                                                            type="radio" autocomplete="off">
+                                                    <label
+                                                        class="btn button-theme radio-btn inline-radio {{ $profile->military_status == 'completed' ? 'active' : '' }}">
+                                                        <input {{ $profile->military_status == 'completed' ? 'active' :
+                                                        '' }} checked name="military_status" value="completed"
+                                                        type="radio" autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -176,9 +209,11 @@
                                                     <label class="mb-0">Completed</label>
                                                 </div>
                                                 <div class="mr-4">
-                                                    <label class="btn button-theme radio-btn inline-radio {{ $profile->military_status == 'postponed' ? 'active' : '' }}">
-                                                        <input {{ $profile->military_status == 'postponed' ? 'active' : '' }} checked name="military_status" value="postponed"
-                                                            type="radio" autocomplete="off">
+                                                    <label
+                                                        class="btn button-theme radio-btn inline-radio {{ $profile->military_status == 'postponed' ? 'active' : '' }}">
+                                                        <input {{ $profile->military_status == 'postponed' ? 'active' :
+                                                        '' }} checked name="military_status" value="postponed"
+                                                        type="radio" autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -187,9 +222,12 @@
                                                     <label class="mb-0">Postponed</label>
                                                 </div>
                                                 <div>
-                                                    <label class="btn button-theme radio-btn inline-radio {{ $profile->military_status == 'not applicable' ? 'active' : '' }}">
-                                                        <input {{ $profile->military_status == 'not applicable' ? 'active' : '' }} name="military_status" value="not applicable" type="radio"
-                                                            autocomplete="off">
+                                                    <label
+                                                        class="btn button-theme radio-btn inline-radio {{ $profile->military_status == 'not applicable' ? 'active' : '' }}">
+                                                        <input {{ $profile->military_status == 'not applicable' ?
+                                                        'active' : '' }} name="military_status" value="not applicable"
+                                                        type="radio"
+                                                        autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -219,10 +257,9 @@
                                                     class="country-selection form-control">
                                                     <option selected value="" disabled>Select</option>
                                                     @foreach ($countries as $country)
-                                                        <option
-                                                            {{ $profile->country_id == $country->id ? 'selected' : '' }}
-                                                            value="{{ $country->id }}">{{ $country->name }}
-                                                        </option>
+                                                    <option {{ $profile->country_id == $country->id ? 'selected' : '' }}
+                                                        value="{{ $country->id }}">{{ $country->name }}
+                                                    </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -232,14 +269,13 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>City</label>
-                                                <select type="text" name="city_id"
-                                                    class="form-control city-selection">
+                                                <select type="text" name="city_id" class="form-control city-selection">
                                                     <option selected value="" disabled>Select</option>
                                                     @foreach ($cities as $city)
-                                                        <option {{ $profile->city_id  == $city->id ? 'selected' : '' }}
-                                                            value="{{ $city->id }}"
-                                                            data-country-id="{{ $city->country_id }}">
-                                                            {{ $city->name }}</option>
+                                                    <option {{ $profile->city_id == $city->id ? 'selected' : '' }}
+                                                        value="{{ $city->id }}"
+                                                        data-country-id="{{ $city->country_id }}">
+                                                        {{ $city->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -249,14 +285,13 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Area</label>
-                                                <select type="text" name="area_id"
-                                                    class="form-control area-selection">
+                                                <select type="text" name="area_id" class="form-control area-selection">
                                                     <option selected value="" disabled>Select</option>
                                                     @foreach ($areas as $area)
-                                                        <option {{ $profile->area_id  == $area->id ? 'selected' : '' }}
-                                                            value="{{ $area->id }}"
-                                                            data-city-id="{{ $area->city_id }}">
-                                                            {{ $area->name }}</option>
+                                                    <option {{ $profile->area_id == $area->id ? 'selected' : '' }}
+                                                        value="{{ $area->id }}"
+                                                        data-city-id="{{ $area->city_id }}">
+                                                        {{ $area->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

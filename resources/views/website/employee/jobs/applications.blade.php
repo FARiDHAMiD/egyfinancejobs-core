@@ -22,22 +22,24 @@ $application_index = request()->application_index;
             <div class="col-lg-6">
                 <div class="d-flex justify-content-between align-items-md-center flex-md-row flex-column mb-4">
 
-                    <h1 class="page-main-title">Applications ({{ $applications->count() }})</h1>
-                    {{-- <div class="form-group form-content-box m-0">
-                        <select class="input-text" name="">
-                            <option value="">Sort By</option>
-                            <option value="pending">pending</option>
-                            <option value="viewed">viewed</option>
-                            <option value="canceled">canceled</option>
-                            <option value="rejected">rejected</option>
-                        </select>
-                    </div> --}}
+                    <h1 class="page-main-title">
+                        @if(auth()->check() && auth()->user()->hasRole('admin'))
+                        <span>
+                            {{$employee->first_name}} {{$employee->last_name}} |
+                            {{$employee->employee_profile->job_title->name}} |
+                            {{$employee->employee_profile->career_level->name}}
+                        </span>
+                        <br>
+                        @endif
+                        Applications ({{ $applications_count }})
+                    </h1>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6">
                 @foreach ($applications as $index => $application)
+                @if(!$application->job->archived)
                 <div data-application-index="{{ $index }}"
                     class="job-box {{ $index == $application_index ? 'active' : '' }}">
                     <div class="d-flex justify-content-between align-items-start">
@@ -45,17 +47,31 @@ $application_index = request()->application_index;
                             <img src="{{ empty($application->job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $application->job->employer->getFirstMedia('company_logo')->getUrl() }}"
                                 alt="logo">
                         </div>
-                        @if ($application->status == 'pending')
-                        <span class="job-period-type">{{ $application->status }}</span>
-                        @elseif($application->status == 'ReviewedyourApplication')
-                        <span class="job-period-type bg-info text-white">Reviewed</span>
-                        @elseif($application->status == 'Shortlisted')
-                        <span class="job-period-type bg-primary text-white">Shortlisted</span>
-                        @elseif($application->status == 'accepted')
-                        <span class="job-period-type bg-success text-white">{{ $application->status }}</span>
-                        @elseif($application->status == 'rejected')
-                        <span class="job-period-type bg-danger text-white">{{ $application->status }}</span>
-                        @endif
+
+                        {{-- Style application status tag color --}}
+                        @switch($application->statu_id)
+                        @case(1)
+                        <span class="job-period-type">{{ $application->application_statu->name}}</span>
+                        @break
+                        @case(2)
+                        <span class="job-period-type bg-primary text-light">{{
+                            $application->application_statu->name}}</span>
+                        @break
+                        @case(3)
+                        <span class="job-period-type bg-info text-light">{{
+                            $application->application_statu->name}}</span>
+                        @break
+                        @case(4)
+                        <span class="job-period-type bg-success text-light">{{
+                            $application->application_statu->name}}</span>
+                        @break
+                        @case(5)
+                        <span class="job-period-type bg-danger text-light">{{
+                            $application->application_statu->name}}</span>
+                        @break
+                        @default
+
+                        @endswitch
 
                     </div>
                     <div class="description">
@@ -81,10 +97,12 @@ $application_index = request()->application_index;
                         </div>
                     </div>
                 </div>
+                @endif()
                 @endforeach
 
             </div>
             @if ($applications->count() > 0)
+            @if(!$applications[$application_index]->job->archived)
             <div class="col-lg-6 d-lg-block d-none">
                 <div class="bg-grea-3 p-4">
                     <h5 class="title">{{ $applications[$application_index]->job->job_title }}</h5>
@@ -106,26 +124,36 @@ $application_index = request()->application_index;
                                 <h6>Applied {{ $applications[$application_index]->created_at->diffForHumans() }}</h6>
 
                             </div>
+                            @if(!auth()->user()->hasRole('admin'))
                             <div class="col-md-4 d-flex justify-content-end ">
                                 <button class="btn btn-sm btn-danger m-0"
                                     onclick="cancelApplication({{$applications[$application_index]->id}})">
                                     Cancel!
                                 </button>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="sidebar-right py-4 px-3">
 
+                    @if($applications[$application_index]->application_answers->count() > 0)
                     <div class="row">
                         <div class="col-7">
+                            @if(auth()->check() && auth()->user()->hasRole('admin'))
+                            <h2 class="h4">{{$employee->first_name}} Answers For this Job</h2>
+                            @else
                             <h2 class="h4">Your Answers For this Job</h2>
+                            @endif
                         </div>
                         <div class="col-5 text-right">
                             <span class="text-gray">Answers
                                 {{ $applications[$application_index]->application_answers->count() }}</span>
                         </div>
                     </div>
+                    @else
+                    <h5 class="text-muted">This Job Vacancy has no required questions!</h5>
+                    @endif
                     <hr>
                     @foreach ($applications[$application_index]->application_answers as $answer)
                     <div>
@@ -139,6 +167,7 @@ $application_index = request()->application_index;
 
                 </div>
             </div>
+            @endif
             @endif
 
         </div>

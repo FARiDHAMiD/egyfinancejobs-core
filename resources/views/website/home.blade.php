@@ -54,7 +54,7 @@
                         data-placement="top" title="{{$employer->company_name}}">
                         <img style="height: 120px;object-fit: cover"
                             src="{{ empty($employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $employer->getFirstMedia('company_logo')->getUrl() }}"
-                            alt="brand" class="img-fluid">
+                            alt="brand" class="img-fluid" width="150" height="100">
                         <div>
                             <h5 class="text-muted text-center">{{$employer->company_name}}</h5>
                         </div>

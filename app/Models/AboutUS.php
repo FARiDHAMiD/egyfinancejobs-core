@@ -11,7 +11,7 @@ class AboutUS extends Model
 
     protected $fillable = [
         'facebook',
-        'twitter',
+        'telegram',
         'linkedin',
         'about_company',
         'phone',

@@ -20,6 +20,7 @@ class EmployerProfile extends Model
         'city_id',
         'area_id',
         'featured', //default 0
+        'bio',
     ];
 
     use HasFactory;

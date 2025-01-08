@@ -23,7 +23,7 @@
     @if(!auth()->user()->google_id)
     <a class="list-group-item list-group-item-action {{isset($page_name) && $page_name == 'change_password' ? 'active' : '' }}"
         href="{{route('employee.profile.change_password.edit')}}">Change Password</a>
-    <a class="list-group-item list-group-item-action {{isset($page_name) && $page_name == 'delete_account' ? 'active' : '' }}"
-        href="{{route('employee.profile.delete_account.page')}}">Delete Account</a>
     @endif
+    <a class="list-group-item list-group-item-action text-danger {{isset($page_name) && $page_name == 'delete_account' ? 'active' : '' }}"
+        href="{{route('employee.profile.delete_account.page')}}">Delete Account</a>
 </div>

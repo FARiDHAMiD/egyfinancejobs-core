@@ -124,7 +124,7 @@
                             <th>Location</th>
                             <th>Category</th>
                             <th>Job Type</th>
-                            <th>Salary</th>
+                            <th>Active</th>
                             <th>Date</th>
                             <th>Action</th>
                         </tr>
@@ -143,7 +143,7 @@
                         </tfoot> -->
                     <tbody>
                         @foreach ($jobs as $job)
-                        <tr>
+                        <tr class="text-center">
                             <td><a href="{{ route('website.job-details', $job->job_uuid) }}" target="_blank">{{
                                     $job->job_title}}</a></td>
                             <td>
@@ -159,11 +159,17 @@
                                 $job->city->name }}, {{ $job->country->name }}</td>
                             <td>{{ empty($job->category) ? 'uncategorized' : $job->category->name }}</td>
                             <td>{{ $job->type->name }}</td>
-                            <td>{{ $job->salary }}</td>
+                            <td>
+                                @if($job->archived)
+                                <i class="fa fa-ban" style="color: red; font-size: large"></i>
+                                @else
+                                <i class="fa fa-check" style="color: green; font-size: large"></i>
+                                @endif
+                            </td>
 
                             <td>{{date('d-m-Y', strtotime($job->created_at))}}</td>
                             <td>
-                                <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-info btn-sm">
+                                <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-info btn-sm m-1">
                                     <i class="fas fa-pen"></i>
                                 </a>
                                 <form method="post" class="d-inline" action="{{ route('jobs.destroy', $job->id) }}">

@@ -18,7 +18,7 @@ class EmployeeJobController extends Controller
         $data = [
             'page_name' => 'saved_jobs',
             'page_title' => 'saved jobs | jobs | Employee | Egy Finance',
-            'saved_jobs' => $employee->saved_jobs,
+            'saved_jobs' => $employee->saved_jobs->where('archived', 0),
         ];
         return view('website.employee.jobs.saved-jobs', $data);
     }
@@ -49,7 +49,7 @@ class EmployeeJobController extends Controller
         }
 
         $user = auth()->user();
-        $user->applied_jobs()->attach($job_id, ['created_at' => now(), 'updated_at' => now()]);
+        $user->applied_jobs()->attach($job_id, ['created_at' => now(), 'updated_at' => now(), 'statu_id' => 1]);
         $job_application = $user->job_applications()->where('job_id', $job_id)->first();
         if ($request->has('answers')) {
             foreach ($request->answers as $question_id => $answer) {
@@ -80,6 +80,7 @@ class EmployeeJobController extends Controller
             'page_name' => 'applications',
             'page_title' => 'applications | jobs | Employee | Egy Finance',
             'applications' => $employee->applications,
+            'applications_count' => $employee->applied_jobs()->where('archived', 0)->count(),
         ];
         if (request()->has('notify')) {
             $employee->notifications->where('id', request()->notify)->markAsRead();

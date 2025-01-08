@@ -68,6 +68,7 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Experience::class, 'employee_id')->orderBy('currently_work_there', 'DESC')->orderBy('ending_in', 'DESC')->latest();
     }
+
     public function employee_educations()
     {
         return $this->hasMany(Education::class, 'employee_id')->orderBy('degree_date', 'DESC')->latest();

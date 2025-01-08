@@ -111,7 +111,7 @@
                                     $employee->first_name }} {{ $employee->last_name }}</a></td>
                             <td>{{ $employee_profile->phone}}</td>
                             <td>{{ $employee->email}}</td>
-                            <td><a href="{{url('admin/job-applications/'.$employee->id)}}">{{
+                            <td><a target="_blank" href="{{route('admin.employee.applications', $employee->id)}}">{{
                                     $employee->applied_jobs->count()}} {{ $employee->applied_jobs->count() == 1 ? 'Job'
                                     : 'Jobs'}}</a></td>
                             <td>{{ empty($employee_profile->area) ? null : $employee_profile->area->name }}, {{

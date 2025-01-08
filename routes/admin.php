@@ -19,6 +19,17 @@ Route::group(['middleware' => ['web', 'admin']], function () {
     // force create new job with similar requirements
     Route::post('/jobs/force_submit',  'JobController@force_submit')->name('admin.job.force_submit');
 
+    // Job archive / reactivate
+    Route::get('/jobs/archive/{job_id}',  'JobController@archive')->name('admin.job.archive');
+    Route::get('/jobs/reactivate//{job_id}',  'JobController@reactivate')->name('admin.job.reactivate');
+
+    // employee application by id
+    Route::get('/employee/applications/{id}',  'EmployeeController@employee_applications')->name('admin.employee.applications');
+
+    // employee application asnwers  by application_id and emp_id
+    Route::get('/employee/applications_answers/{app_id}/{emp_id}',  'EmployeeController@employee_applications_answers')->name('admin.employee.applications.asnwers');
+
+
     Route::resource('/countries', 'CountryController');
     Route::resource('/cities', 'CityController');
     Route::resource('/areas', 'AreaController');
@@ -32,10 +43,16 @@ Route::group(['middleware' => ['web', 'admin']], function () {
     Route::resource('/job-types', 'JobTypeController');
     Route::resource('/skills', 'SkillController');
     Route::resource('/currencies', 'CurrencyController');
+    Route::resource('/faqs', 'FaqController');
+    Route::resource('/contact_us', 'ContactUsController');
     Route::resource('/universities', 'UniversityController');
 
     Route::get('/job-applications', 'HomeController@job_applications')->name('admin.job_applications');
     Route::post('/job-applications/{id}', 'JobApplicationController@update')->name('admin.job_application');
+
+    // update application statu by admin
+    Route::post('/job-application/{id}', 'JobApplicationController@update_statu')->name('job_application.update_statu');
+
     // delete job application by user
     Route::post('/job-applications/{id}', 'JobApplicationController@destroy')->name('job_application.admin.destroy');
     // Route::post('/job-applications/{id}', 'JobApplicationController@update')->name('admin.job_applications');

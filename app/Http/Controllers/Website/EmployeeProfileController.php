@@ -71,7 +71,12 @@ class EmployeeProfileController extends Controller
     public function view_profile($uuid = null)
     {
         if (auth()->check() && auth()->user()->hasRole('employee')) {
-            $employee = auth()->user();
+            // $employee = auth()->user();
+            if ($uuid) {
+                $employee = User::where('uuid', '=', $uuid)->firstOrFail();
+            } else {
+                $employee = auth()->user();
+            }
         } else if ($uuid != null) {
             $employee = User::where('uuid', '=', $uuid)->firstOrFail();
         } else {
@@ -83,7 +88,7 @@ class EmployeeProfileController extends Controller
         }
         $data = [
             'page_name' => 'employee_profile',
-            'page_title' => $employee->first_name . ' ' . $employee->last_name . ' | Profile | Employee | Egy Finance',
+            'page_title' => $employee->first_name . ' ' . $employee->last_name . ' | Egy Finance Jobs',
             'employee' => $employee,
             'profile' => $employee->employee_profile,
             'experiences' => $employee->employee_experiences,
@@ -276,6 +281,7 @@ class EmployeeProfileController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'bio' => 'max:150',
             'birthdate' => [
                 'required',
                 'date',
@@ -325,6 +331,7 @@ class EmployeeProfileController extends Controller
 
 
         EmployeeProfile::where('employee_id', $employee->id)->update([
+            'bio' => $request->bio,
             'birthdate' => $request->birthdate,
             'gender' => $request->gender,
             'marital_status' => $request->marital_status,
@@ -879,27 +886,29 @@ class EmployeeProfileController extends Controller
             'page_name' => 'delete_account',
             'page_title' => 'Delete Account | Profile | Employee | Egy Finance',
         ];
-        if (auth()->user()->google_id) {
-            return redirect()->back();
-        }
 
         return view('website.employee.profile.delete-account', $data);
     }
+
     public function delete_account_post(Request $request)
     {
-        $request->validate([
-            'password' => 'required',
-        ]);
-
         $employee = auth()->user();
-
-        // Check if the old password matches the current password
-        if (!\Hash::check($request->password, $employee->password)) {
-            session()->flash('alert_message', [
-                'message' => 'The provided password is incorrect. Please try again.',
-                'icon' => 'danger'
+        if (!$employee->google_id) {
+            $request->validate([
+                'password' => 'required',
             ]);
-            return redirect()->back();
+        }
+
+        // check if logged in with google account no need to provide password
+        if (!$employee->google_id) {
+            // Check if the old password matches the current password
+            if (!\Hash::check($request->password, $employee->password)) {
+                session()->flash('alert_message', [
+                    'message' => 'The provided password is incorrect. Please try again.',
+                    'icon' => 'danger'
+                ]);
+                return redirect()->back();
+            }
         }
 
         // Soft-delete the user account

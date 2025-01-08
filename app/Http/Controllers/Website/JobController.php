@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
 use App\Models\EmployerProfile;
+use App\Models\JobApplication;
 use App\Models\User;
 use DB;
 use Carbon\Carbon;
@@ -33,7 +34,7 @@ class JobController extends Controller
         $searchQuery = $request->input('search_field');
 
         // $jobsQuery = Job::latest(); 
-        $jobsQuery = Job::when(count($selectedCountries) > 0, function ($query) use ($selectedCountries) {
+        $jobsQuery = Job::where('archived', 0)->when(count($selectedCountries) > 0, function ($query) use ($selectedCountries) {
             return $query->whereIn('jobs.country_id', $selectedCountries)->latest();
         })
             ->when(count($selectedCities) > 0, function ($query) use ($selectedCities) {
@@ -69,7 +70,7 @@ class JobController extends Controller
                         ->orWhere('job_description', 'LIKE', "%$searchQuery%")
                         ->orWhere('job_requirements', 'LIKE', "%$searchQuery%");
                 })->latest();
-            })->latest();
+            })->orderBy('featured', 'desc');
 
         // $qs = Job::join('cities', 'jobs.city_id', '=', 'cities.id')
         //     ->join('areas', 'jobs.area_id', '=', 'areas.id')
@@ -102,7 +103,8 @@ class JobController extends Controller
 
 
         $all_jobs_ids = $jobsQuery->get('id');
-        $jobs = $jobsQuery->paginate(5);
+        $jobs = $jobsQuery->paginate(50);
+
 
         $career_levels = CareerLevel::withCount(['jobs' => function ($query) use ($all_jobs_ids) {
             $query->whereIn('jobs.id', $all_jobs_ids->pluck('id'));
@@ -185,7 +187,8 @@ class JobController extends Controller
      */
     public function show($job_uuid)
     {
-        $job = Job::where('job_uuid', '=', $job_uuid)->firstOrFail();
+        $job = Job::where('job_uuid', '=', $job_uuid)->where('archived', 0)->firstOrFail();
+        $job_applications = JobApplication::where('job_id', $job->id)->get();
         $employer = User::where('id', '=', $job->employer_id)->get();
         $similar_jobs = Job::where(['category_id' => $job->category_id, 'employer_id' => $job->employer_id])
             ->where('jobs.id', '!=', $job->id);
@@ -206,6 +209,7 @@ class JobController extends Controller
             'page_title' => $job->job_title . ' | Jobs | Egy Finance',
             'job' => $job,
             'employer' => $employer,
+            'job_applications' => $job_applications, // appear for admin only
             'similar_jobs' => $similar_jobs,
         ];
 

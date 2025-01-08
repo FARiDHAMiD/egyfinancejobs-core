@@ -242,7 +242,7 @@ class EmployerController extends Controller
             'company_size' => $request->company_size,
             'country_id' => $request->country,
             'city_id' => $request->city,
-            'featured' => $request->featured,
+            'featured' => $request->boolean(key: 'featured'),
         ]);
 
         session()->flash('alert_message', ['message' => 'The employer has been updated successfully', 'icon' => 'success']);

@@ -111,7 +111,19 @@
     <li class="nav-item {{ isset($page_name) && $page_name == 'About_Company_social' ? 'active' : '' }}">
         <a class="nav-link" href="{{route('AboutUs.index')}}">
             <i class="fas fa-fw fa-phone"></i>
-            <span>AboutUs&Social</span></a>
+            <span>About Us & Social</span></a>
+    </li>
+
+    <li class="nav-item {{ isset($page_name) && $page_name == 'FAQs' ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('faqs.index')}}">
+            <i class="fas fa-fw fa-question-circle"></i>
+            <span>FAQs</span></a>
+    </li>
+
+    <li class="nav-item {{ isset($page_name) && $page_name == 'Contact Us' ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('contact_us.index')}}">
+            <i class="fas fa-fw fa-exclamation-circle"></i>
+            <span>Contact Us</span></a>
     </li>
 
 

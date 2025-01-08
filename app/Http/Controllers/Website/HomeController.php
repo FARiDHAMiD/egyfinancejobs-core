@@ -27,10 +27,10 @@ class HomeController extends Controller
                 ->take(10)
                 ->get(),
             // 'latest_jobs' => Job::where('city_id', '!=', 1)->latest()->take(8)->get(),
-            'latest_jobs' => Job::latest()->take(8)->get(), // all cities
+            'latest_jobs' => Job::where('archived', 0)->latest()->take(8)->get(), // all cities
             'employers' => User::whereRoleIs('employer')->count(),
             'employee' => User::whereRoleIs('employee')->count(),
-            'jobs' => Job::count(),
+            'jobs' => Job::where('archived', 0)->count(),
             // 'jobs_cairo' => Job::where('city_id', '1')->latest()->take(8)->get(), removed cairo jobs
             // 'jobs_cairo' => Job::where('city_id', '1')->latest()->take(8)->get(),
 

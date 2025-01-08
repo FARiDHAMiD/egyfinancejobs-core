@@ -3,7 +3,20 @@
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Edit Job</h6>
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="m-0 font-weight-bold text-primary">Edit Job</h6>
+                </div>
+                <div class="col-6 text-right">
+                    @if(!$job->archived)
+                    <button type="button" data-toggle="modal" data-target="#archiveModal"
+                        class="font-weight-bold btn btn-sm btn-outline-danger">Archive Job</button>
+                    @else
+                    <button type="button" data-toggle="modal" data-target="#archiveModal"
+                        class="font-weight-bold btn btn-sm btn-outline-success">Reactivate Job</button>
+                    @endif
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <form action="{{ route('jobs.update', $job->id) }}" method="post">
@@ -361,6 +374,42 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Archive / Reactivate Modal -->
+<div class="modal fade" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="archiveModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content d-flex justify-content-center align-items-center">
+            <div class="modal-header">
+                <h5 class="modal-title" id="archiveModalLabel">
+                    <i class="fa fa-exclamation-triangle" style="font-size:48px;color:orange"></i>
+                </h5>
+            </div>
+            @if(!$job->archived)
+            <div class="modal-body text-center">
+                This job will dissapear from all relevant results <br> (Home/Jobs Page, employees applications or saved
+                jobs)
+                !
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a href="{{route('admin.job.archive', $job->id)}}" class="btn btn-danger">Confirm Archiving</a>
+            </div>
+            @else
+            <div class="modal-body text-center">
+                By reactivate this job it will appear in all relevant results <br> (Home/Jobs Page, employees
+                applications or saved
+                jobs)
+                !
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a href="{{route('admin.job.reactivate', $job->id)}}" class="btn btn-success">Reactivate</a>
+            </div>
+            @endif
         </div>
     </div>
 </div>

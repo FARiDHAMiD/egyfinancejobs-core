@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Industry;
@@ -13,7 +14,7 @@ class IndustryController extends Controller
         $rows = Industry::query();
         $search = [];
         if (request()->has('name') && request()->get('name') != '') {
-            $searchTerms = request()->name ;
+            $searchTerms = request()->name;
             $search['name'] = $searchTerms;
             $rows->where('name', 'like', '%' . $searchTerms . '%');
         }

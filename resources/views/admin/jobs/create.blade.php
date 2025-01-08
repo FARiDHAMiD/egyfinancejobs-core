@@ -17,7 +17,7 @@
                         jobs!</a>
                 </div>
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary" id="force_submit">Submit
+                    <button type="button" class="btn btn-primary" id="force_submit" data-dismiss="modal">Submit
                         Anyway</button>
                     <a href="" class="btn btn-danger">Cancel Job</a>
                 </div>
@@ -51,7 +51,8 @@
                                 </option>
                                 @endforeach
                             </select> --}}
-                            <input id="employerInput" list="companyList" class="form-control"
+                            <input id="employerInput" list="companyList"
+                                class="form-control  @error('employer') is-invalid @enderror"
                                 placeholder="Select Company / Employer" autocomplete="off">
                             <datalist id="companyList">
                                 @foreach ($employers as $employer)
@@ -63,8 +64,7 @@
                                 </option>
                                 @endforeach
                             </datalist>
-                            <input type="hidden" name="employer" id="employerInput-hidden">
-
+                            <input type="hidden" name="employer" id="employerInput-hidden" value="{{old('employer')}}">
                             @error('employer')
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
@@ -345,10 +345,11 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-12 col-12 mb-3">
                         <div>
                             <label class="text-dark"><strong>Job Skills</strong></label>
-                            <select class="multiple-select w-100 input-text @error('job_skills') is-invalid @enderror"
+                            <select
+                                class="multiple-select form-control input-text @error('job_skills') is-invalid @enderror"
                                 data-placeholder="Select" name="job_skills[]" multiple="multiple">
                                 @foreach ($skills as $skill)
                                 <option {{ old('job_skills') !=null ? (in_array($skill->id, old('job_skills')) ?
@@ -412,19 +413,17 @@
 @endsection
 @section('scripts')
 
-<script type="text/javascript">
+<script>
+    // get employer datalist selected value by id
     $("#employerInput").on('input', function () {
-    var val = this.value;
-    var shownVal = document.getElementById("employerInput").value;
-    var value2send = document.querySelector("#companyList option[value='"+shownVal+"']").dataset.value;
-    var reult = $("#employerInput-hidden").val(value2send)
-    console.log(reult)
+        var val = this.value;
+        var shownVal = document.getElementById("employerInput").value;
+        var value2send = document.querySelector("#companyList option[value='"+shownVal+"']").dataset.value;
+        var reult = $("#employerInput-hidden").val(value2send)
+        console.log(reult)
     });
 
-</script>
-
-{{-- force store job --}}
-<script>
+    // force store job
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -437,7 +436,7 @@
             url: "{{ route('admin.job.force_submit') }}",
             data: {
                 '_token' : "{{ csrf_token() }}",
-                'employer_id' : '3', // test employer id
+                'employer_id' : $("#employerInput-hidden").val(), // test employer id
                 'job_title' : $("input[name='job_title']").val(),
                 'country_id' : $('#country').find(":selected").val(),
                 'city_id' : $('#city').find(":selected").val(),
@@ -451,13 +450,13 @@
                 'job_requirements' : $("textarea[name='job_requirements']").val(),
                 'external_url' : $("input[name='external_url']").val(),
                 'external_email' : $("input[name='external_email']").val(),
-                'featured' : $("input[name='featured']").val(),
+                'featured' : $('#featured').is(':checked') ? 1 : 0,
                 'currency_id' : $('#currency').find(":selected").val(),
                 'years_experience_from' : $("input[name='years_experience_from']").val(),
                 'years_experience_to' : $("input[name='years_experience_to']").val(),
                 'salary_from' : $("input[name='salary_from']").val(),
                 'salary_to' : $("input[name='salary_to']").val(),
-                'net_gross' : $("input[name='net_gross']").val(),
+                'net_gross' : $('#flexRadioDefault1').is(':checked') ? 1 : 0,
             },
             dataType: "",
             success: function (response) {

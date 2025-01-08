@@ -11,16 +11,22 @@ class JobApplication extends Model
     protected $fillable = [
         'employee_id',
         'job_id',
-        'status',
+        'statu_id',
     ];
 
     public function job()
     {
         return $this->belongsTo(Job::class);
     }
+
     public function employee()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function application_statu()
+    {
+        return $this->belongsTo(ApplicationStatu::class, 'statu_id');
     }
 
     public function application_answers()

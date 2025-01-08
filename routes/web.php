@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 
@@ -22,6 +25,13 @@ Route::get('/welcome', function () {
 // Use google api to sign up with gmail
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('redirect.google');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+
+Route::get('/faqs', [FaqController::class, 'faq_guest'])->name('faqs');
+Route::get('/about-us', [HomeController::class, 'about_us_guest'])->name('about_us_guest');
+Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('website.contact_us');
+Route::post('/contact-us/create', [ContactUsController::class, 'store'])->name('website.contact_us.create');
+
 
 // Auth Routes
 Route::group(['middleware' => ['guest']], function () {

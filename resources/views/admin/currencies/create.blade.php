@@ -1,7 +1,7 @@
 @extends('admin.app')
 @section('admin.content')
 <div class="container-fluid">
-    <form enctype="multipart/form-data" action="{{ route('currencies.store') }}" class="mb-5" method="post">
+    <form action="{{ route('currencies.store') }}" class="mb-5" method="post">
         @method('post')
         @csrf
         <div class="card shadow mb-4">

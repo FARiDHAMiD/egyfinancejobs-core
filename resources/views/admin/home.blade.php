@@ -3,6 +3,26 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @endsection
 @section('admin.content')
+
+@if (session()->has('statu_changed'))
+<div class="modal fade" id="alert-message-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center alert alert-{{ session()->get('statu_changed')['icon'] }}">
+                    {{ session()->get('statu_changed')['message'] }}
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-success" id="send_mail" data-dismiss="modal" disabled>
+                        Email sent successfully! <i class="fa fa-forward"></i></button>
+                    <button data-dismiss="modal" class="btn btn-secondary">Close</button>
+                </div>
+                {{ session()->forget('statu_changed') }}
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 <div class="container-fluid">
     {{-- start filter --}}
     <style>
@@ -291,37 +311,66 @@
                                 </a>
                             </td>
 
+                            {{-- applications status after update | Farid on 07-01-2025 --}}
                             <td>
-                                <p class="status_text d-inline">
-                                    @if ($application->status == 'pending')
-                                    <span class="text-warning">Pending</span>
-                                    @elseif($application->status == 'ReviewedyourApplication')
-                                    <span class="text-primary">Reviewed your Application</span>
-                                    @elseif($application->status == 'Shortlisted')
-                                    <span class="text-info">Shortlisted</span>
+                                <button @switch($application->statu_id)
+                                    @case(1)
+                                    class="btn btn-sm btn-outline-dark"
+                                    @break
+                                    @case(2)
+                                    class="btn btn-sm btn-outline-primary"
+                                    @break
+                                    @case(3)
+                                    class="btn btn-sm btn-outline-info"
+                                    @break
+                                    @case(4)
+                                    class="btn btn-sm btn-outline-success"
+                                    @break
+                                    @case(5)
+                                    class="btn btn-sm btn-outline-danger"
+                                    @break
+                                    @default
 
-                                    @elseif($application->status == 'accepted')
-                                    <span class="text-success">Accepted</span>
-                                    @elseif($application->status == 'rejected')
-                                    <span class="text-danger">Rejected</span>
-                                    @endif
-                                </p>
-                                <select name="status" class="status"
-                                    style="width: 20px; margin-right: 10px; float: left;">
-                                    <option value="pending" {{ $application->status == 'pending' ? 'selected' : ''
-                                        }}>Pending</option>
-                                    <option value="ReviewedyourApplication" {{ $application->status ==
-                                        'ReviewedyourApplication' ? 'selected' : '' }}>Reviewed your Application
-                                    </option>
-                                    <option value="Shortlisted" {{ $application->status == 'Shortlisted' ? 'selected' :
-                                        '' }}>Shortlisted</option>
-
-                                    <option value="accepted" {{ $application->status == 'accepted' ? 'selected' : ''
-                                        }}>Accepted</option>
-                                    <option value="rejected" {{ $application->status == 'rejected' ? 'selected' : ''
-                                        }}>Rejected
-                                    </option>
-                                </select>
+                                    @endswitch data-target="#application_statu{{$application->id}}" data-toggle="modal">
+                                    {{$application->application_statu->name}}
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="application_statu{{$application->id}}" tabindex="-1"
+                                    role="dialog" aria-labelledby="application_statuLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="application_statuLabel">
+                                                    {{$application->employee->first_name . ' ' .
+                                                    $application->employee->last_name}} | Application
+                                                    #{{$application->id}}<br>
+                                                    {{$application->job->employer_profile->company_name}} |
+                                                    {{ $application->job->job_title }}
+                                                </h5>
+                                            </div>
+                                            <form action="{{route('job_application.update_statu', $application->id)}}"
+                                                method="POST">
+                                                <div class="modal-body">
+                                                    @csrf
+                                                    <select name="statu_id" class="form-control">
+                                                        @foreach ($status as $statu)
+                                                        <option value="{{$statu->id}}" @if ($application->
+                                                            application_statu->id == $statu->id)
+                                                            selected
+                                                            @endif
+                                                            >{{$statu->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                             <td>
 
@@ -459,8 +508,8 @@
 @endsection
 
 @section('p_js')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     $(".datepiker").flatpickr();
-</script>
+</script> --}}
 @endsection

@@ -17,13 +17,14 @@ class EmployerProfileController extends Controller
     {
         // $employer = User::find($id);
         $employer = User::where('uuid', '=', $uuid)->firstOrFail();
-        $emp_jobs = Job::where('employer_id', '=', $employer->id)->orderBy('created_at', 'desc')->get();
+        $emp_jobs = Job::where('employer_id', '=', $employer->id)->where('archived', 0)->orderBy('created_at', 'desc')->get();
         $employer_profile = $employer->employer_profile;
         $industry = $employer_profile->industry->name;
         $country = $employer_profile->country->name;
         $city = empty($employer_profile->city) ? null : $employer_profile->city->name;
         $social_links  = $employer->employee_social_links;
         $data = [
+            'page_title' => $employer->employer_profile->company_name,
             'employer' => $employer,
             'user' => null,
             'employer_profile' => $employer_profile,
@@ -40,7 +41,6 @@ class EmployerProfileController extends Controller
     // same as previous function "profile" but using id instead of uuid
     public function employer_profile($id)
     {
-
         $employer = User::where('id', '=', $id)->firstOrFail();
         $emp_jobs = Job::where('employer_id', '=', $id)->orderBy('created_at', 'desc')->get();
         $employer_profile = $employer->employer_profile;

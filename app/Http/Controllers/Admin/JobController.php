@@ -116,8 +116,8 @@ class JobController extends Controller
             'job_skills.*' => 'required|numeric|exists:skills,id',
             'years_experience_from' => 'numeric|min:0|max:30',
             'years_experience_to' => 'numeric|gte:years_experience_from',
-            'salary_from' => 'numeric|min:0',
-            'salary_to' => 'numeric|gte:salary_from',
+            'salary_from' => 'nullable|numeric|min:0',
+            'salary_to' => 'nullable|numeric|gte:salary_from',
         ]);
 
         $rules =  [
@@ -192,9 +192,29 @@ class JobController extends Controller
         return redirect()->route('jobs.index');
     }
 
+    public function archive($job_id)
+    {
+        $job = Job::findOrFail($job_id);
+        $job->update([
+            'archived' => 1,
+        ]);
+
+        session()->flash('alert_message', ['message' => 'Job has been archived successfully', 'icon' => 'success']);
+        return redirect()->back();
+    }
+
+    public function reactivate($job_id)
+    {
+        $job = Job::findOrFail($job_id);
+        $job->update([
+            'archived' => 0,
+        ]);
+        session()->flash('alert_message', ['message' => 'Job has been reactivated successfully', 'icon' => 'success']);
+        return redirect()->back();
+    }
+
     public function force_submit(Request $request)
     {
-
         $job = new Job();
         $job->employer_id = request('employer_id');
         $job->job_title = request('job_title');
@@ -216,7 +236,7 @@ class JobController extends Controller
         $job->years_experience_to = request('years_experience_to');
         $job->salary_from = request('salary_from');
         $job->salary_to = request('salary_to');
-        $job->net_gross = request('net_gross') === 'on' ? 1 : 0;
+        $job->net_gross = request('net_gross') == 'on' ? 1 : 0;
         $job->user_id =  Auth::id();
         $job->save();
 
@@ -315,8 +335,8 @@ class JobController extends Controller
             'job_skills.*' => 'required|numeric|exists:skills,id',
             'years_experience_from' => 'numeric|min:0|max:30',
             'years_experience_to' => 'numeric|gte:years_experience_from',
-            'salary_from' => 'numeric|min:0',
-            'salary_to' => 'numeric|gte:salary_from',
+            'salary_from' => 'nullable|numeric|min:0',
+            'salary_to' => 'nullable|numeric|gte:salary_from',
         ]);
         $job->update([
             'employer_id' => $request->employer,

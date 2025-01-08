@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 
 <meta property="og:url" content="https://egyfinancejobs.com">
-<meta property="og:title" content="{{ isset($page_title) && !empty($page_title) ? $page_title : 'Egy Finance' }}">
+<meta property="og:title" content="{{ isset($page_title) && !empty($page_title) ? $page_title : 'Egy Finance Jobs' }}">
 <meta property="og:description"
     content="{{ isset($page_description) && !empty($page_description) ? $page_description : 'Egy Finance' }}">
 <meta property="og:image"

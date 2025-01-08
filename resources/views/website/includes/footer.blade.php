@@ -5,9 +5,6 @@
             <div class="col-lg-2 col-md-6 col-6">
                 <div class="footer-item clearfix">
                     <img src="{{ url('/website') }}/img/white-logo.png" alt="logo" class="f-logo">
-                    <p class="footer-description">
-                        {{ about_us()->about_company }}
-                    </p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-6">
@@ -16,10 +13,17 @@
             </div>
             <div class="col-lg-2 col-md-6">
                 <div class="footer-item">
-                    <h4>Get started</h4>
+                    {{-- link to promo / how to --}}
+                    <a href="">
+                        <h4>Get started</h4>
+                    </a>
                     <ul class="links">
                         <li>
-                            <a href="{{ route('website.home') }}">Home</a>
+                            @if(auth()->check() && auth()->user()->hasRole('admin'))
+                            <a target="_blank" href="{{ route('contact_us.index') }}">Contact Us</a>
+                            @else
+                            <a target="_blank" href="{{ route('website.contact_us') }}">Contact Us</a>
+                            @endif
                         </li>
                         <li>
                             <a href="{{ route('website.jobs') }}">Find Jobs</a>
@@ -33,13 +37,21 @@
             </div>
             <div class="col-lg-2 col-md-6">
                 <div class="footer-item">
-                    <h4>Learn More</h4>
+                    <a target="_blank" href="{{route('faqs')}}">
+                        <h4>FAQs <i class="fa fa-question-circle"></i></h4>
+                    </a>
                     <ul class="links">
+
                         <li>
-                            <a href="{{ route('login_page') }}">Log in</a>
+                            <a target="_blank" href="{{ route('about_us_guest') }}">About Us</a>
                         </li>
                         <li>
-                            <a href="{{ route('employee_register_page') }}">Register</a>
+                            <a href="{{ route('login_page') }}">Log in</a> |
+                            <a href="{{ route('employee_register_page') }}">Sign Up</a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="mailto:info@egyfinancejobs.com">Website Developers <i
+                                    class="fa fa-code"></i></a>
                         </li>
 
                     </ul>
@@ -53,7 +65,7 @@
                                 target="_blank" class="facebook"><i class="fa fa-facebook"></i></a></li>
                         <li><a href="https://wa.me/+201001085717?text=Hello%20Egyfinancejobs" target="_blank"
                                 class="whatsapp"><i class="fa fa-whatsapp"></i></a></li>
-                        <li><a href="https://t.me/+201025612355" target="_blank" class="telegram"><i
+                        <li><a href="https://t.me/+201001085717" target="_blank" class="telegram"><i
                                     class="fa fa-telegram"></i></a></li>
                         <li><a href="https://www.linkedin.com/company/egy-finance-jobs" target="_blank"
                                 class="linkedin"><i class="fa fa-linkedin"></i></a></li>
@@ -70,7 +82,8 @@
 <div class="sub-footer">
     <div class="container">
         <div class="text-center">
-            <p class="copy">Copyright ©2022 Egy finance jobs . All rights reserved. Use of this site is subject
+            <p class="copy">Copyright ©{{date('Y')}} Egy finance jobs . All rights reserved.
+                Use of this site is subject
                 to certain Terms and Conditions.</p>
         </div>
     </div>

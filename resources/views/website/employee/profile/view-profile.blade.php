@@ -8,7 +8,7 @@
             <div class="col-lg-9 col-md-12 order-lg-1 order-2">
                 <div class="work-experience-box bg-grea-3">
                     <div class="description w-100">
-                        <div class="row align-items-center">
+                        <div class="row align-items-start">
                             <div class="col-xl-2 col-sm-3 col-4 pr-0">
                                 <div class="user-image-circle">
                                     <img src="{{ empty($employee->getFirstMedia('employee_profile')) ? asset('/website/img/avatar.png') : $employee->getFirstMedia('employee_profile')->getUrl() }}"
@@ -21,17 +21,18 @@
                                 </p>
                                 <p class="text-sm text-dark-light m-0">{{ $profile->job_title->name }} | {{
                                     $profile->career_level->name }}</p>
-                                <p class="text-sm text-dark-light m-0 text-gray">{{ empty($profile->area) ? null :
+                                <p class="text-sm text-dark-light m-0 text-gray mb-1">{{ empty($profile->area) ? null :
                                     $profile->area->name }},
                                     {{ empty($profile->city) ? null : $profile->city->name }}, {{
                                     $profile->country->name }}</p>
-                                <p class="text-sm text-dark-light m-0">{{ optional($employee_achievements)->description
-                                    }}</p>
+
+                                <p class="text-sm text-dark-light m-0">{{ $employee->employee_profile->bio}}</p>
 
                             </div>
                         </div>
                     </div>
-                    @if (auth()->check() && auth()->user()->hasRole('employee'))
+                    @if (auth()->check() && (auth()->user()->hasRole('admin')) ||
+                    auth()->check() && auth()->user()->uuid == $employee->uuid)
                     <a href="{{ route('employee.profile.general-info.edit') }}"><button class="edit-btn bg-grea-3"><i
                                 class="fa fa-pencil-square-o"></i></button></a>
                     @endif
@@ -42,8 +43,8 @@
                     <div class="job-info mb-4">
                         <div class="row">
 
-                            @if ((auth()->check() && (auth()->user()->hasRole('admin') ||
-                            auth()->check() && auth()->user()->hasRole('employee'))))
+                            @if (auth()->check() && (auth()->user()->hasRole('admin')) ||
+                            auth()->check() && auth()->user()->uuid == $employee->uuid)
                             <div class="col-xl-6 border-right">
                                 <h2 class="h5 mb-3 mt-4">General Info:
                                 </h2>
@@ -116,8 +117,8 @@
                             @endif
 
                             <div class="col-xl-6">
-                                @if ((auth()->check() && (auth()->user()->hasRole('admin') ||
-                                auth()->check() && auth()->user()->hasRole('employee'))))
+                                @if (auth()->check() && (auth()->user()->hasRole('admin')) ||
+                                auth()->check() && auth()->user()->uuid == $employee->uuid)
                                 <div>
                                     <h2 class="h5 mb-3 mt-4">Contact Info:</h2>
                                     <p class="mb-0"><a href="#" class="text-black">{{ $profile->phone }}</a>
@@ -301,9 +302,14 @@
                 @endif
 
             </div>
-            <div class="col-lg-3 col-md-12 order-lg-2 order-1">
+            <div class="col-lg-3 col-md-12 order-lg-2 order-2">
                 <div class="sidebar-right py-4 px-3 text-center">
+                    @if (auth()->check() && (auth()->user()->hasRole('admin')) ||
+                    auth()->check() && auth()->user()->uuid == $employee->uuid)
                     <p class="text-dark-light">Share your Profile</p>
+                    @else
+                    <p class="text-dark-light">Share {{$employee->first_name}}'s Profile</p>
+                    @endif
                     <div class="employer-links justify-content-center">
                         <ul class="social-media">
                             <li>
@@ -338,8 +344,6 @@
                             </li>
 
                         </ul>
-
-
                     </div>
                     {{-- QR Code generator --}}
                     <div class="d-flex justify-content-center mt-2">
@@ -348,6 +352,8 @@
                         'QRCODE', 3, 3) !!}
                     </div>
                 </div>
+                @if (auth()->check() && (auth()->user()->hasRole('admin')) ||
+                auth()->check() && auth()->user()->uuid == $employee->uuid)
                 @if ($employee->getFirstMedia('employee_cv'))
                 <div class="sidebar-right py-4 px-3 text-center">
                     <h2 class="h5 mb-3">CV / Resume</h2>
@@ -355,6 +361,7 @@
                             class="btn button-theme mb-md-0 mb-3" type="submit">View <i
                                 class="fa fa-eye"></i></button></a>
                 </div>
+                @endif
                 @endif
                 @if (count($employee->employee_skills()) > 0)
                 <div class="sidebar-right py-4 px-3 mt-3">

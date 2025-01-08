@@ -11,14 +11,15 @@
                     <div class="details text-left">
                         <!-- Name -->
                         <h1 class="form-title text-center">Register and Start Applying For Jobs</h1>
-                        <div class="d-flex justify-content-center my-2">
-                            <h2 class="btn-group d-flex w-100" role="group" aria-label="Basic example">
-                                <button type="button" class="btn btn-success text-light"><i
-                                        class="fa fa-google"></i></button>
-                                <a href="{{ route('redirect.google') }}" type="button" class="btn btn-primary w-100"
-                                    style="font-weight: bold">Sign Up
-                                    Using Google Account</a>
-                            </h2>
+                        <div class="form-group mb-0 btn-with-image-box">
+                            <img src="{{ url('/website') }}/img/google-icon.png" alt="logo" class="f-logo">
+                            <a href="{{ route('redirect.google') }}"
+                                class="btn-md btn text-dark btn-block btn-outline-primary my-2"
+                                style="font-weight: bold;">
+                                Sign Up Using Google Account</a>
+                        </div>
+                        <div class="my-4">
+                            <p class="overline-line"><span class="overline-word">OR</span></p>
                         </div>
                         <!-- Form start -->
                         <form method="POST" action="{{ route('employee_register') }}">

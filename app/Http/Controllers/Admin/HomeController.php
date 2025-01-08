@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AboutUS;
+use App\Models\ApplicationStatu;
 use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use Carbon\Carbon;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -109,12 +111,12 @@ class HomeController extends Controller
 
             $applications->whereBetween('created_at', [$fromDate, $toDate]);
         }
-
-
+        $application_status = ApplicationStatu::all();
         $data = [
             'page_name' => 'home',
             'page_title' => 'Dashboard',
             'search' => $search,
+            'status' => $application_status,
             'applications' => $applications->paginate(100),
         ];
         return view('admin.home', $data);
@@ -373,14 +375,31 @@ class HomeController extends Controller
         ];
         return view('admin.about_us', $data);
     }
+
+    public function contact_us()
+    {
+        if (Auth::user() && Auth::user()->hasRole('admin')) {
+            return redirect()->back();
+        } else {
+            return view('website.contact');
+        }
+    }
+
+    public function about_us_guest()
+    {
+        $about = AboutUS::firstOrFail();
+        $data = [
+            'page_name' => 'About Us | Egy Finance Jobs',
+            'page_title' => 'About Us',
+            'about' => $about,
+        ];
+        return view('website.about', $data);
+    }
     public function about_us_update(Request $request)
     {
         $request->validate([
-            'facebook' => 'required|string|max:255',
-            'linkedin' => 'required|string|max:255',
-            'twitter' => 'required|max:255|string',
             'phone' => 'required|string|max:100',
-            'about_company' => 'required|string|max:2500',
+            'about_company' => 'required|string',
         ]);
         $data = $request->except('_token');
         $section = AboutUS::first();
