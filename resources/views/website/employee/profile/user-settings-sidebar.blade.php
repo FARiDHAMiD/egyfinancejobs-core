@@ -4,7 +4,7 @@
         Info</a>
     <a class="list-group-item list-group-item-action {{isset($page_name) && $page_name == 'edit_career_inetrests' ? 'active' : '' }}"
         href="{{route('employee.profile.career-inetrests.edit')}}">Career
-        Inetrests</a>
+        Interests</a>
     <a class="list-group-item list-group-item-action {{isset($page_name) && $page_name == 'edit_experiences' ? 'active' : '' }}"
         href="{{route('employee.profile.experiences.edit')}}">Experience</a>
     <a class="list-group-item list-group-item-action {{isset($page_name) && $page_name == 'edit_educations' ? 'active' : '' }}"

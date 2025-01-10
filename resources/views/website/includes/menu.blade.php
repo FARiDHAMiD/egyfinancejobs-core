@@ -22,6 +22,11 @@
                             Find Jobs
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a target="_blank" class="nav-link" href="{{ route('courses.index') }}">
+                            Courses
+                        </a>
+                    </li>
                 </ul>
                 @if (!Auth::check())
                 <ul class="navbar-nav ml-auto mb-3">

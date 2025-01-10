@@ -17,7 +17,7 @@ class EmployerProfileController extends Controller
     {
         // $employer = User::find($id);
         $employer = User::where('uuid', '=', $uuid)->firstOrFail();
-        $emp_jobs = Job::where('employer_id', '=', $employer->id)->where('archived', 0)->orderBy('created_at', 'desc')->get();
+        $emp_jobs = Job::where('employer_id', '=', $employer->id)->orderBy('created_at', 'desc')->get();
         $employer_profile = $employer->employer_profile;
         $industry = $employer_profile->industry->name;
         $country = $employer_profile->country->name;

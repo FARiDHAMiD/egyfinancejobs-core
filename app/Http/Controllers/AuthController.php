@@ -129,14 +129,13 @@ class AuthController extends Controller
             Mail::to($user->email)->send(new VerifyEmail($user));
             return back()->withErrors(['login_error' => 'please Check  your E-Mail To Verify Your account!.']);
         }
-        $remember = $request->has('remember') ? true : false;
+        // $remember = $request->has('remember') ? true : false;
+        $remember = $request->boolean(key: 'remember');
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
             // employee.profile.create
-
             if ($user->employee_profile) {
                 return back();
             } else {
-
                 return redirect()->route('employee.profile.create');
             }
         } else {

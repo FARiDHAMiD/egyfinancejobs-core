@@ -20,7 +20,7 @@
                                     <strong>{{ $employee->first_name . ' ' . $employee->last_name }}</strong>
                                 </p>
                                 <p class="text-sm text-dark-light m-0">{{ $profile->job_title->name }} | {{
-                                    $profile->career_level->name }}</p>
+                                    $profile->career_level->name ?? '' }}</p>
                                 <p class="text-sm text-dark-light m-0 text-gray mb-1">{{ empty($profile->area) ? null :
                                     $profile->area->name }},
                                     {{ empty($profile->city) ? null : $profile->city->name }}, {{
@@ -323,7 +323,7 @@
 
                             <li>
                                 <a class="linkedin-bg"
-                                    href="https://www.linkedin.com/shareArticle?mini=true&url={{ route('employee.profile.view', $employee->uuid) }}&title={{ $employee->first_name . ' ' . $employee->last_name }}&summary={{ $profile->job_title->name }} | {{ $profile->career_level->name }}&source={{ route('website.home') }}"
+                                    href="https://www.linkedin.com/shareArticle?mini=true&url={{ route('employee.profile.view', $employee->uuid) }}&title={{ $employee->first_name . ' ' . $employee->last_name }}&summary={{ $profile->job_title->name }} | {{ $profile->career_level->name ?? '' }}&source={{ route('website.home') }}"
                                     target="_blank" rel="noopener noreferrer">
                                     <i class="fa fa-linkedin"></i></a>
                                 </a>

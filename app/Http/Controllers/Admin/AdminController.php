@@ -104,33 +104,44 @@ class AdminController extends Controller
 
         ]);
 
-        User::find($id)->update([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-        ]);
-        $user = User::find($id);
-        if ($request->has('profile_img')) {
-            $request->validate(
-                ['profile_img' => 'image|max:5000'],
-                [
-                    'profile_img.image' => 'The file must be an image (JPEG, PNG, BMP, GIF, or SVG).',
-                    'profile_img.max' => 'The file size must not exceed 5 MB.'
-                ]
-            );
-            $user->clearMediaCollection('profile_img');
-            $user->addMediaFromRequest('profile_img')
-                ->toMediaCollection('profile_img');
-        }
+        if ($id == 1) {
+            session()->flash('alert_message', ['message' => 'Cannot update super admin', 'icon' => 'danger']);
+            return redirect()->back();
+        } else {
 
-        session()->flash('alert_message', ['message' => 'The user has been updated successfully', 'icon' => 'success']);
-        return redirect()->back();
+            User::find($id)->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+            ]);
+            $user = User::find($id);
+            if ($request->has('profile_img')) {
+                $request->validate(
+                    ['profile_img' => 'image|max:5000'],
+                    [
+                        'profile_img.image' => 'The file must be an image (JPEG, PNG, BMP, GIF, or SVG).',
+                        'profile_img.max' => 'The file size must not exceed 5 MB.'
+                    ]
+                );
+                $user->clearMediaCollection('profile_img');
+                $user->addMediaFromRequest('profile_img')
+                    ->toMediaCollection('profile_img');
+            }
+
+            session()->flash('alert_message', ['message' => 'The user has been updated successfully', 'icon' => 'success']);
+            return redirect()->back();
+        }
     }
 
     public function destroy($id)
     {
-        User::where('id', $id)->delete();
-        session()->flash('alert_message', ['message' => 'The user has been deleted successfully', 'icon' => 'success']);
-        return redirect()->back();
+        if ($id == 1) {
+            session()->flash('alert_message', ['message' => 'Cannot Delete Super Admin User', 'icon' => 'danger']);
+            return redirect()->back();
+        } else {
+            User::where('id', $id)->delete();
+            session()->flash('alert_message', ['message' => 'The user has been deleted successfully', 'icon' => 'success']);
+            return redirect()->back();
+        }
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\Courses\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,18 @@ Route::get('/about-us', [HomeController::class, 'about_us_guest'])->name('about_
 Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('website.contact_us');
 Route::post('/contact-us/create', [ContactUsController::class, 'store'])->name('website.contact_us.create');
 
+// Courses Website
+Route::namespace('Courses')->group(function () {
+    Route::resource('/courses', 'CourseController');
+    Route::get('/courses-all', 'CourseController@show_all')->name('courses.all');
+    Route::get('/courses-aboutUs', 'CourseController@about_us')->name('courses.about_us');
+    Route::get('/courses-faqs', 'CourseController@faqs')->name('courses.faqs');
+    Route::get('/courses-events', 'CourseController@events')->name('courses.events');
+    Route::get('/courses-contactUs', 'CourseController@contact_us')->name('courses.contact_us');
+    Route::get('/courses-instructors', 'CourseController@instructors')->name('courses.instructors');
+});
+
+
 
 // Auth Routes
 Route::group(['middleware' => ['guest']], function () {
@@ -49,8 +62,6 @@ Route::group(['middleware' => ['guest']], function () {
     Route::post('/New-Password', 'AuthController@new_password')->name('new_password');
 });
 Route::post('/logout', 'AuthController@logout')->name('logout');
-
-
 
 Route::namespace('Website')->group(function () {
     Route::name('website.')->group(function () {
@@ -119,8 +130,6 @@ Route::namespace('Website')->group(function () {
         Route::get('/employee/jobs/saved-jobs', 'EmployeeJobController@saved_jobs')->name('jobs.saved-jobs');
         Route::get('/employee/jobs/applications', 'EmployeeJobController@applications')->name('jobs.applications');
     });
-
-
 
 
     //employee routes

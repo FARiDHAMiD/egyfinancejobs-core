@@ -44,8 +44,8 @@
                             <div class="checkbox">
                                 <div class="btn-group-toggle d-inline" data-toggle="buttons">
                                     <label class="btn button-theme radio-btn inline-checkbox">
-                                        <input name="remember" {{ old('remember') ? 'checked' : '' }} type="checkbox"
-                                            autocomplete="off">
+                                        <input name="remember" value="1" {{ old('remember') ? 'checked' : '' }}
+                                            type="checkbox" autocomplete="off">
                                         <p class="m-0">
                                             <i class="fa fa-check fa-lg check-icon" aria-hidden="true"></i>
                                         </p>
