@@ -14,7 +14,6 @@
                         <form enctype="multipart/form-data" method="post"
                             action="{{route('employee.profile.general-info.update')}}">
                             @csrf
-
                             <div class="section-header">
                                 <div class="row align-items-center upload-image-box">
                                     <div class="mb-3 col-lg-8 d-flex align-items-center">

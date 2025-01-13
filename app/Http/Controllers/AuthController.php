@@ -100,6 +100,7 @@ class AuthController extends Controller
 
     public function login_page()
     {
+        session(['prev_link' => url()->previous()]);
         $data = [
             'page_name' => 'login',
             'page_title' => 'Egy Finance | Login',
@@ -118,6 +119,7 @@ class AuthController extends Controller
             return back()->withErrors(['login_error' => 'The provided credentials do not match our records.']);
         }
     }
+
     public function login(Request $request)
     {
         $validated = $request->validate([
@@ -125,16 +127,22 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
         $user = User::where(['email' => $request->email])->first();
-        if ($user && $user->email_verified_at == null) {
-            Mail::to($user->email)->send(new VerifyEmail($user));
-            return back()->withErrors(['login_error' => 'please Check  your E-Mail To Verify Your account!.']);
+        // if unstructor return redirect to courses
+        if ($user->hasRole('instructor') && $user->email_verified_at == null) {
+            session()->flash('alert_message', ['message' => 'Your Profile is being reviewed by Egy Finance Courses Team, Thank you for your understanding.!', 'icon' => 'warning']);
+            return redirect()->intended('/courses');
+        } else {
+            if ($user && $user->email_verified_at == null) {
+                Mail::to($user->email)->send(new VerifyEmail($user));
+                return back()->withErrors(['login_error' => 'please Check  your E-Mail To Verify Your account!.']);
+            }
         }
         // $remember = $request->has('remember') ? true : false;
         $remember = $request->boolean(key: 'remember');
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
             // employee.profile.create
             if ($user->employee_profile) {
-                return back();
+                return redirect(session('prev_link'));
             } else {
                 return redirect()->route('employee.profile.create');
             }

@@ -36,12 +36,22 @@ Route::post('/contact-us/create', [ContactUsController::class, 'store'])->name('
 // Courses Website
 Route::namespace('Courses')->group(function () {
     Route::resource('/courses', 'CourseController');
+
     Route::get('/courses-all', 'CourseController@show_all')->name('courses.all');
+    Route::get('/courses-cat/{cat_id}', 'CourseController@course_cat')->name('courses.cat');
     Route::get('/courses-aboutUs', 'CourseController@about_us')->name('courses.about_us');
     Route::get('/courses-faqs', 'CourseController@faqs')->name('courses.faqs');
     Route::get('/courses-events', 'CourseController@events')->name('courses.events');
     Route::get('/courses-contactUs', 'CourseController@contact_us')->name('courses.contact_us');
     Route::get('/courses-instructors', 'CourseController@instructors')->name('courses.instructors');
+    Route::get('/courses-profile', 'CourseController@profile')->name('courses.profile');
+
+    // Instructors
+    Route::get('/instructor-create', 'CourseController@createInstructor')->name('instructor.create');
+    Route::post('/instructor-create', 'CourseController@storeInstructor')->name('instructor.store');
+    Route::get('/courses-instructorProfile/{uuid}', 'CourseController@instructorProfile')->name('courses.instructorProfile'); //show
+    Route::get('/courses-instructorProfile/edit/{uuid}', 'CourseController@instructorProfileEdit')->name('instructorProfile.edit');
+    Route::post('/courses-instructorProfile/update/{uuid}', 'CourseController@instructorProfileUpdate')->name('instructor.update');
 });
 
 

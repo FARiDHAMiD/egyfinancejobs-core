@@ -4,9 +4,13 @@
 <head>
     @include('courses.includes.header')
     @yield('styles')
+    {!!htmlScriptTagJsApi()!!}
 </head>
 
 <body>
+
+
+
     @include('courses.includes.nav')
     <!-- content start -->
     @yield('courses.content')

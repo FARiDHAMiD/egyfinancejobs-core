@@ -34,6 +34,18 @@
             <span>Employees</span></a>
     </li>
 
+    <li class="nav-item {{ isset($page_name) && $page_name == 'instructors' ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('instructor.index')}}">
+            <i class="fas fa-fw fa-user-tie"></i>
+            <span>Instructors</span></a>
+    </li>
+
+    <li class="nav-item {{ isset($page_name) && $page_name == 'Admin Courses' || $page_name == 'Edit Course' ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('admin.course.index')}}">
+            <i class="fas fa-fw fa-user-graduate"></i>
+            <span>Courses</span></a>
+    </li>
+
     <li class="nav-item {{ isset($page_name) && $page_name == 'locations' ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
             aria-controls="collapseTwo">

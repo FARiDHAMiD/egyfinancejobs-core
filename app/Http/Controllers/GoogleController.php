@@ -45,7 +45,7 @@ class GoogleController extends Controller
             $finduser = User::where('google_id', $user->id)->first();
             if ($finduser) {
                 Auth::login($finduser);
-                return redirect()->intended('/');
+                return redirect(session('prev_link'));
             } else {
                 // session()->flash(
                 //     'alert_message',

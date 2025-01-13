@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Course extends Migration
+class AddFeaturedToCoursesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,9 @@ class Course extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('courses', function (Blueprint $table) {
+            $table->boolean('featured')->default(0);
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class Course extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('courses', function (Blueprint $table) {
+            $table->dropColumn('featured');
+        });
     }
 }

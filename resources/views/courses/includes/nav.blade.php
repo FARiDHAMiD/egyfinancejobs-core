@@ -22,16 +22,16 @@
                                     <li class="{{ isset($page_name) && $page_name == 'Courses' ? 'active' : '' }}"><a
                                             href="{{route('courses.index')}}"><i class="fa fa-home"></i>Home</a></li>
 
-                                    <li class="{{ isset($page_name) && $page_name == 'Instructors' ? 'active' : '' }}">
+                                    <li
+                                        class="{{ isset($page_name) && $page_name == 'Instructors' || isset($page_name) && $page_name == 'Profile' ? 'active' : '' }}">
                                         <a href="{{route('courses.instructors')}}"><i
                                                 class="fa fa-clone"></i>Instructors</a>
                                     </li>
                                     <li
-                                        class="{{ isset($page_name) && $page_name == 'All Courses' || $page_name == 'Show Course' ? 'active' : '' }}">
+                                        class="{{ isset($page_name) && $page_name == 'All Courses' || $page_name == 'Show Course' || $page_title == 'Courses' ? 'active' : '' }}">
                                         <a href="{{route('courses.all')}}"><i class="fa fa-clone"></i>Our Courses</a>
                                     </li>
-                                    <li
-                                        class="{{ isset($page_name) && $page_name == 'Events' || $page_name == 'Events' ? 'active' : '' }}">
+                                    <li class="{{ isset($page_name) && $page_name == 'Events' ? 'active' : '' }}">
                                         <a href="{{route('courses.events')}}"><i class="fa fa-bullhorn"></i>Events</a>
                                     </li>
                                     <li
@@ -39,19 +39,26 @@
                                         <a href="{{route('courses.contact_us')}}"><i
                                                 class="fa fa-address-book"></i>Contact</a>
                                     </li>
+                                    @if(auth()->check() && auth()->user()->hasRole('instructor'))
+                                    <li
+                                        class="{{ isset($page_name) && $page_name=='Edit Profile' && $page_title != 'Instructor Profile' ? 'active' : '' }}">
+                                        <a href="{{route('courses.instructorProfile', auth()->user()->uuid)}}"><i
+                                                class="fa fa-user"></i>Profile</a>
+                                    </li>
+                                    @elseif(auth()->check() && auth()->user()->hasRole('admin'))
+                                    <li>
+                                        <a href="{{route('admin.home')}}" class="text-danger"><i
+                                                class="fa fa-address-book"></i>Admin</a>
+                                    </li>
+                                    @else
+                                    <li>
+                                        <a href="{{route('login_page')}}"><i class="fa fa-address-book"></i>Login</a>
+                                    </li>
+                                    @endif
                                 </ul>
                                 <!-- End Main Menu -->
                             </div>
                         </nav>
-                        <!-- Search Area -->
-                        <div class="search-area">
-                            <a href="#header" class="icon"><i class="fa fa-search"></i></a>
-                            <form class="search-form">
-                                <input type="text" placeholder="ex: premium course" name="search">
-                                <button value="search " type="submit"><i class="fa fa-search"></i></button>
-                            </form>
-                        </div>
-                        <!-- End Search Area-->
                     </div>
                 </div>
             </div>

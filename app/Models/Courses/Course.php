@@ -26,10 +26,15 @@ class Course extends Model
         return $this->belongsTo(CourseStatu::class, 'statu_id');
     }
 
-    // instructor
+    // created by
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    
+
+    // created by
+    public function user_instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id');
+    }
 }

@@ -9,7 +9,7 @@
                 <div class="col-lg-6 offset-lg-3 col-12">
                     <div class="section-title bg">
                         <h2>{{$course->name}}</h2>
-                        <h6 class="text-muted">{{$course->description}}</h6>
+                        <h6 class="text-muted">{{$course->info}}</h6>
                         <div class="icon"><i class="fa fa-book" style="font-size: large;"></i></div>
                     </div>
                 </div>
@@ -18,81 +18,59 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-12">
                     <div class="contact-right">
-                        <!-- Contact-Info -->
+
+                        <!-- Course-Info -->
                         <div class="contact-info">
-                            <div class="icon"><i class="fa fa-address-book" style="font-size: larger"></i></div>
-                            <h3>Instructor Information</h3>
-                            <p>Name: {{'Instructor Name'}}</p>
-                            <p>Email: {{'instructor@example.com'}}</p>
-                            <p>Social Linke: {{'instructor@example.com'}}</p>
-                        </div>
-                        <!-- Contact-Info -->
-                        <div class="contact-info">
-                            <div class="icon"><i class="fa fa-envelope"></i></div>
-                            <h3>course information</h3>
-                            <p>Category: <span class="text-dark font-weight-bold">Personal Finance</span></p>
-                            <p>Type: <span class="text-dark font-weight-bold"> Classroom-Based</span></p>
-                            <p>Status: <span class="text-dark font-weight-bold">Opening to enroll</span></p>
-                            <p>Location: <span class="text-dark font-weight-bold">Heliopolis, Cairo.</span></p>
-                            <p>From: <span class="text-dark font-weight-bold">Jan, 18th 2025.</span> to <span
-                                    class="text-dark font-weight-bold">Mar, 01st 2025.</span></p>
-                            <p>Price: <span class="text-success font-weight-bold">EGP 2600</span></p>
-                            <p>Prerequisite:
-                                <a href="{{route('courses.show', $course->prerequisite)}}">
-                                    <span class="text-primary">
-                                        Personal Finance 101: Managing Your Money
-                                    </span>
-                                </a>
+                            <div class="icon"><i class="fa fa-book" style="font-size: x-large"></i></div>
+                            <h3 class="font-weight-bold">course information</h3>
+                            <p><span class="text-dark font-weight-bold">Category: </span>{{$course->cat->name}}</p>
+                            <p><span class="text-dark font-weight-bold">Type: </span>{{$course->type->name}}</p>
+                            <p><span class="text-dark font-weight-bold">Status: </span>{{$course->statu->name}}</p>
+                            <p><span class="text-dark font-weight-bold">Location: </span>{{$course->location ?
+                                $course->location : 'N/A'}}</p>
+                            <p><span class="text-dark font-weight-bold">From: </span> {{date('d-m-Y',
+                                strtotime($course->start_date))}}
+                                <span class="text-dark font-weight-bold"> to </span>
+                                {{date('d-m-Y',strtotime($course->end_date))}}
+                            </p>
+                            <p><span class="text-success font-weight-bold">Price: </span> {{$course->price ?
+                                $course->price :
+                                'Free'}}</p>
+                            <p><span class="font-weight-bold">Prerequisite: </span>
+                                {{$course->prerequisite ? $course->prerequisite : 'Non'}}
                             </p>
                         </div>
-                        <!-- Contact-Info -->
+                        <!-- End Course-Info -->
+                        <!-- Instructor Info-Info -->
+                        <div class="contact-info">
+                            <div class="icon"><i class="fa fa-address-book" style="font-size: x-large"></i></div>
+                            <h3 class="font-weight-bold">Instructor Information</h3>
+                            <a target="_blank"
+                                href="{{route('courses.instructorProfile', $course->user_instructor->uuid)}}">
+                                <p>
+                                    <span class="font-weight-bold">Name: </span> <span class="text-primary">
+                                        {{$course->user_instructor->first_name}} {{$course->user_instructor->last_name}}
+                                    </span>
+                                </p>
+                            </a>
+                            <p><span class="font-weight-bold">Job Title:
+                                </span>{{$course->user_instructor->instructor_profile->job_title}}</p>
+                            <p><span class="font-weight-bold">Email: </span>{{$course->user_instructor->email}}</p>
+                            <p><span class="font-weight-bold">Mobile:
+                                </span>{{$course->user_instructor->instructor_profile->mobile}}</p>
+                        </div>
+                        {{-- End Instructor Info --}}
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-8 col-12">
-                    <div class="form-head">
-                        <!-- Contact Form -->
-                        <form class="form" action="mail/mail.php">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="form-group">
-                                        <i class="fa fa-user"></i>
-                                        <input name="first-name" type="text" placeholder="First name">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="form-group">
-                                        <i class="fa fa-envelope"></i>
-                                        <input name="last-name" type="text" placeholder="Last name">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="form-group">
-                                        <i class="fa fa-envelope"></i>
-                                        <input name="email" type="email" placeholder="Email address">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="form-group">
-                                        <i class="fa fa-envelope"></i>
-                                        <input name="url" type="url" placeholder="Website url">
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group message">
-                                        <i class="fa fa-pencil"></i>
-                                        <textarea name="message" placeholder="Type your message"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <div class="button">
-                                            <button type="submit" class="btn primary">Enroll</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <!--/ End Contact Form -->
+                    @if($course->video_url)
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{$course->video_url}}"
+                            allowfullscreen></iframe>
+                    </div>
+                    @endif
+                    <div class="">
+                        <a href="#" class="btn primary my-2">Enroll</a>
                     </div>
                 </div>
             </div>

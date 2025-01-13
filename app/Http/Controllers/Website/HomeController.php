@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         $data = [
             'page_name' => 'home',
-            'page_title' => 'Egy Finance',
+            'page_title' => 'Egy Finance Jobs   ',
             // make join employer with user to return featured value!
             // 'latest_companies' => User::whereRoleIs('employer')->join('employer_profiles', 'users.id', '=', 'employer_profiles.employer_id')->withCount('employer_jobs')->orderByDesc('employer_jobs_count', 'asc')->take(10)->get(),
             'featured_companies' => User::whereRoleIs('employer')

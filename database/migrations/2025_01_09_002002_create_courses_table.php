@@ -16,11 +16,11 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('info');
             $table->foreignId('cat_id')->constrained('course_cats')->cascadeOnDelete();
             $table->foreignId('type_id')->constrained('course_types')->cascadeOnDelete();
             $table->foreignId('statu_id')->constrained('course_status')->cascadeOnDelete();
-            $table->integer('user_id'); // later will be foreign -- instructor id
+            $table->integer('user_id'); // later will be foreign -- created by
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->smallInteger('hours')->nullable();

@@ -29,9 +29,15 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <!-- Useful Links -->
                     <div class="single-widget list">
-                        <h2>Useful Links</h2>
+                        <h2>Get Started</h2>
                         <ul>
-                            <li><i class="fa fa-angle-right"></i><a href="{{route('courses.index')}}">Home</a></li>
+                            @if(auth()->check())
+                            <li><i class="fa fa-angle-right"></i><a href="{{route('courses.profile')}}">My Profile</a>
+                            </li>
+                            @else
+                            <li><i class="fa fa-angle-right"></i><a href="{{route('login_page')}}">Login / Register</a>
+                            </li>
+                            @endif
                             <li><i class="fa fa-angle-right"></i><a href="{{route('courses.about_us')}}">About Us</a>
                             </li>
                             <li><i class="fa fa-angle-right"></i><a href="{{route('courses.all')}}">Our Courses</a></li>
@@ -42,29 +48,23 @@
                     </div>
                     <!--/ End Useful Links -->
                 </div>
+
+
                 <div class="col-lg-4 col-md-6 col-12">
-                    <!-- Useful Links -->
-                    <div class="single-widget opening-times">
-                        <h2>Opening Hourse</h2>
-                        <ul class="list">
-                            <li><span>Saturday - Sunday</span>
-                                <div class="value">09am - 05pm</div>
+                    <!-- Extra Links -->
+                    <div class="single-widget list">
+                        <h2>Useful Links</h2>
+                        <ul>
+                            <li><i class="fa fa-angle-right"></i><a href="#">Privacy Policy</a></li>
+                            <li><i class="fa fa-angle-right"></i><a href="#">Terms / Condition</a>
                             </li>
-                            <li><span>Monday - Twisday</span>
-                                <div class="value">10AM - 02PM</div>
-                            </li>
-                            <li><span>Widnesday</span>
-                                <div class="value">10AM - 12PM</div>
-                            </li>
-                            <li><span>Thursday</span>
-                                <div class="value">08AM - 05PM</div>
-                            </li>
-                            <li><span>Friday</span>
-                                <div class="value off">closed</div>
-                            </li>
+                            <li><i class="fa fa-angle-right"></i><a href="{{route('instructor.create')}}">I'm
+                                    Instructor</a></li>
+                            <li><i class="fa fa-angle-right"></i><a href="#">Become a partner</a></li>
+                            <li><i class="fa fa-angle-right"></i><a href="#">About Developers</a></li>
                         </ul>
                     </div>
-                    <!--/ End Useful Links -->
+                    <!--/ End Extra Links -->
                 </div>
             </div>
         </div>
@@ -77,8 +77,8 @@
                 <div class="col-12">
                     <!-- Copyright -->
                     <div class="copyright">
-                        <p>© Copyright EgyFinanceCourses {{date('Y')}}. Design & Development by <a target="_blank"
-                                href="https://egyfinancejobs.com">egyfinancejobs.com</a>, Team
+                        <p>© Copyright egyfinancejobs {{date('Y')}}. Design & Development by <a target="_blank"
+                                href="https://egyfinancejobs.com">egyfinancejobs.com</a> Team
 
                     </div>
                     <!--/ End Copyright -->
@@ -111,3 +111,9 @@
 <script src="{{asset('courses_template/js/jquery.scrollUp.min.js')}}"></script>
 {{-- <script src="{{asset('courses_template/js/gmaps.min.js')}}"></script> --}}
 <script src="{{asset('courses_template/js/main.js')}}"></script>
+
+{{-- upload image --}}
+<script src="{{ url('/website') }}/js/jquery.scrollUp.js"></script>
+<script src="{{ url('/website') }}/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{{ url('/website') }}/js/select2.min.js"></script>
+<script src="{{ url('/website') }}/js/app.js"></script>

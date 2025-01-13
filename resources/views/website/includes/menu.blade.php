@@ -177,16 +177,18 @@
                     <li class="nav-item">
                         @if(auth()->user()->hasRole('admin'))
                         <a href="{{ route('admin.home') }}" class="nav-link link-color">You are admin!</a>
+                        @elseif(auth()->user()->hasRole('instructor'))
+                        <a href="{{ route('courses.instructorProfile', auth()->user()->uuid) }}" class="nav-link link-color">Instructor Profile!</a>
                         @else
                         <a href="{{ route('login_page') }}" class="nav-link link-color">Login</a>
                         @endif
                     </li>
-                    @if(!auth()->user()->hasRole('admin'))
+                    {{-- @if(!auth()->user()->hasRole('admin'))
                     <li class="nav-item">
                         <a href="{{ route('employee_register_page') }}"
                             class="nav-link link-color bg-transparent">Register</a>
                     </li>
-                    @endif
+                    @endif --}}
                     {{-- <li class="nav-item">
                         <a href="employer/index.html" class="nav-link link-color bg-transparent">For
                             Employers</a>

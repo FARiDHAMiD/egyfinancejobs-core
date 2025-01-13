@@ -1,7 +1,8 @@
 <?php
 
-
-
+use App\Http\Controllers\Courses\CourseController;
+use App\Http\Controllers\Courses\InstructorProfileController;
+use App\Models\Courses\InstructorProfile;
 
 Route::group(['middleware' => ['web', 'admin']], function () {
     Route::get('admin-mark-notification-as_readed', 'HomeController@ReadNotification')->name('admin-mark-notification-as_readed');
@@ -15,6 +16,15 @@ Route::group(['middleware' => ['web', 'admin']], function () {
     Route::resource('/jobs', 'JobController');
     Route::resource('/employers', 'EmployerController');
     Route::resource('/employees', 'EmployeeController');
+
+    // Instructors
+    // Route::get('/instructors',  'InstructorProfileController@index')->name('instructor.index');
+    Route::get('/instructors',  [InstructorProfileController::class, 'index'])->name('instructor.index');
+    Route::get('/instructor/verify/{id}',  [InstructorProfileController::class, 'verify_instructor'])->name('admin.instructor.verify');
+    Route::post('/instructor/delete/{id}',  [InstructorProfileController::class, 'delete_instructor'])->name('admin.instructor.delete');
+
+    // Courses
+    Route::get('/courses',  [CourseController::class, 'admin_index'])->name('admin.course.index');
 
     // force create new job with similar requirements
     Route::post('/jobs/force_submit',  'JobController@force_submit')->name('admin.job.force_submit');

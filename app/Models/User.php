@@ -60,10 +60,17 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasOne("App\Models\EmployeeProfile", 'employee_id', 'id');
     }
+
     public function employer_profile()
     {
         return $this->hasOne("App\Models\EmployerProfile", 'employer_id', 'id');
     }
+
+    public function instructor_profile()
+    {
+        return $this->hasOne("App\Models\Courses\InstructorProfile", 'instructor_id', 'id');
+    }
+    
     public function employee_experiences()
     {
         return $this->hasMany(Experience::class, 'employee_id')->orderBy('currently_work_there', 'DESC')->orderBy('ending_in', 'DESC')->latest();
