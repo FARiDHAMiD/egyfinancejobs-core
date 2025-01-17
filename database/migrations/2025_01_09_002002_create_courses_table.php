@@ -28,6 +28,7 @@ class CreateCoursesTable extends Migration
             $table->smallInteger('price')->nullable();
             $table->string('place')->nullable();
             $table->string('prerequisite')->nullable();
+            $table->string('video_url')->nullable();
             $table->timestamps();
         });
     }

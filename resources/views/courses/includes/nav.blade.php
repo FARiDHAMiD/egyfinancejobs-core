@@ -23,7 +23,7 @@
                                             href="{{route('courses.index')}}"><i class="fa fa-home"></i>Home</a></li>
 
                                     <li
-                                        class="{{ isset($page_name) && $page_name == 'Instructors' || isset($page_name) && $page_name == 'Profile' ? 'active' : '' }}">
+                                        class="{{ isset($page_name) && $page_name == 'Instructors' || isset($page_name) && $page_name == 'Profile' || $page_name == 'Create Instructor'  ? 'active' : '' }}">
                                         <a href="{{route('courses.instructors')}}"><i
                                                 class="fa fa-clone"></i>Instructors</a>
                                     </li>
@@ -49,6 +49,12 @@
                                     <li>
                                         <a href="{{route('admin.home')}}" class="text-danger"><i
                                                 class="fa fa-address-book"></i>Admin</a>
+                                    </li>
+                                    @elseif(auth()->check() && auth()->user()->hasRole('employee'))
+                                    <li
+                                        class="{{isset($page_name) && $page_name == 'Courses Profile' ? 'active' : ''}}">
+                                        <a href="{{route('courses.profile', auth()->user()->uuid)}}"><i
+                                                class="fa fa-user"></i>Profile</a>
                                     </li>
                                     @else
                                     <li>

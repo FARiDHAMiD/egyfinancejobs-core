@@ -41,10 +41,24 @@ Route::namespace('Courses')->group(function () {
     Route::get('/courses-cat/{cat_id}', 'CourseController@course_cat')->name('courses.cat');
     Route::get('/courses-aboutUs', 'CourseController@about_us')->name('courses.about_us');
     Route::get('/courses-faqs', 'CourseController@faqs')->name('courses.faqs');
+
+    //events
     Route::get('/courses-events', 'CourseController@events')->name('courses.events');
+    Route::get('/courses-events/{uuid}', 'CourseController@show_event')->name('courses.events.show');
+    Route::post('/events-register/{student_id}/{event_id}', 'CourseController@event_register')->name('events.register');
+    Route::post('/events-cancel_register/{id}', 'CourseController@cancel_event_register')->name('events.register.cancel');
+
+
     Route::get('/courses-contactUs', 'CourseController@contact_us')->name('courses.contact_us');
     Route::get('/courses-instructors', 'CourseController@instructors')->name('courses.instructors');
-    Route::get('/courses-profile', 'CourseController@profile')->name('courses.profile');
+    Route::get('/courses-profile/{uuid}', 'CourseController@profile')->name('courses.profile');
+
+    //Enroll
+    Route::post('/courses-enroll/{student_id}/{course_id}', 'CourseController@enroll')->name('courses.enroll');
+    Route::post('/courses-cancel_enroll/{id}', 'CourseController@cancel_enroll')->name('courses.enroll.cancel');
+
+    //Reviews
+    Route::post('/review_store/{course_id}', 'CourseController@review_store')->name('courses.review_store');
 
     // Instructors
     Route::get('/instructor-create', 'CourseController@createInstructor')->name('instructor.create');
@@ -53,6 +67,7 @@ Route::namespace('Courses')->group(function () {
     Route::get('/courses-instructorProfile/edit/{uuid}', 'CourseController@instructorProfileEdit')->name('instructorProfile.edit');
     Route::post('/courses-instructorProfile/update/{uuid}', 'CourseController@instructorProfileUpdate')->name('instructor.update');
 });
+
 
 
 

@@ -33,9 +33,10 @@
                     </div>
                 </div>
                 @if($employer_profile->featured)
-                <div class="col-lg-3 col-sm-8 mt-4">
-                    <img src="{{ asset('/website/img/featured.png') }}" class="img-fluid m-0" style="float: right;"
-                        alt="" width="120" height="120">
+                <div class="col-lg-3 col-sm-8 mt-4 text-right">
+                    <span class="badge badge-primary font-weight-bold" style="font-size: x-large">Featured!</span>
+                    {{-- <img src="{{ asset('/website/img/featured.png') }}" class="img-fluid m-0" style="float: right;"
+                        alt="" width="120" height="120"> --}}
                 </div>
                 @endif
             </div>

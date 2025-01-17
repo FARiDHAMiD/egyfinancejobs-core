@@ -2,7 +2,7 @@
 @section('admin.content')
 <div class="container-fluid">
     <!-- Course Edit Form -->
-    <form enctype="multipart/form-data" class="form" method="POST" action="{{route('courses.update', $course->id)}}">
+    <form enctype="multipart/form-data" method="POST" action="{{route('courses.update', $course->id)}}">
         @method('put')
         @csrf
         <div class="row">
@@ -110,23 +110,23 @@
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Start Date</strong></label>
                                 <input type="date" name="start_date"
-                                    class="form-control @error('start_date') 'is-invalid' @enderror"
+                                    class="form-control @error('start_date') is-invalid @enderror"
                                     value="{{$course->start_date}}">
+                                @error('start_date')
+                                <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                                @enderror
                             </div>
-                            @error('start_date')
-                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
-                            @enderror
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>End Date</strong></label>
                                 <input type="date" name="end_date"
-                                    class="form-control @error('end_date') 'is-invalid' @enderror"
+                                    class="form-control @error('end_date') is-invalid @enderror"
                                     value="{{$course->end_date}}">
+                                @error('end_date')
+                                <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                                @enderror
                             </div>
-                            @error('end_date')
-                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
-                            @enderror
                         </div>
 
                         <div class="col-md-6 col-12">
@@ -164,7 +164,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-6 col-12">
+                        <div class="col-md-3 col-12">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Price</strong></label>
                                 <input type="number" name="price"
@@ -175,6 +175,18 @@
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
                         </div>
+
+                        <div class="col-md-3 mb-3">
+                            <span class="text-muted">Hide Course Price From Users</span>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" {{ old('featured')==1
+                                    ? 'checked' : '' }} name="hide_price" id="hide_price">
+                                <label class="text-success" for="hide_price">
+                                    Hide Salary
+                                </label>
+                            </div>
+                        </div>
+
 
                         <div class="col-md-6 col-12">
                             <div class="mb-3">
@@ -236,17 +248,17 @@
                                     <div class="upload-image-box">
                                         <div class="user-image-circle">
                                             <img class="image"
-                                                src="{{ empty($course->user_instructor->getFirstMedia('profile_img')) ? 
-                                            asset('/website/img/avatar.png') : $course->user_instructor->getFirstMedia('profile_img')->getUrl() }}"
+                                                src="{{ empty($course->getFirstMedia('course_img')) ? 
+                                            asset('/website/img/course-avatar.png') : $course->getFirstMedia('course_img')->getUrl() }}"
                                                 alt="" width="150">
                                         </div>
                                         <div class="mt-4">
-                                            <label for="image" class="btn btn-info py-2">
+                                            <label for="course_img" class="btn btn-info py-2">
                                                 Upload Image
                                             </label>
-                                            <input id="image" type="file" name="image"
-                                                class="d-none image-input @error('image') is-invalid @enderror">
-                                            @error('image')
+                                            <input id="course_img" type="file" name="course_img"
+                                                class="d-none image-input @error('course_img') is-invalid @enderror">
+                                            @error('course_img')
                                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                                             @enderror
                                         </div>

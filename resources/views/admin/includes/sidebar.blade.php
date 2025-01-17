@@ -46,6 +46,18 @@
             <span>Courses</span></a>
     </li>
 
+    <li class="nav-item {{ isset($page_name) && $page_name == 'Courses Enrolls' ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('admin.course.enrolls')}}">
+            <i class="fas fa-fw fa-graduation-cap"></i>
+            <span>Courses Enrolls</span></a>
+    </li>
+
+    <li class="nav-item {{ isset($page_name) && $page_name == 'Events' || isset($page_name) && $page_name == 'Create Event' || isset($page_name) && $page_name == 'Edit Event' ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('events.index')}}">
+            <i class="fas fa-fw fa-calendar"></i>
+            <span>Events</span></a>
+    </li>
+
     <li class="nav-item {{ isset($page_name) && $page_name == 'locations' ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
             aria-controls="collapseTwo">

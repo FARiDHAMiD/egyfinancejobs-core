@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Courses\CourseController;
 use App\Http\Controllers\Courses\InstructorProfileController;
-use App\Models\Courses\InstructorProfile;
 
 Route::group(['middleware' => ['web', 'admin']], function () {
     Route::get('admin-mark-notification-as_readed', 'HomeController@ReadNotification')->name('admin-mark-notification-as_readed');
@@ -25,6 +24,15 @@ Route::group(['middleware' => ['web', 'admin']], function () {
 
     // Courses
     Route::get('/courses',  [CourseController::class, 'admin_index'])->name('admin.course.index');
+
+    // review enrolls by admin
+    Route::get('/courses-enrolls',  [CourseController::class, 'courses_enroll_review'])->name('admin.course.enrolls');
+    Route::post('/courses-enrolls-accpet/{id}',  [CourseController::class, 'accept_enroll'])->name('courses.accept_enroll');
+
+    // Events
+    Route::namespace('Events')->group(function () {
+        Route::resource('/events', 'EventsController');
+    });
 
     // force create new job with similar requirements
     Route::post('/jobs/force_submit',  'JobController@force_submit')->name('admin.job.force_submit');

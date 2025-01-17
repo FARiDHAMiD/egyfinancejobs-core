@@ -15,7 +15,7 @@ class CreateCourseReviewsTable extends Migration
     {
         Schema::create('course_reviews', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id'); // student
+            $table->integer('student_id'); 
             $table->foreignId('course_id')
                 ->constrained('courses')
                 ->onDelete('cascade')

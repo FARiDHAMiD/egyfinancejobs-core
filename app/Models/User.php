@@ -152,4 +152,10 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Job::class, 'employer_id');
     }
+
+    // courses reviews
+    public function reviews()
+    {
+        return $this->hasMany(CourseReview::class);
+    }
 }

@@ -1,37 +1,29 @@
 <?php
 
-namespace App\Models\Courses;
+namespace App\Models\Events;
 
-use App\Models\CourseReview;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-
-class Course extends Model implements HasMedia
+class Event extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
     protected $guarded = [];
 
+
     public function type()
     {
-        return $this->belongsTo(CourseType::class, 'type_id');
-    }
-
-    public function cat()
-    {
-        return $this->belongsTo(CourseCat::class, 'cat_id');
+        return $this->belongsTo(EventType::class, 'type_id');
     }
 
     public function statu()
     {
-        return $this->belongsTo(CourseStatu::class, 'statu_id');
+        return $this->belongsTo(EventStatu::class, 'statu_id');
     }
 
     // created by
@@ -43,11 +35,5 @@ class Course extends Model implements HasMedia
     public function user_instructor()
     {
         return $this->belongsTo(User::class, 'instructor_id');
-    }
-
-    // courses reviews
-    public function reviews()
-    {
-        return $this->hasMany(CourseReview::class);
     }
 }

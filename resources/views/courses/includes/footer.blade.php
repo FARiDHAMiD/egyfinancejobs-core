@@ -9,18 +9,23 @@
                     <div class="single-widget about">
                         <h2>Egy Finance Courses</h2>
                         <ul class="list">
-                            <li><i class="fa fa-phone"></i>Phone: 01015891836 </li>
+                            <li><i class="fa fa-phone"></i>Phone: 01001085717 </li>
                             <li><i class="fa fa-envelope"></i>Email: <a
                                     href="mailto:info@egyfinancejobs.com">Info@egyfinancejobs.com</a></li>
-                            <li><i class="fa fa-map-o"></i>Address: 123, Heliopolis, Cairo, Egypt.</li>
+                            <li><i class="fa fa-map-o"></i>Address: Heliopolis, Cairo, Egypt.</li>
                         </ul>
                         <!-- Social -->
                         <ul class="social">
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li class="active"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                            <li><a target="_blank" href="https://t.me/+201001085717"><i class="fa fa-telegram"></i></a>
+                            </li>
+                            <li><a target="_blank"
+                                    href="https://www.facebook.com/profile.php?id=61553917499086&mibextid=ZbWKwL"><i
+                                        class="fa fa-facebook"></i></a></li>
+                            <li class="active"><a target="_blank"
+                                    href="https://wa.me/+201001085717?text=Hello%20Egyfinancejobs"><i
+                                        class="fa fa-whatsapp"></i></a></li>
+                            <li><a target="_blank" href="https://www.linkedin.com/company/egy-finance-jobs"><i
+                                        class="fa fa-linkedin"></i></a></li>
                         </ul>
                         <!-- End Social -->
                     </div>
@@ -32,7 +37,8 @@
                         <h2>Get Started</h2>
                         <ul>
                             @if(auth()->check())
-                            <li><i class="fa fa-angle-right"></i><a href="{{route('courses.profile')}}">My Profile</a>
+                            <li><i class="fa fa-angle-right"></i><a
+                                    href="{{route('courses.profile', auth()->user()->uuid)}}">My Profile</a>
                             </li>
                             @else
                             <li><i class="fa fa-angle-right"></i><a href="{{route('login_page')}}">Login / Register</a>

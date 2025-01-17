@@ -108,7 +108,6 @@ class AdminController extends Controller
             session()->flash('alert_message', ['message' => 'Cannot update super admin', 'icon' => 'danger']);
             return redirect()->back();
         } else {
-
             User::find($id)->update([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,

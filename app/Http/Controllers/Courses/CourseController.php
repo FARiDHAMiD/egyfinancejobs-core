@@ -4,15 +4,21 @@ namespace App\Http\Controllers\Courses;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\CourseReview;
 use App\Models\Courses\Course;
 use App\Models\Courses\CourseCat;
+use App\Models\Courses\CourseEnroll;
 use App\Models\Courses\CourseStatu;
 use App\Models\Courses\CourseType;
 use App\Models\Courses\InstructorProfile;
+use App\Models\Events\Event;
+use App\Models\Events\EventRegister;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CourseController extends Controller
 {
@@ -37,7 +43,7 @@ class CourseController extends Controller
         $course_cats = CourseCat::all();
         $data = [
             'page_name' => 'Courses',
-            'page_title' => 'Courses',
+            'page_title' => '',
             'cats' => $course_cats,
         ];
         return view('courses.index', $data);
@@ -60,6 +66,80 @@ class CourseController extends Controller
             'cats' => $course_cats,
         ];
         return view('courses.allCourses', $data);
+    }
+
+    // enroll in course by user(employee)
+    public function enroll($student_id, $course_id)
+    {
+        // dd($student_id, $course_id);
+        $student = User::findOrFail($student_id);
+        if (!$student->hasRole('employee')) {
+            session()->flash('alert_message', ['message' => 'Please create student profile to enroll in this course', 'icon' => 'danger']);
+            return redirect()->back();
+        } else {
+            // student_id and course_id unique together 
+
+            $data = [
+                'student_id' => $student_id,
+                'course_id' => $course_id,
+            ];
+
+            $rule =  [
+                'student_id' => [
+                    Rule::unique('course_enrolls', 'student_id')
+                        ->where('course_id', $course_id)
+                ]
+            ];
+            $message = [
+                'student_id.unique' => 'Cannot Enroll in the same course with the same status and instructor more than once',
+            ];
+            $validator = Validator::make($data, $rule, $message);
+            if ($validator->fails()) {
+                session()->flash('alert_message', ['message' => 'Cannot Enroll in the same course with the same status and instructor more than once', 'icon' => 'danger']);
+                return redirect()->back();
+            } else {
+                CourseEnroll::create([
+                    'student_id' => $student_id,
+                    'course_id' => $course_id,
+                    'created_at' => Carbon::now(),
+                ]);
+                session()->flash('alert_message', ['message' => 'Enrolled Successfully, Thank You!', 'icon' => 'success']);
+                return redirect()->back();
+            }
+        }
+    }
+
+    // delete enroll in course by user(employee)
+    public function cancel_enroll($id)
+    {
+        $enroll = CourseEnroll::findOrFail($id);
+        $enroll->delete();
+        session()->flash('alert_message', ['message' => 'Course Enrollment Canceled Successfully!, Thank You!', 'icon' => 'success']);
+        return redirect()->back();
+    }
+
+    // review courses enrolls by admin
+    public function courses_enroll_review()
+    {
+        $enrolls = CourseEnroll::all();
+        $data = [
+            'page_name' => 'Courses Enrolls',
+            'page_title' => 'Courses Enrolls',
+            'enrolls' => $enrolls,
+        ];
+        return view('admin.courses.enrolls', $data);
+    }
+
+    function accept_enroll($id)
+    {
+        $enroll = CourseEnroll::findOrFail($id);
+        $enroll->update([
+            'enroll_statu' => 1,
+            'accepted_by' => Auth::id(),
+            'updated_at' => Carbon::now(),
+        ]);
+        session()->flash('alert_message', ['message' => 'Student has been approved in this course successfully', 'icon' => 'success']);
+        return redirect()->back();
     }
 
     public function show_all(Request $request)
@@ -111,13 +191,23 @@ class CourseController extends Controller
         return view('courses.faqsCourse', $data);
     }
 
-    public function profile()
+    public function profile($uuid)
     {
+        $student = User::whereRoleIs('employee')->where('uuid', $uuid)->firstOrFail();
+        $student_enrolls = CourseEnroll::where('student_id', $student->id)->get();
+        // dd($student_enrolls);
         $data = [
-            'page_name' => 'Profile',
-            'page_title' => 'Profile',
+            'page_name' => 'Courses Profile',
+            'page_title' => 'Courses Profile',
+            'student' => $student,
+            'enrolls' => $student_enrolls,
         ];
-        return view('courses.profile', $data);
+        // only admins and instructors can review student profile
+        if (Auth::check() && Auth::user()->whereRoleIs('instuctor') || Auth::check() && Auth::user()->whereRoleIs('admin')) {
+            return view('courses.profile', $data);
+        } else {
+            return back();
+        }
     }
 
     // show instructor profile
@@ -126,6 +216,7 @@ class CourseController extends Controller
         $instructor = User::where('uuid', '=', $uuid)->firstOrFail();
         $instructor_profile = InstructorProfile::where('instructor_id', '=', $instructor->id)->firstOrFail();
         $instructor_courses = Course::where('instructor_id', $instructor->id)->get();
+        $instructor_events = Event::where('instructor_id', $instructor->id)->get();
         if (!$instructor->email_verified_at) {
             session()->flash('alert_message', ['message' => 'Your Profile is being reviewed by Egy Finance Courses Team, Thank you for your understanding.!', 'icon' => 'warning']);
             return redirect()->back();
@@ -136,6 +227,7 @@ class CourseController extends Controller
             'instructor' => $instructor,
             'profile' => $instructor_profile,
             'instructor_courses' => $instructor_courses,
+            'instructor_events' => $instructor_events,
         ];
         return view('courses.instructorProfile', $data);
     }
@@ -219,11 +311,74 @@ class CourseController extends Controller
 
     public function events()
     {
+        $events = Event::where('statu_id', '!=', '3')->orderBy('start_date', 'asc')->get();
+        $completed_events = Event::where('statu_id', '=', '3')->orderBy('start_date', 'asc')->get();
         $data = [
             'page_name' => 'Events',
             'page_title' => 'Events',
+            'events' => $events,
+            'completed_events' => $completed_events,
         ];
         return view('courses.eventsCourse', $data);
+    }
+
+    function show_event($uuid)
+    {
+        $event = Event::where('uuid', $uuid)->first();
+        $registers = EventRegister::where('event_id', $event->id)->get();
+        // check if current login student is registered in the event
+        $user_registered = $registers->where('user_id', Auth::id())->first();
+        $data = [
+            'page_name' => 'Events',
+            'page_title' => 'Events',
+            'event' => $event,
+            'user_registered' => $user_registered,
+        ];
+        return view('courses.singleEvent', $data);
+    }
+
+    // resgister in events by users (employees / instructors)
+    public function event_register($user_id, $event_id)
+    {
+
+
+        // user_id and event_id unique together 
+        $data = [
+            'user_id' => $user_id,
+            'event_id' => $event_id,
+        ];
+
+        $rule =  [
+            'user_id' => [
+                Rule::unique('event_registers', 'user_id')
+                    ->where('event_id', $event_id)
+            ]
+        ];
+        $message = [
+            'user_id.unique' => 'Cannot Register in the same event twice!',
+        ];
+        $validator = Validator::make($data, $rule, $message);
+        if ($validator->fails()) {
+            session()->flash('alert_message', ['message' => 'Cannot Register in the same event twice!', 'icon' => 'danger']);
+            return redirect()->back();
+        } else {
+            EventRegister::create([
+                'user_id' => $user_id,
+                'event_id' => $event_id,
+                'created_at' => Carbon::now(),
+            ]);
+            session()->flash('alert_message', ['message' => 'Registered Successfully, Thank You!', 'icon' => 'success']);
+            return redirect()->back();
+        }
+    }
+
+    // delete event_register in course by user(employee)
+    public function cancel_event_register($id)
+    {
+        $event_register = EventRegister::findOrFail($id);
+        $event_register->delete();
+        session()->flash('alert_message', ['message' => 'Event Registeration Canceled Successfully!, Thank You!', 'icon' => 'success']);
+        return redirect()->back();
     }
 
     public function contact_us()
@@ -272,7 +427,6 @@ class CourseController extends Controller
             'cat_id' => 'required',
             'type_id' => 'required',
             'statu_id' => 'required',
-            'job_title' => 'max:255|string',
             'start_date' => [
                 'required',
                 'date',
@@ -287,6 +441,27 @@ class CourseController extends Controller
             'max_enroll' => 'nullable|numeric|max:100000',
             'price' => 'nullable|numeric',
         ]);
+
+        $data = [
+            'name' => $request->name,
+            'instructor_id' => $request->instructor_id,
+            'statu_id' => $request->statu_id,
+        ];
+
+        $rule =  [
+            'name' => [
+                Rule::unique('courses', 'name')
+                    ->where('instructor_id', $request->instructor_id)->where('statu_id', $request->statu_id)
+            ]
+        ];
+        $message = [
+            'name.unique' => 'Course with same name, instructor and status already registered!',
+        ];
+        $validator = Validator::make($data, $rule, $message);
+        if ($validator->fails()) {
+            session()->flash('alert_message', ['message' => 'Course with same name, instructor and status already registered!', 'icon' => 'danger']);
+            return redirect()->back()->withInput();
+        }
 
         $course =  Course::create([
             'name' => $request->name,
@@ -306,28 +481,26 @@ class CourseController extends Controller
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'featured' => $request->boolean(key: 'featured'),
+            'hide_price' => $request->boolean(key: 'hide_price'),
             'user_id' => Auth::id(),
         ]);
 
         // change course thumbnail image
 
-        if ($request->has('profile_img')) {
-            $file = $request->file('profile_img');
-            $mime = $file->getMimeType();
-            if (!in_array($mime, ['image/jpeg', 'image/png', 'image/bmp', 'image/gif', 'image/svg+xml'])) {
-                return back()->withErrors(['profile_img' => 'Invalid image format.']);
-            }
+
+        if ($request->has('course_img')) {
             $request->validate(
-                ['profile_img' => 'image|max:5000'],
+                ['course_img' => 'image|max:5000'],
                 [
-                    'profile_img.image' => 'The file must be an image (JPEG, PNG, BMP, GIF, or SVG).',
-                    'profile_img.max' => 'The file size must not exceed 5 MB.'
+                    'course_img.image' => 'The file must be an image (JPEG, PNG, BMP, GIF, or SVG).',
+                    'course_img.max' => 'The file size must not exceed 5 MB.'
                 ]
             );
-            $course->clearMediaCollection('course_profile')
-                ->addMediaFromRequest('profile_img')
-                ->toMediaCollection('course_profile');
+            $course->clearMediaCollection('course_img');
+            $course->addMediaFromRequest('course_img')
+                ->toMediaCollection('course_img');
         }
+
         session()->flash('alert_message', ['message' => 'New Course has been created successfully', 'icon' => 'success']);
         return redirect()->route('admin.course.index');
     }
@@ -341,10 +514,15 @@ class CourseController extends Controller
     public function show($uuid)
     {
         $course = Course::where('uuid', $uuid)->firstOrFail();
+        $enrolls = CourseEnroll::where('course_id', $course->id)->get();
+        // check if current login student is enrolled in the course
+        $student_enrolled = $enrolls->where('student_id', Auth::id())->first();
         $data = [
             'page_name' => 'Show Course',
             'page_title' => $course->name,
             'course' => $course,
+            'enrolls' => $enrolls,
+            'student_enrolled' => $student_enrolled,
         ];
         return view('courses.show', $data);
     }
@@ -389,7 +567,6 @@ class CourseController extends Controller
             'cat_id' => 'required',
             'type_id' => 'required',
             'statu_id' => 'required',
-            'job_title' => 'max:255|string',
             'start_date' => [
                 'required',
                 'date',
@@ -398,10 +575,10 @@ class CourseController extends Controller
             'end_date' => [
                 'required',
                 'date',
-                'after:start_date'
+                'after:start_date',
             ],
             'hours' => 'nullable|numeric',
-            'max_enroll' => 'nullable|numeric|max:100000',
+            'max_enroll' => 'nullable|numeric|min:1|max:100000',
             'price' => 'nullable|numeric',
         ]);
 
@@ -423,28 +600,25 @@ class CourseController extends Controller
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'featured' => $request->boolean(key: 'featured'),
+            'hide_price' => $request->boolean(key: 'hide_price'),
             'user_id' => Auth::id(),
         ]);
 
         // change course thumbnail image
 
-        if ($request->has('profile_img')) {
-            $file = $request->file('profile_img');
-            $mime = $file->getMimeType();
-            if (!in_array($mime, ['image/jpeg', 'image/png', 'image/bmp', 'image/gif', 'image/svg+xml'])) {
-                return back()->withErrors(['profile_img' => 'Invalid image format.']);
-            }
+        if ($request->has('course_img')) {
             $request->validate(
-                ['profile_img' => 'image|max:5000'],
+                ['course_img' => 'image|max:5000'],
                 [
-                    'profile_img.image' => 'The file must be an image (JPEG, PNG, BMP, GIF, or SVG).',
-                    'profile_img.max' => 'The file size must not exceed 5 MB.'
+                    'course_img.image' => 'The file must be an image (JPEG, PNG, BMP, GIF, or SVG).',
+                    'course_img.max' => 'The file size must not exceed 5 MB.'
                 ]
             );
-            $course->clearMediaCollection('course_profile')
-                ->addMediaFromRequest('profile_img')
-                ->toMediaCollection('course_profile');
+            $course->clearMediaCollection('course_img');
+            $course->addMediaFromRequest('course_img')
+                ->toMediaCollection('course_img');
         }
+
         session()->flash('alert_message', ['message' => 'Course Updated Successfully', 'icon' => 'success']);
         return redirect()->route('admin.course.index');
     }
@@ -469,7 +643,7 @@ class CourseController extends Controller
             'page_name' => 'Create Instructor',
             'page_title' => 'Create Instructor',
         ];
-        if (auth()->check()) {
+        if (auth()->check() && !auth()->user()->hasRole('employee')) {
             return back();
         } else {
             return view('courses.createInstructor', $data);
@@ -500,5 +674,33 @@ class CourseController extends Controller
         return redirect()->back();
     }
 
-    // create instructor profile from admin
+    // reviews
+
+    public function review_store(Request $request, $course_id)
+    {
+        // Validate input
+        $request->validate([
+            'review_txt' => 'required|string|max:1000',
+            'rating' => 'required|integer|between:1,5',
+        ]);
+
+        // Get authenticated student
+        $student = Auth::user();  // Assuming the user is a student
+
+        // Check if student already reviewed this course
+        if (CourseReview::where('student_id', $student->id)->where('course_id', $course_id)->exists()) {
+            session()->flash('alert_message', ['message' => 'You have already reviewed this course!', 'icon' => 'danger']);
+            return redirect()->back();
+        }
+
+        // Create the review
+        CourseReview::create([
+            'student_id' => $student->id,
+            'course_id' => $course_id,
+            'review_txt' => $request->review_txt,
+            'rating' => $request->rating,
+        ]);
+        session()->flash('alert_message', ['message' => 'Review submitted successfully!', 'icon' => 'success']);
+        return redirect()->back();
+    }
 }

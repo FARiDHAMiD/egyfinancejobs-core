@@ -1,5 +1,11 @@
 @extends('courses.main')
 @section('courses.content')
+<style>
+    .profile_image {
+        max-height: 600px;
+        width: 100%
+    }
+</style>
 <!-- Breadcrumb -->
 <div class="breadcrumbs overlay" style="background-image:url('{{asset('courses_template/images/breadcrumb-bg.jpg')}}')">
     <div class="container">
@@ -136,9 +142,11 @@
                                                 <a target="_blank"
                                                     href="{{route('courses.show', $course->uuid)}}">{{$course->name}}</a>
                                                 <br>
-                                                <p class="text-muted">{{$course->cat->name}} | {{$course->type->name}} | {{$course->statu->name}}</p>
+                                                <p class="text-muted">{{$course->cat->name}} | {{$course->type->name}} |
+                                                    {{$course->statu->name}}</p>
                                             </h6>
-                                            <span class="badge badge-success badge-pill">{{$course->price ? 'EGP ' . number_format($course->price) : 'Free'}}</span>
+                                            <span class="badge badge-success badge-pill">{{$course->price ? 'EGP ' .
+                                                number_format($course->price) : 'Free'}}</span>
                                         </li>
 
                                         @endforeach
@@ -147,6 +155,39 @@
                                 </div>
                             </div>
                             <!--/ End Instructor Courses -->
+
+                            <!-- Instructor Events -->
+                            <div class="panel panel-default active">
+                                <div class="faq-heading" id="events">
+                                    <h4 class="faq-title">
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
+                                            href="#Events"><i class="fa fa-book"></i><span class="text-center"
+                                                style="font-size: x-large">Events</span></a>
+                                    </h4>
+                                </div>
+                                <div id="Events" class="panel-collapse collapse show" role="tabpanel"
+                                    aria-labelledby="events">
+
+                                    <ul class="list-group">
+                                        @foreach ($instructor_events as $event)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <h6>
+                                                <a target="_blank"
+                                                    href="{{route('courses.events.show', $event->uuid)}}">{{$event->title}}</a>
+                                                <br>
+                                                <p class="text-muted">{{$event->type->name}} | {{date('jS, F Y',
+                                                    strtotime($event->start_date))}}
+                                                </p>
+                                            </h6>
+                                            <span class="badge badge-success badge-pill">{{$event->statu->name}}</span>
+                                        </li>
+
+                                        @endforeach
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <!-- End Instructor Events -->
 
                         </div>
                     </div>

@@ -128,7 +128,7 @@ class AuthController extends Controller
         ]);
         $user = User::where(['email' => $request->email])->first();
         // if unstructor return redirect to courses
-        if ($user->hasRole('instructor') && $user->email_verified_at == null) {
+        if ($user && $user->hasRole('instructor') && $user->email_verified_at == null) {
             session()->flash('alert_message', ['message' => 'Your Profile is being reviewed by Egy Finance Courses Team, Thank you for your understanding.!', 'icon' => 'warning']);
             return redirect()->intended('/courses');
         } else {
@@ -142,6 +142,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
             // employee.profile.create
             if ($user->employee_profile) {
+                session()->flash('alert_message', ['message' => 'Welcome Back, ' . $user->first_name, 'icon' => 'success']);
                 return redirect(session('prev_link'));
             } else {
                 return redirect()->route('employee.profile.create');

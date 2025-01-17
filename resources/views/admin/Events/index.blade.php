@@ -6,13 +6,13 @@
         <div class="card-header py-3">
             <div class="row">
                 <div class="col-6">
-                    <h6 class="m-0 font-weight-bold text-primary">Courses ({{$courses->count()}})
+                    <h6 class="m-0 font-weight-bold text-primary">Events ({{$events->count()}})
                     </h6>
                 </div>
 
                 <div class="col-6 text-right">
-                    <a href="{{ route('courses.create') }}" class="btn btn-info btn-sm">
-                        <i class="fas fa-plus"></i> Add New Course
+                    <a href="{{ route('events.create') }}" class="btn btn-info btn-sm">
+                        <i class="fas fa-plus"></i> Create Event
                     </a>
                 </div>
             </div>
@@ -23,39 +23,28 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Instructor</th>
-                            <th>Price</th>
+                            <th>Title</th>
+                            <th>Origanizer</th>
+                            <th>Status</th>
                             <th>Start Date</th>
                             <th>Created By</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($courses as $course)
+                        @foreach ($events as $event)
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td><a target="_blank" href="{{route('courses.show', $course->uuid)}}">
-                                    {{$course->name}}
-                                </a>
-                            </td>
+                            <td>{{$event->title}}</td>
+                            <td>{{$event->user_instructor->first_name}} {{$event->user_instructor->last_name}}</td>
+                            <td>{{$event->statu->name}}</td>
+                            <td>{{$event->start_date}}</td>
+                            <td>{{$event->user->first_name}} {{$event->user->last_name}}</td>
                             <td>
-                                <a target="_blank"
-                                    href="{{route('courses.instructorProfile', $course->user_instructor->uuid ?? '')}}">
-
-                                    {{$course->user_instructor->first_name ?? ''}} {{$course->user_instructor->last_name
-                                    ??
-                                    ''}}
-                                </a>
-                            </td>
-                            <td>{{$course->price}}</td>
-                            <td>{{$course->start_date}}</td>
-                            <td>{{$course->user->first_name ?? ''}} {{$course->user->last_name ?? ''}}</td>
-                            <td>
-                                <a href="{{route('courses.edit', $course->id)}}" class="btn btn-success btn-sm m-1">
+                                <a href="{{ route('events.edit', $event->id) }}" class="btn btn-info btn-sm m-1">
                                     <i class="fas fa-pen"></i>
                                 </a>
-                                <form method="post" class="d-inline" action="{{route('courses.destroy', $course->id)}}">
+                                <form method="post" class="d-inline" action="{{ route('events.destroy', $event->id) }}">
                                     @method('delete')
                                     @csrf
                                     <button onclick="return confirm('Are you sure you want to delete this?')"
