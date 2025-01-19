@@ -53,6 +53,11 @@ Route::namespace('Courses')->group(function () {
     Route::get('/courses-instructors', 'CourseController@instructors')->name('courses.instructors');
     Route::get('/courses-profile/{uuid}', 'CourseController@profile')->name('courses.profile');
 
+    // Coming soon
+    Route::get('/courses-soon', 'CourseController@soon')->name('courses.soon');
+    Route::get('/courses-privacy', 'CourseController@privacy')->name('courses.privacy');
+    Route::get('/courses-terms', 'CourseController@terms')->name('courses.terms');
+    
     //Enroll
     Route::post('/courses-enroll/{student_id}/{course_id}', 'CourseController@enroll')->name('courses.enroll');
     Route::post('/courses-cancel_enroll/{id}', 'CourseController@cancel_enroll')->name('courses.enroll.cancel');
@@ -88,12 +93,17 @@ Route::group(['middleware' => ['guest']], function () {
 });
 Route::post('/logout', 'AuthController@logout')->name('logout');
 
+// Post job request
+Route::get('/job-request', 'Admin\JobController@job_request_create')->name('jobs.request');
+Route::post('/job-request/store', 'Admin\JobController@job_request_store')->name('job.request.store');
+
 Route::namespace('Website')->group(function () {
     Route::name('website.')->group(function () {
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('/jobs', 'JobController@index')->name('jobs');
         Route::get('/jobs/{job_uuid}', 'JobController@show')->name('job-details');
     });
+    
 
     Route::get('/employee/profile/view/{id?}', 'EmployeeProfileController@view_profile')->name('employee.profile.view');
     //employee routes

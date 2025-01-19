@@ -1,5 +1,16 @@
 @extends('courses.main')
 @section('courses.content')
+<style>
+    .course_image {
+        min-height: 250px;
+        max-height: 250px;
+    }
+
+    .client_images {
+        min-height: 100px;
+        max-height: 100px;
+    }
+</style>
 
 <!-- Slider Area -->
 <section class="home-slider">
@@ -55,268 +66,82 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Single Course -->
-                <div class="single-course">
-                    <!-- Course Head -->
-                    <div class="course-head overlay">
-                        <img src="{{asset('courses_template/images/courses/course1.jpg')}}" alt="#">
-                        <a href="{{route('courses.show', 1)}}" class="btn white primary">Register Now</a>
-                    </div>
-                    <!-- Course Body -->
-                    <div class="course-body">
-                        <div class="name-price">
-                            <div class="teacher-info">
-                                <img src="{{asset('courses_template/images/author1.jpg')}}" alt="#">
-                                <h4 class="title">Jewel Mathies</h4>
+            <!-- Single Course -->
+            <div class="row">
+                @foreach ($courses as $course)
+                <div class="col-lg-4 col-md-6 col-12">
+                    <!-- Single Course -->
+                    <div class="single-course">
+                        <!-- Course Head -->
+                        <div class="course-head overlay">
+                            <img src="{{ empty($course->getFirstMedia('course_img')) ? asset('courses_template/images/courses/course3.jpg') : $course->getFirstMedia('course_img')->getUrl() }}"
+                                alt="" class="course_image">
+                            <a href="{{route('courses.show', $course->uuid)}}" class="btn white primary">Course
+                                Details</a>
+                        </div>
+                        <!-- Course Body -->
+                        <div class="course-body">
+                            <div class="name-price">
+                                <div class="teacher-info">
+                                    @if($course->user_instructor)
+                                    <a target="_blank"
+                                        href="{{route('courses.instructorProfile', $course->user_instructor->uuid)}}">
+                                        <img src="{{ empty($course->user_instructor->getFirstMedia('instructor_profile')) ? asset('/website/img/avatar.png') : $course->user_instructor->getFirstMedia('instructor_profile')->getUrl() }}"
+                                            alt="">
+                                    </a>
+                                    @else
+                                    <img src="{{ asset('/website/img/avatar.png')  }}" alt="">
+                                    @endif
+                                    {{-- <img src="{{asset('courses_template/images/author1.jpg')}}" alt="#"> --}}
+                                    @if($course->user_instructor)
+                                    <h4 class="title">{{$course->user_instructor->first_name}}
+                                        {{$course->user_instructor->last_name}}</h4>
+                                    @else
+                                    <h4 class="title">Unknown</h4>
+                                    @endif
+                                </div>
+                                @if($course->hide_price)
+                                <span class="price">N/A</span>
+                                @elseif($course->price)
+                                <span class="price">EGP {{number_format($course->price)}}</span>
+                                @else
+                                <span class="price">Free</span>
+                                @endif
                             </div>
-                            <span class="price">$350</span>
+                            <h4 class="c-title"><a href="{{route('courses.show', 1)}}">{{$course->name}}</a>
+                            </h4>
+                            <p>{{substr($course->info, 0, 150)}} ...</p>
                         </div>
-                        <h4 class="c-title"><a href="course-single.html">Financial Literacy for Beginners</a></h4>
-                        <p>A beginner-friendly course that introduces key financial concepts such as credit, debt
-                            management, and financial planning to build a solid foundation for financial success.</p>
-                    </div>
-                    <!-- Course Meta -->
-                    <div class="course-meta">
-                        <!-- Rattings -->
-                        <ul class="rattings">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-half-o"></i></li>
-                            <li class="point"><span>4.5</span></li>
-                        </ul>
-                        <!-- Course Info -->
-                        <div class="course-info">
-                            <span><i class="fa fa-users"></i>2.4k Enrolled</span>
-                            <span><i class="fa fa-calendar-o"></i>2 Month</span>
-                            <span><i class="fa fa-clock-o"></i>09:30 - 12:00</span>
-                        </div>
-                    </div>
-                    <!--/ End Course Meta -->
-                </div>
-                <!--/ End Single Course -->
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Single Course -->
-                <div class="single-course">
-                    <!-- Course Head -->
-                    <div class="course-head overlay">
-                        <img src="{{asset('courses_template/images/courses/course3.jpg')}}" alt="#">
-                        <a href="course-single.html" class="btn white primary">Register Now</a>
-                    </div>
-                    <!-- Course Body -->
-                    <div class="course-body">
-                        <div class="name-price">
-                            <div class="teacher-info">
-                                <img src="{{asset('courses_template/images/author3.jpg')}}" alt="#">
-                                <h4 class="title">Noha Brown</h4>
+                        <!-- Course Meta -->
+                        <div class="course-meta">
+                            <!-- Rattings -->
+                            <ul class="rattings">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star-half-o"></i></li>
+                                <li class="point"><span>{{mt_rand(4.5*10, 5*10) / 10}}</span></li>
+                            </ul>
+                            <!-- Course Info -->
+                            <div class="course-info">
+                                <span><i class="fa fa-users"></i>{{$course->max_enroll}} Enroll</span>
+                                <span><i
+                                        class="fa fa-calendar-o"></i>{{\Carbon\Carbon::parse($course->start_date)->diffInMonths(\Carbon\Carbon::parse($course->end_date))}}
+                                    Months</span>
+                                @if($course->start_time)
+                                <span><i class="fa fa-clock-o"></i>{{$course->start_time}} -
+                                    {{$course->end_time}}</span>
+                                @endif
                             </div>
-                            <span class="price">Free</span>
                         </div>
-                        <h4 class="c-title"><a href="course-single.html">Corporate Finance: Maximizing Business
-                                Value</a></h4>
-                        <p>Learn the principles of corporate finance, including capital budgeting, financial management,
-                            and strategic planning, to help businesses make better financial decisions.</p>
+                        <!--/ End Course Meta -->
                     </div>
-                    <!-- Course Meta -->
-                    <div class="course-meta">
-                        <!-- Rattings -->
-                        <ul class="rattings">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-o"></i></li>
-                            <li class="point"><span>4.0</span></li>
-                        </ul>
-                        <!-- Course Info -->
-                        <div class="course-info">
-                            <span><i class="fa fa-users"></i>5.3k Enrolled</span>
-                            <span><i class="fa fa-calendar-o"></i>2 Weeks</span>
-                            <span><i class="fa fa-clock-o"></i>10:00 - 11:00</span>
-                        </div>
-                    </div>
-                    <!--/ End Course Meta -->
                 </div>
-                <!--/ End Single Course -->
+                @endforeach
             </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Single Course -->
-                <div class="single-course">
-                    <!-- Course Head -->
-                    <div class="course-head overlay">
-                        <img src="{{asset('courses_template/images/courses/course2.jpg')}}" alt="#">
-                        <a href="course-single.html" class="btn white primary">Register Now</a>
-                    </div>
-                    <!-- Course Body -->
-                    <div class="course-body">
-                        <div class="name-price">
-                            <div class="teacher-info">
-                                <img src="{{asset('courses_template/images/author2.jpg')}}" alt="#">
-                                <h4 class="title">Jenola Protan</h4>
-                            </div>
-                            <span class="price">$290</span>
-                        </div>
-                        <h4 class="c-title"><a href="course-single.html">Cryptocurrency and Blockchain for Investors</a>
-                        </h4>
-                        <p>Gain a clear understanding of blockchain technology and cryptocurrencies, and learn how to
-                            navigate this emerging market for investment opportunities.</p>
-                    </div>
-                    <!-- Course Meta -->
-                    <div class="course-meta">
-                        <!-- Rattings -->
-                        <ul class="rattings">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-half-o"></i></li>
-                            <li><i class="fa fa-star-o"></i></li>
-                            <li class="point"><span>3.9</span></li>
-                        </ul>
-                        <!-- Course Info -->
-                        <div class="course-info">
-                            <span><i class="fa fa-users"></i>2.4k Enrolled</span>
-                            <span><i class="fa fa-calendar-o"></i>2 Month</span>
-                            <span><i class="fa fa-clock-o"></i>10:30 - 12:30</span>
-                        </div>
-                    </div>
-                    <!--/ End Course Meta -->
-                </div>
-                <!--/ End Single Course -->
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Single Course -->
-                <div class="single-course">
-                    <!-- Course Head -->
-                    <div class="course-head overlay">
-                        <img src="{{asset('courses_template/images/courses/course5.jpg')}}" alt="#">
-                        <a href="course-single.html" class="btn white primary">Register Now</a>
-                    </div>
-                    <!-- Course Body -->
-                    <div class="course-body">
-                        <div class="name-price">
-                            <div class="teacher-info">
-                                <img src="{{asset('courses_template/images/author1.jpg')}}" alt="#">
-                                <h4 class="title">Jewel Mathies</h4>
-                            </div>
-                            <span class="price">$350</span>
-                        </div>
-                        <h4 class="c-title"><a href="course-single.html">Financial Risk Management</a></h4>
-                        <p>Learn how to identify, assess, and mitigate financial risks in both personal and corporate
-                            settings. Understand the tools and strategies used to protect against financial volatility.
-                        </p>
-                    </div>
-                    <!-- Course Meta -->
-                    <div class="course-meta">
-                        <!-- Rattings -->
-                        <ul class="rattings">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-half-o"></i></li>
-                            <li class="point"><span>4.5</span></li>
-                        </ul>
-                        <!-- Course Info -->
-                        <div class="course-info">
-                            <span><i class="fa fa-users"></i>2.4k Enrolled</span>
-                            <span><i class="fa fa-calendar-o"></i>2 Month</span>
-                            <span><i class="fa fa-clock-o"></i>09:30 - 12:00</span>
-                        </div>
-                    </div>
-                    <!--/ End Course Meta -->
-                </div>
-                <!--/ End Single Course -->
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Single Course -->
-                <div class="single-course">
-                    <!-- Course Head -->
-                    <div class="course-head overlay">
-                        <img src="{{asset('courses_template/images/courses/course4.jpg')}}" alt="#">
-                        <a href="course-single.html" class="btn white primary">Register Now</a>
-                    </div>
-                    <!-- Course Body -->
-                    <div class="course-body">
-                        <div class="name-price">
-                            <div class="teacher-info">
-                                <img src="{{asset('courses_template/images/author3.jpg')}}" alt="#">
-                                <h4 class="title">Noha Brown</h4>
-                            </div>
-                            <span class="price">Free</span>
-                        </div>
-                        <h4 class="c-title"><a href="course-single.html">Tax Planning and Strategy</a></h4>
-                        <p>Learn how to minimize tax liabilities through smart planning and strategy. Understand tax
-                            laws, deductions, credits, and how to file taxes efficiently.</p>
-                    </div>
-                    <!-- Course Meta -->
-                    <div class="course-meta">
-                        <!-- Rattings -->
-                        <ul class="rattings">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-o"></i></li>
-                            <li class="point"><span>4.0</span></li>
-                        </ul>
-                        <!-- Course Info -->
-                        <div class="course-info">
-                            <span><i class="fa fa-users"></i>5.3k Enrolled</span>
-                            <span><i class="fa fa-calendar-o"></i>2 Weeks</span>
-                            <span><i class="fa fa-clock-o"></i>10:00 - 11:00</span>
-                        </div>
-                    </div>
-                    <!--/ End Course Meta -->
-                </div>
-                <!--/ End Single Course -->
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <!-- Single Course -->
-                <div class="single-course">
-                    <!-- Course Head -->
-                    <div class="course-head overlay">
-                        <img src="{{asset('courses_template/images/courses/course6.jpg')}}" alt="#">
-                        <a href="course-single.html" class="btn white primary">Register Now</a>
-                    </div>
-                    <!-- Course Body -->
-                    <div class="course-body">
-                        <div class="name-price">
-                            <div class="teacher-info">
-                                <img src="{{asset('courses_template/images/author2.jpg')}}" alt="#">
-                                <h4 class="title">Jenola Protan</h4>
-                            </div>
-                            <span class="price">$290</span>
-                        </div>
-                        <h4 class="c-title"><a href="course-single.html">Personal Finance 101: Managing Your Money</a>
-                        </h4>
-                        <p>Learn the basics of budgeting, saving, investing, and planning for the future to take control
-                            of your personal finances and achieve your financial goals.</p>
-                    </div>
-                    <!-- Course Meta -->
-                    <div class="course-meta">
-                        <!-- Rattings -->
-                        <ul class="rattings">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-half-o"></i></li>
-                            <li><i class="fa fa-star-o"></i></li>
-                            <li class="point"><span>3.9</span></li>
-                        </ul>
-                        <!-- Course Info -->
-                        <div class="course-info">
-                            <span><i class="fa fa-users"></i>2.4k Enrolled</span>
-                            <span><i class="fa fa-calendar-o"></i>2 Month</span>
-                            <span><i class="fa fa-clock-o"></i>10:30 - 12:30</span>
-                        </div>
-                    </div>
-                    <!--/ End Course Meta -->
-                </div>
-                <!--/ End Single Course -->
-            </div>
+            <!--/ End Single Course -->
+
         </div>
         <div class="text-center my-4 mb-0">
 
@@ -335,62 +160,74 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 col-12">
                 <!-- Single Feature -->
-                <div class="single-feature">
-                    <div class="icon-img">
-                        <img src="{{asset('courses_template/images/feature1.jpg')}}" alt="#">
-                        <i class="fa fa-clone"></i>
+                <a href="{{route('courses.all')}}">
+
+                    <div class="single-feature">
+                        <div class="icon-img">
+                            <img src="{{asset('courses_template/images/feature1.jpg')}}" alt="#">
+                            <i class="fa fa-clone"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4 class="f-title">Trending Course</h4>
+                            <p>Our mission is to provide educators, professionals, and learners of all levels with the
+                                knowledge, tools, and resources they need to succeed.</p>
+                        </div>
                     </div>
-                    <div class="feature-content">
-                        <h4 class="f-title">Trending Course</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam suscipit fugiat sint
-                            totam soluta assumenda</p>
-                    </div>
-                </div>
+                </a>
                 <!--/ End Single Feature -->
             </div>
             <div class="col-lg-3 col-md-6 col-12">
                 <!-- Single Feature -->
-                <div class="single-feature">
-                    <div class="icon-img">
-                        <img src="{{asset('courses_template/images/feature2.jpg')}}" alt="#">
-                        <i class="fa fa-book"></i>
+                <a target="_blank" href="{{route('courses.soon')}}">
+
+                    <div class="single-feature">
+                        <div class="icon-img">
+                            <img src="{{asset('courses_template/images/feature2.jpg')}}" alt="#">
+                            <i class="fa fa-book"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4 class="f-title">Books & Library</h4>
+                            <p>Our extensive collection of books, research materials, and library access provides you
+                                with
+                                the foundational knowledge and deep insights necessary to succeed in your courses.</p>
+                        </div>
                     </div>
-                    <div class="feature-content">
-                        <h4 class="f-title">Books & Library</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam suscipit fugiat sint
-                            totam soluta assumenda</p>
-                    </div>
-                </div>
+                </a>
                 <!--/ End Single Feature -->
             </div>
             <div class="col-lg-3 col-md-6 col-12">
                 <!-- Single Feature -->
-                <div class="single-feature">
-                    <div class="icon-img">
-                        <img src="{{asset('courses_template/images/feature1.jpg')}}" alt="#">
-                        <i class="fa fa-institution"></i>
+                <a target="_blank" href="{{route('courses.soon')}}">
+                    <div class="single-feature">
+                        <div class="icon-img">
+                            <img src="{{asset('courses_template/images/feature1.jpg')}}" alt="#">
+                            <i class="fa fa-institution"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4 class="f-title">Best Facility</h4>
+                            <p>Our facilities and class offerings are designed to provide you with the best possible
+                                learning experience, whether you're studying online or in-person.</p>
+                        </div>
                     </div>
-                    <div class="feature-content">
-                        <h4 class="f-title">Best Facility</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam suscipit fugiat sint
-                            totam soluta assumenda</p>
-                    </div>
-                </div>
+                </a>
                 <!--/ End Single Feature -->
             </div>
             <div class="col-lg-3 col-md-6 col-12">
                 <!-- Single Feature -->
-                <div class="single-feature">
-                    <div class="icon-img">
-                        <img src="{{asset('courses_template/images/feature3.jpg')}}" alt="#">
-                        <i class="fa fa-users"></i>
+                <a href="{{route('courses.instructors')}}">
+                    <div class="single-feature">
+                        <div class="icon-img">
+                            <img src="{{asset('courses_template/images/feature3.jpg')}}" alt="#">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <div class="feature-content">
+
+                            <h4 class="f-title">Certified Teachers</h4>
+                            <p>Covers advanced strategies for creating a positive learning environment, managing student
+                                behavior, and promoting engagement</p>
+                        </div>
                     </div>
-                    <div class="feature-content">
-                        <h4 class="f-title">Certified Teachers</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam suscipit fugiat sint
-                            totam soluta assumenda</p>
-                    </div>
-                </div>
+                </a>
                 <!--/ End Single Feature -->
             </div>
         </div>
@@ -415,58 +252,39 @@
         <div class="row">
             <div class="col-lg-5 col-12">
                 <div class="event-img">
-                    <img src="{{asset('courses_template/images/event-left.png')}}" alt="#">
+                    <img src="{{asset('courses_template/images/event-left.jpg')}}" alt="#">
                 </div>
             </div>
+            {{-- upcoming events data --}}
             <div class="col-lg-7 col-12">
+
                 <div class="coming-event">
+                    @foreach ($events as $event)
                     <!-- Single Event -->
                     <div class="single-event">
                         <div class="event-date">
-                            <p>23<span>March</span></p>
+                            <p>{{date('d', strtotime($event->start_date))}}<span>{{date('F',
+                                    strtotime($event->start_date))}}</span></p>
                         </div>
                         <div class="event-content">
-                            <h3 class="event-title"><a href="event-single.html">Admission Fair Spring 2019</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis
-                                ultricies tortor, nec sollicitudin lorem sagittis vitae. Curabitur rhoncus commodo
+                            <h3 class="event-title"><a
+                                    href="{{route('courses.events.show', $event->uuid)}}">{{$event->title}} |
+                                    {{$event->type->name}}</a></h3>
+                            <p>{{$event->description}}
                             </p>
-                            <span class="entry-date-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 05:23 AM
-                                - 09:23 AM </span>
+                            <span class="entry-date-time"><i class="fa fa-calendar" aria-hidden="true"></i> {{date('jS,
+                                F
+                                Y', strtotime($event->start_date))}}
+                                @if ($event->start_date != $event->end_date)
+                                to {{date('jS, F Y',
+                                strtotime($event->end_date))}}</span>
+                            @endif
                         </div>
                     </div>
                     <!-- End Single Event -->
-                    <!-- Single Event -->
-                    <div class="single-event">
-                        <div class="event-date">
-                            <p>25<span>April</span></p>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title"><a href="event-single.html">Internation Web Developments
-                                    Awards!</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis
-                                ultricies tortor, nec sollicitudin lorem sagittis vitae. Curabitur rhoncus commodo
-                            </p>
-                            <span class="entry-date-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 05:23 AM
-                                - 09:23 AM </span>
-                        </div>
-                    </div>
-                    <!-- End Single Event -->
-                    <!-- Single Event -->
-                    <div class="single-event">
-                        <div class="event-date">
-                            <p>05<span>Jun</span></p>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title"><a href="event-single.html">Actualized Network Seminar</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse facilisis
-                                ultricies tortor, nec sollicitudin lorem sagittis vitae. Curabitur rhoncus commodo
-                            </p>
-                            <span class="entry-date-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 05:23 AM
-                                - 09:23 AM </span>
-                        </div>
-                    </div>
-                    <!-- End Single Event -->
+                    @endforeach
                 </div>
+
             </div>
         </div>
         <div class="text-center my-4 mb-0">
@@ -488,13 +306,18 @@
                 <div class="col-lg-8 col-md-8 col-12">
                     <div class="text-content">
                         <h2>We <span>Focus on</span> Brands, Products & Campaigns</h2>
-                        <p>facilisis ultricies tortor, nec sollicitudin lorem sagittis vitae. Curabitur rhoncus
-                            commodo rutrum. Pellentesque habitant morbi tristique senectus et netus et malesuada
-                            fames ac turpis egestas. Aliquam nec lacus pulvinar, laoreet dolor quis, pellentesque
-                            ante. Cras nulla orci, pharetra at dictum consequat, pretium pretium nulla</p>
+                        <p>Launching a marketing campaign requires a solid financial foundation. We focus on optimizing
+                            campaign budgets, ROI tracking, and resource allocation to ensure that every dollar spent
+                            contributes to your campaign’s success. Our tools and strategies help you measure
+                            effectiveness and adjust for better outcomes.
+
+                            By focusing on the financial aspects of brands, products, and campaigns, we provide you with
+                            the knowledge and tools to maximize growth, profitability, and long-term success. With
+                            expert guidance, you’ll be empowered to make strategic decisions that drive measurable
+                            results.</p>
                         <!-- CTA Button -->
                         <div class="button">
-                            <a class="btn white" href="{{route('login')}}">Join With Now</a>
+                            <a class="btn white" href="{{route('instructor.create')}}">Join With Now</a>
                             <a class="btn white primary" href="{{route('courses.all')}}">View Courses</a>
                         </div>
                         <!--/ End CTA Button -->
@@ -520,8 +343,9 @@
             <div class="col-lg-6 offset-lg-3 col-12">
                 <div class="section-title bg">
                     <h2>Frequently Asked <span>Questions</span></h2>
-                    <p>Able an hope of body. Any nay shyness article matters own removal nothing his forming. Gay
-                        own additions education satisfied the perpetual. If he cause manor happy</p>
+                    <p>We understand that life is busy. Our platform offers flexible learning formats—online, on-demand,
+                        live sessions, and more—so you can learn at your own pace, whenever and wherever works best for
+                        you.</p>
                     <div class="icon"><i class="fa fa-question"></i></div>
                 </div>
             </div>
@@ -537,105 +361,21 @@
                     <div class="faq-content">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <!-- Single Faq -->
-                            <div class="panel panel-default">
-                                <div class="faq-heading" id="FaqTitle1">
+                            @foreach ($faqs as $index => $faq)
+                            <div class="panel panel-default {{$index == 0 ? 'active' : ''}}">
+                                <div class="faq-heading" id="FaqTitle{{$index}}">
                                     <h4 class="faq-title">
                                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-                                            href="#faq1"><i class="fa fa-question"></i>We have launches a new
-                                            software house!</a>
+                                            href="#faq{{$index}}"><i class="fa fa-question"></i>{{$faq->question}}</a>
                                     </h4>
                                 </div>
-                                <div id="faq1" class="panel-collapse collapse" role="tabpanel"
-                                    aria-labelledby="FaqTitle1">
-                                    <div class="faq-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Suspendisse facilisis ultricies tortor, nec sollicitudin lorem sagittis
-                                        vitae. Curabitur rhoncus commodo rutrum. Pellentesque habitant morbi
-                                        tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam
-                                        nec lacus pulvinar, laoreet dolor quis, pellentesque ante. Cras nulla orci,
-                                        pharetra at dictum consequat</div>
+                                <div id="faq{{$index}}" class="panel-collapse collapse {{$index == 0 ? 'show' : ''}}"
+                                    role="tabpanel" aria-labelledby="FaqTitle{{$index}}">
+                                    <div class="faq-body">{{$faq->answer}}</div>
                                 </div>
                             </div>
                             <!--/ End Single Faq -->
-                            <!-- Single Faq -->
-                            <div class="panel panel-default active">
-                                <div class="faq-heading" id="FaqTitle2">
-                                    <h4 class="faq-title">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-                                            href="#faq2"><i class="fa fa-question"></i>Curabitur rhoncus commodo
-                                            rutrum. Pellentesque</a>
-                                    </h4>
-                                </div>
-                                <div id="faq2" class="panel-collapse collapse show" role="tabpanel"
-                                    aria-labelledby="FaqTitle2">
-                                    <div class="faq-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Suspendisse facilisis ultricies tortor, nec sollicitudin lorem sagittis
-                                        vitae. Curabitur rhoncus commodo rutrum. Pellentesque habitant morbi
-                                        tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam
-                                        nec lacus pulvinar, laoreet dolor quis, pellentesque ante. Cras nulla orci,
-                                        pharetra at dictum consequat</div>
-                                </div>
-                            </div>
-                            <!--/ End Single Faq -->
-                            <!-- Single Faq -->
-                            <div class="panel panel-default">
-                                <div class="faq-heading" id="FaqTitle3">
-                                    <h4 class="faq-title">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-                                            href="#faq3"><i class="fa fa-question"></i>Suspendisse facilisis
-                                            ultricies tortor, nec sollicitudin</a>
-                                    </h4>
-                                </div>
-                                <div id="faq3" class="panel-collapse collapse" role="tabpanel"
-                                    aria-labelledby="FaqTitle3">
-                                    <div class="faq-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Suspendisse facilisis ultricies tortor, nec sollicitudin lorem sagittis
-                                        vitae. Curabitur rhoncus commodo rutrum. Pellentesque habitant morbi
-                                        tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam
-                                        nec lacus pulvinar, laoreet dolor quis, pellentesque ante. Cras nulla orci,
-                                        pharetra at dictum consequat</div>
-                                </div>
-                            </div>
-                            <!--/ End Single Faq -->
-                            <!-- Single Faq -->
-                            <div class="panel panel-default">
-                                <div class="faq-heading" id="FaqTitle4">
-                                    <h4 class="faq-title">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-                                            href="#faq4"><i class="fa fa-question"></i>Tristique senectus et netus
-                                            et malesuada fames ac turpis </a>
-                                    </h4>
-                                </div>
-                                <div id="faq4" class="panel-collapse collapse" role="tabpanel"
-                                    aria-labelledby="FaqTitle4">
-                                    <div class="faq-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Suspendisse facilisis ultricies tortor, nec sollicitudin lorem sagittis
-                                        vitae. Curabitur rhoncus commodo rutrum. Pellentesque habitant morbi
-                                        tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam
-                                        nec lacus pulvinar, laoreet dolor quis, pellentesque ante. Cras nulla orci,
-                                        pharetra at dictum consequat</div>
-                                </div>
-                            </div>
-                            <!--/ End Single Faq -->
-                            <!-- Single Faq -->
-                            <div class="panel panel-default">
-                                <div class="faq-heading" id="FaqTitle5">
-                                    <h4 class="faq-title">
-                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-                                            href="#faq5"><i class="fa fa-question"></i>Cras nulla orci, pharetra at
-                                            dictum consequat</a>
-                                    </h4>
-                                </div>
-                                <div id="faq5" class="panel-collapse collapse" role="tabpanel"
-                                    aria-labelledby="FaqTitle5">
-                                    <div class="faq-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Suspendisse facilisis ultricies tortor, nec sollicitudin lorem sagittis
-                                        vitae. Curabitur rhoncus commodo rutrum. Pellentesque habitant morbi
-                                        tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam
-                                        nec lacus pulvinar, laoreet dolor quis, pellentesque ante. Cras nulla orci,
-                                        pharetra at dictum consequat</div>
-                                </div>
-                            </div>
-                            <!--/ End Single Faq -->
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -658,32 +398,31 @@
             <div class="col-lg-4 col-md-4 col-12">
                 <div class="text-content">
                     <h4>Our Awesome Clients!</h4>
-                    <p>Vivamus volutpat eros pulvinar velit laoreet, sit amet egestas erat dignissim. Et harum
-                        quidem</p>
+                    <p>We’re proud to work with incredible organizations and individuals who trust us to provide
+                        world-class learning experiences.</p>
                 </div>
             </div>
             <div class="col-lg-8 col-md-8 col-12">
                 <div class="client-slider">
                     <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client1.png')}}" alt="#"></a>
+                        <a href="#"><img src="{{asset('courses_template/images/client1.png')}}" class="client_images"
+                                alt="#"></a>
                     </div>
                     <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client2.png')}}" alt="#"></a>
+                        <a href="#"><img src="{{asset('courses_template/images/client2.jpg')}}" class="client_images"
+                                alt="#"></a>
                     </div>
                     <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client3.png')}}" alt="#"></a>
+                        <a href="#"><img src="{{asset('courses_template/images/client3.png')}}" class="client_images"
+                                alt="#"></a>
                     </div>
                     <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client4.png')}}" alt="#"></a>
+                        <a href="#"><img src="{{asset('courses_template/images/client4.png')}}" class="client_images"
+                                alt="#"></a>
                     </div>
                     <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client5.png')}}" alt="#"></a>
-                    </div>
-                    <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client1.png')}}" alt="#"></a>
-                    </div>
-                    <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client2.png')}}" alt="#"></a>
+                        <a href="#"><img src="{{asset('courses_template/images/client5.png')}}" class="client_images"
+                                alt="#"></a>
                     </div>
                 </div>
             </div>

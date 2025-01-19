@@ -56,7 +56,7 @@
 								valign="top">
 								<h4
 									style="color:#999;font-family:Poppins,Helvetica,Arial,sans-serif;font-size:16px;font-weight:500;font-style:normal;letter-spacing:normal;line-height:24px;text-transform:none;text-align:center;padding:0;margin:0">
-									Please be informed that status for your job application # $application_number for
+									Please be informed that status for your job application as
 									{{$job_title}} position at {{$company}} has been changed!</h4>
 								<h2 class="text-danger">You're {{$new_statu}}!</h2>
 							</td>

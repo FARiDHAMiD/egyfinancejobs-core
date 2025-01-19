@@ -24,7 +24,7 @@ class FaqController extends Controller
             $faqs->where('question', 'like', '%' . $searchTerms . '%');
         }
         $data = [
-            'page_question' => 'FAQs',
+            'page_name' => 'FAQs',
             'page_title' => 'FAQs',
             'search' => $search,
             'faqs' => $faqs,
@@ -34,9 +34,9 @@ class FaqController extends Controller
 
     public function faq_guest()
     {
-        $faqs = Faq::orderBy('id', 'asc')->get();
+        $faqs = Faq::orderBy('id', 'asc')->where('website', 0)->get();
         $data = [
-            'page_question' => 'FAQs',
+            'page_name' => 'FAQs',
             'page_title' => 'FAQs',
             'faqs' => $faqs,
         ];
@@ -52,7 +52,7 @@ class FaqController extends Controller
     {
 
         $data = [
-            'page_question' => 'FAQs',
+            'page_name' => 'FAQs',
             'page_title' => 'Create FAQ',
         ];
         return view('admin.faqs.create', $data);
@@ -72,6 +72,7 @@ class FaqController extends Controller
         ]);
         Faq::create(
             [
+                'website' => $request->website,
                 'question' => $request->question,
                 'answer' => $request->answer,
                 'user_id' => Auth::id(),
@@ -101,7 +102,7 @@ class FaqController extends Controller
     public function edit(Faq $faq)
     {
         $data = [
-            'page_question' => 'FAQs',
+            'page_name' => 'FAQs',
             'page_title' => 'Edit FAQs question',
             'faq' => $faq,
         ];
@@ -121,7 +122,11 @@ class FaqController extends Controller
             'question' => 'required|string',
             'answer' => 'required|string',
         ]);
-        $faq->update(['question' => $request->question, 'answer' => $request->answer]);
+        $faq->update([
+            'website' => $request->website,
+            'question' => $request->question,
+            'answer' => $request->answer
+        ]);
         session()->flash('alert_message', ['message' => 'The FAQ has been updated successfully', 'icon' => 'success']);
         return redirect()->back();
     }

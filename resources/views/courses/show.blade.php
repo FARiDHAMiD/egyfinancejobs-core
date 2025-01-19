@@ -1,5 +1,38 @@
 @extends('courses.main')
 @section('courses.content')
+<style>
+    /* rating */
+    .rating-css div {
+        color: #ffe400;
+        font-size: 30px;
+        font-family: sans-serif;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 20px 0;
+    }
+
+    .rating-css input {
+        display: none;
+    }
+
+    .rating-css input+label {
+        font-size: 20px;
+        text-shadow: 1px 1px 0 #8f8420;
+        cursor: pointer;
+    }
+
+    .rating-css input:checked+label~label {
+        color: #b4afaf;
+    }
+
+    .rating-css label:active {
+        transform: scale(0.8);
+        transition: 0.3s ease;
+    }
+
+    /* End of Star Rating */
+</style>
 <div class="container">
 
     <!-- contact section for styling ... -->
@@ -43,10 +76,29 @@
                             <p><span class="text-dark font-weight-bold">Prerequisite: </span>
                                 {{$course->prerequisite ? $course->prerequisite : 'Non'}}
                             </p>
+
+                            <div class="d-flex justify-start">
+                                <div class="rating-css">
+                                    <div class="star-icon">
+                                        <label for="" class="text-dark" style="font-size: large">
+
+                                            {{'4.7'}}
+
+                                        </label>
+                                        <input type="radio" value="1" name="course_rating" checked id="rating1">
+                                        <label for="rating1" class="fa fa-star"></label>
+                                        <span class="text-secondary" style="font-size: small">
+                                            ({{'22 reviews'}})
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- End Course-Info -->
 
                         <!-- Instructor Info-Info -->
+                        
+                        @if ($course->user_instructor)
                         <div class="contact-info">
                             <div class="icon"><i class="fa fa-address-book" style="font-size: x-large"></i></div>
                             <h3 class="font-weight-bold">Instructor Information</h3>
@@ -64,13 +116,14 @@
                             <p><span class="font-weight-bold">Mobile:
                                 </span>{{$course->user_instructor->instructor_profile->mobile}}</p>
                         </div>
+                        @endif
                         {{-- End Instructor Info --}}
                     </div>
 
 
                 </div>
 
-                <div class="col-lg-8 col-md-8 col-12">
+                <div class="d-felx justify-start col-lg-8 col-md-8 col-12">
                     @if($course->video_url)
                     <div class="embed-responsive embed-responsive-16by9">
                         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{$course->video_url}}"
@@ -102,9 +155,27 @@
                         <a href="{{route('login_page')}}" class="btn primary my-2">Enroll</a>
                     </div>
                     @endif
+
                 </div>
 
                 {{-- submit review --}}
+                {{-- <div class="rating-css">
+                    <div class="star-icon">
+                        <input type="radio" value="1" name="product_rating" checked id="rating1">
+                        <label for="rating1" class="fa fa-star"></label>
+                        <input type="radio" value="2" name="product_rating" id="rating2">
+                        <label for="rating2" class="fa fa-star"></label>
+                        <input type="radio" value="3" name="product_rating" id="rating3">
+                        <label for="rating3" class="fa fa-star"></label>
+                        <input type="radio" value="4" name="product_rating" id="rating4">
+                        <label for="rating4" class="fa fa-star"></label>
+                        <input type="radio" value="5" name="product_rating" id="rating5">
+                        <label for="rating5" class="fa fa-star"></label>
+                    </div>
+                </div>
+
+
+
                 <form action="{{ route('courses.review_store', $course->id) }}" method="POST">
                     @csrf
                     <textarea name="review_txt" class="form-control" placeholder="Write your review..."></textarea>
@@ -113,7 +184,7 @@
                         <input type="number" name="rating" min="1" max="5" required>
                     </div>
                     <button class="btn white primary" type="submit">Submit Review</button>
-                </form>
+                </form> --}}
 
                 <div class="col-lg-12 col-md-12 col-12">
                     {{-- the same course instructors and admins only can view this course enrollments --}}

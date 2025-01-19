@@ -15,6 +15,7 @@ class CreateFaqsTable extends Migration
     {
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
+            $table->boolean('webstie')->default(0); // job or courses website
             $table->text('question');
             $table->text('answer');
             $table->bigInteger('user_id')->unsigned();

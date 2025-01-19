@@ -40,6 +40,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Website</th>
                             <th>Question</th>
                             <th>Answer</th>
                             <th>Created By</th>
@@ -51,6 +52,13 @@
                         @foreach ($faqs as $faq)
                         <tr>
                             <td>{{$loop->iteration}}</td>
+                            <td>
+                                @if(!$faq->website)
+                                Jobs Website
+                                @else
+                                Courses Website
+                                @endif
+                            </td>
                             <td>{{substr($faq->question, 0, 60)}}</td>
                             <td>{{substr($faq->answer, 0, 80)}}</td>
                             <td>{{$faq->user->first_name}} {{$faq->user->last_name}}</td>

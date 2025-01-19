@@ -18,6 +18,7 @@ use App\Models\JobQuestion;
 use App\Models\Skill;
 use App\Models\JobApplication;
 use App\Models\JobApplicationAnswer;
+use App\Models\JobRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -76,6 +77,100 @@ class JobController extends Controller
             'search' => $search,
         ];
         return view('admin.jobs.index', $data);
+    }
+
+    function job_request_create()
+    {
+        $cats = JobCategory::all();
+        $types = JobType::all();
+        $educations = EducationLevel::all();
+        $career_levels = CareerLevel::all();
+        $data = [
+            'page_name' => 'Post Job Request',
+            'page_title' => 'Post Job Request',
+            'cats' => $cats,
+            'types' => $types,
+            'educations' => $educations,
+            'career_levels' => $career_levels,
+        ];
+
+        return view('website.createJob', $data);
+    }
+
+    function job_request_store(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'username' => 'required|string|max:30|min:2',
+            'company' => 'required|string|max:30|min:2',
+            'email' => 'required|email',
+            'mobile' => 'nullable|digits:11',
+
+            'title' => 'required|string|max:30|min:2',
+
+            'excerpt' => 'nullable|string|max:100',
+            'description' => 'required|string|max:800|min:20',
+            'requirements' => 'required|string|max:800|min:20',
+            'location' => 'required|string|max:800',
+            'type_id' => 'required',
+            'category_id' => 'required',
+            'education_level_id' => 'required',
+            'career_level_id' => 'required',
+            'years_experience_from' => 'numeric|min:0|max:30',
+            'years_experience_to' => 'numeric|gte:years_experience_from',
+            'salary_from' => 'nullable|numeric|min:0',
+            'salary_to' => 'nullable|numeric|gte:salary_from',
+            'g-recaptcha-response' => 'recaptcha',
+        ]);
+
+        JobRequest::create([
+            'username' => $request->username,
+            'company' => $request->company,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+            'title' => $request->title,
+            'excerpt' => $request->excerpt,
+            'description' => $request->description,
+            'requirements' => $request->requirements,
+            'location' => $request->location,
+            'type_id' => $request->type_id,
+            'category_id' => $request->category_id,
+            'education_level_id' => $request->education_level_id,
+            'career_level_id' => $request->career_level_id,
+            'url_link' => $request->url_link,
+            'salary_from' => $request->salary_from,
+            'salary_to' => $request->salary_to,
+            'years_experience_from' => $request->years_experience_from,
+            'years_experience_to' => $request->years_experience_to,
+            'questions' => $request->questions,
+        ]);
+
+        session()->flash('alert_message', ['message' => 'Your reuqest submitted successfully, We will notify you after review, Thank You!', 'icon' => 'success']);
+        return redirect()->route('website.home');
+    }
+
+    function jobs_requests()
+    {
+        $jobs = JobRequest::all();
+        $data = [
+            'page_name' => 'Job Request',
+            'page_title' => 'Job Request',
+            'jobs' => $jobs,
+        ];
+
+        return view('admin.jobs.requests', $data);
+    }
+
+    function request_details($id)
+    {
+        $job = JobRequest::find($id);
+        $data = [
+            'page_name' => 'Job Request',
+            'page_title' => 'Job Request',
+            'job' => $job,
+        ];
+
+        return view('admin.jobs.request_details', $data);
     }
 
     public function create()

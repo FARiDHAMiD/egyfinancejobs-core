@@ -33,7 +33,7 @@ class ApplicationStatuEmail extends Mailable
     public function build()
     {
         return $this->from('info@egyfinancejobs.com', 'EgyFinanceJobs')
-            ->subject('Job Application Statu Changes!')
+            ->subject('Job Application Status Changes!')
             ->view('email.ApplicationStatuEmail', [
                 'user' => $this->user,
                 'company' => $this->company,

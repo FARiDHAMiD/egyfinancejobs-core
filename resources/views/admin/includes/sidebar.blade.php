@@ -23,6 +23,11 @@
             <i class="fas fa-fw fa-briefcase"></i>
             <span>Jobs</span></a>
     </li>
+    <li class="nav-item {{ isset($page_name) && $page_name == 'Job Request' ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('jobs.requests')}}">
+            <i class="fas fa-fw fa-question"></i>
+            <span>Jobs Requests</span></a>
+    </li>
     <li class="nav-item {{ isset($page_name) && $page_name == 'employers' ? 'active' : '' }}">
         <a class="nav-link" href="{{route('employers.index')}}">
             <i class="fas fa-fw fa-building"></i>
@@ -40,7 +45,8 @@
             <span>Instructors</span></a>
     </li>
 
-    <li class="nav-item {{ isset($page_name) && $page_name == 'Admin Courses' || $page_name == 'Edit Course' ? 'active' : '' }}">
+    <li
+        class="nav-item {{ isset($page_name) && $page_name == 'Admin Courses' || isset($page_name) && $page_name == 'Edit Course' ? 'active' : '' }}">
         <a class="nav-link" href="{{route('admin.course.index')}}">
             <i class="fas fa-fw fa-user-graduate"></i>
             <span>Courses</span></a>
@@ -52,7 +58,8 @@
             <span>Courses Enrolls</span></a>
     </li>
 
-    <li class="nav-item {{ isset($page_name) && $page_name == 'Events' || isset($page_name) && $page_name == 'Create Event' || isset($page_name) && $page_name == 'Edit Event' ? 'active' : '' }}">
+    <li
+        class="nav-item {{ isset($page_name) && $page_name == 'Events' || isset($page_name) && $page_name == 'Create Event' || isset($page_name) && $page_name == 'Edit Event' ? 'active' : '' }}">
         <a class="nav-link" href="{{route('events.index')}}">
             <i class="fas fa-fw fa-calendar"></i>
             <span>Events</span></a>

@@ -9,7 +9,7 @@
                     <div class="single-widget about">
                         <h2>Egy Finance Courses</h2>
                         <ul class="list">
-                            <li><i class="fa fa-phone"></i>Phone: 01001085717 </li>
+                            <li><a href="tel:+201001085717"><i class="fa fa-phone"></i>Phone: 01001085717 </a></li>
                             <li><i class="fa fa-envelope"></i>Email: <a
                                     href="mailto:info@egyfinancejobs.com">Info@egyfinancejobs.com</a></li>
                             <li><i class="fa fa-map-o"></i>Address: Heliopolis, Cairo, Egypt.</li>
@@ -61,13 +61,19 @@
                     <div class="single-widget list">
                         <h2>Useful Links</h2>
                         <ul>
-                            <li><i class="fa fa-angle-right"></i><a href="#">Privacy Policy</a></li>
-                            <li><i class="fa fa-angle-right"></i><a href="#">Terms / Condition</a>
+                            <li><i class="fa fa-angle-right"></i><a href="{{route('courses.privacy')}}">Privacy
+                                    Policy</a></li>
+                            <li><i class="fa fa-angle-right"></i><a href="{{route('courses.terms')}}">Terms /
+                                    Condition</a>
                             </li>
                             <li><i class="fa fa-angle-right"></i><a href="{{route('instructor.create')}}">I'm
                                     Instructor</a></li>
-                            <li><i class="fa fa-angle-right"></i><a href="#">Become a partner</a></li>
-                            <li><i class="fa fa-angle-right"></i><a href="#">About Developers</a></li>
+                            <li><i class="fa fa-angle-right"></i><a
+                                    href="https://wa.me/+201001085717?text=Hello%20Egyfinancejobs">Become a partner</a>
+                            </li>
+                            <li><i class="fa fa-angle-right"></i><a
+                                    href="https://wa.me/+201001085717?text=Hello%20Egyfinancejobs">About Developers</a>
+                            </li>
                         </ul>
                     </div>
                     <!--/ End Extra Links -->

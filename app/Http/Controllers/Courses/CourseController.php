@@ -8,6 +8,7 @@ use App\Models\CourseReview;
 use App\Models\Courses\Course;
 use App\Models\Courses\CourseCat;
 use App\Models\Courses\CourseEnroll;
+use App\Models\Faq;
 use App\Models\Courses\CourseStatu;
 use App\Models\Courses\CourseType;
 use App\Models\Courses\InstructorProfile;
@@ -41,18 +42,50 @@ class CourseController extends Controller
     public function index()
     {
         $course_cats = CourseCat::all();
+        $courses = Course::where('featured', 1)->get();
+        $events = Event::where('statu_id', '!=', '3')->orderBy('start_date', 'asc')->get();
+        $completed_events = Event::where('statu_id', '=', '3')->orderBy('start_date', 'asc')->get();
+        $faqs = Faq::where('website', 1)->paginate(5);
         $data = [
             'page_name' => 'Courses',
             'page_title' => '',
             'cats' => $course_cats,
+            'courses' => $courses,
+            'events' => $events,
+            'completed_events' => $completed_events,
+            'faqs' => $faqs,
         ];
         return view('courses.index', $data);
+    }
+
+    function soon()
+    {
+        $data = [
+            'page_name' => 'Coming Soon',
+            'page_title' => 'Coming Soon',
+        ];
+        return view('courses.includes.soon', $data);
+    }
+    function privacy()
+    {
+        $data = [
+            'page_name' => 'Coming Privacy',
+            'page_title' => 'Coming Privacy',
+        ];
+        return view('courses.privacy', $data);
+    }
+    function terms()
+    {
+        $data = [
+            'page_name' => 'Coming Terms',
+            'page_title' => 'Coming Terms',
+        ];
+        return view('courses.terms', $data);
     }
 
     public function course_cat($cat, Request $request)
     {
         $course_cats = CourseCat::all();
-        $courses = Course::where('cat_id', $cat)->get();
         $searchQuery = $request->input('search_field');
         $coursesQuery = Course::where('cat_id', $cat)->when($searchQuery != null, function ($query) use ($searchQuery) {
             return $query->where(function ($query) use ($searchQuery) {
@@ -180,15 +213,6 @@ class CourseController extends Controller
             'page_title' => 'About Us',
         ];
         return view('courses.aboutCourse', $data);
-    }
-
-    public function faqs()
-    {
-        $data = [
-            'page_name' => 'FAQs',
-            'page_title' => 'FAQs',
-        ];
-        return view('courses.faqsCourse', $data);
     }
 
     public function profile($uuid)
@@ -702,5 +726,16 @@ class CourseController extends Controller
         ]);
         session()->flash('alert_message', ['message' => 'Review submitted successfully!', 'icon' => 'success']);
         return redirect()->back();
+    }
+
+    public function faqs()
+    {
+        $faqs = Faq::where('website', 1)->get();
+        $data = [
+            'page_name' => 'FAQs',
+            'page_title' => 'FAQs',
+            'faqs' => $faqs,
+        ];
+        return view('courses.faqsCourse', $data);
     }
 }

@@ -37,6 +37,9 @@ Route::group(['middleware' => ['web', 'admin']], function () {
     // force create new job with similar requirements
     Route::post('/jobs/force_submit',  'JobController@force_submit')->name('admin.job.force_submit');
 
+    Route::get('/jobs-requests', 'JobController@jobs_requests')->name('jobs.requests');
+    Route::get('/jobs-requests/{id}', 'JobController@request_details')->name('jobs.requests.details');
+
     // Job archive / reactivate
     Route::get('/jobs/archive/{job_id}',  'JobController@archive')->name('admin.job.archive');
     Route::get('/jobs/reactivate//{job_id}',  'JobController@reactivate')->name('admin.job.reactivate');

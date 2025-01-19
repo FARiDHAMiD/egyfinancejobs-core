@@ -9,6 +9,19 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="mb-2">
+                            <label class="text-dark"><strong>Website</strong> <span class="text-muted">(Jobs /
+                                    Courses)</span></label>
+                            <select class="form-control" name="website">
+                                <option value="0" {{$faq->website == 0 ? 'selected' : ''}}>Jobs Website</option>
+                                <option value="1" {{$faq->website == 1 ? 'selected' : ''}}>Courses Website</option>
+                            </select>
+                            @error('question')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="mb-2">
                             <label class="text-dark"><strong>Question</strong></label>
                             <textarea name="question" class="form-control @error('question') is-invalid @enderror "
                                 cols="30" rows="3">{{$faq->question}}</textarea>

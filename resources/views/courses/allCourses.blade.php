@@ -3,6 +3,7 @@
 <style>
     .course_image {
         min-height: 250px;
+        max-height: 250px;
     }
 </style>
 <!-- Breadcrumb -->
@@ -58,23 +59,9 @@
         </ul>
 
     </div>
-    {{-- <div class="container d-flex justify-content-start mt-2">
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active btn primary my-1" id="pills-all-tab" href="#pills-all" role="tab"
-                    aria-controls="pills-all" aria-selected="true">All</a>
-            </li>
-            @foreach ($cats as $index => $cat)
-            <li class="nav-item">
-                <a class="nav-link btn primary ml-1 my-1" id="pills-{{$cat->id}}-tab" href="#pills-{{$cat->id}}"
-                    role="tab" aria-controls="pills-{{$cat->id}}" aria-selected="false">{{$cat->name}}</a>
-            </li>
-            @endforeach
-        </ul>
-    </div> --}}
     <div class="container">
         @if ($courses->count() <= 0) <div class="text-center">
-            <h3 class="text-muted">No Courses Availble for this category at the moment !</h3>
+            <h3 class="text-muted">No Courses Available for this category at the moment !</h3>
     </div>
     @endif
 
@@ -131,7 +118,7 @@
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star-half-o"></i></li>
-                        <li class="point"><span>4.5</span></li>
+                        <li class="point"><span>{{mt_rand(4.5*10, 5*10) / 10}}</span></li>
                     </ul>
                     <!-- Course Info -->
                     <div class="course-info">

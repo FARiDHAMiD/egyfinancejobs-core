@@ -23,6 +23,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ isset($page_name) && $page_name == 'Post Job Request' ? 'active' : '' }}"
+                            href="{{ route('jobs.request') }}">
+                            Post Job
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a target="_blank" class="nav-link" href="{{ route('courses.index') }}">
                             Courses
                         </a>
@@ -41,11 +48,6 @@
                     <li class="nav-item">
                         <a href="{{ route('employee_register_page') }}"
                             class="nav-link link-color bg-transparent">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link link-color bg-transparent" href="{{ route('website.jobs') }}">
-                            Post Job!
-                        </a>
                     </li>
                     {{-- <li class="nav-item">
                         <a href="employer/index.html" class="nav-link link-color bg-transparent">For
@@ -183,7 +185,8 @@
                         @if(auth()->user()->hasRole('admin'))
                         <a href="{{ route('admin.home') }}" class="nav-link link-color">You are admin!</a>
                         @elseif(auth()->user()->hasRole('instructor'))
-                        <a href="{{ route('courses.instructorProfile', auth()->user()->uuid) }}" class="nav-link link-color">Instructor Profile!</a>
+                        <a href="{{ route('courses.instructorProfile', auth()->user()->uuid) }}"
+                            class="nav-link link-color">Instructor Profile!</a>
                         @else
                         <a href="{{ route('login_page') }}" class="nav-link link-color">Login</a>
                         @endif

@@ -73,26 +73,7 @@
                     <!-- End Single Event -->
                     @endforeach
                 </div>
-                <div class="coming-event">
 
-                    <!-- Single Event -->
-                    <div class="single-event">
-                        <div class="event-date">
-                            <p>05<span>Jun</span></p>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title"><a href="{{route('courses.events.show', $event->uuid)}}">Actualized
-                                    Network Seminar</a></h3>
-                            <p>Showcasing Innovations: Financial institutions, banks, and fintech companies often use
-                                events to launch new financial products or services, attracting attention from the
-                                press, investors, and consumers.
-                            </p>
-                            <span class="entry-date-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 08:00 AM
-                                - 09:30 PM </span>
-                        </div>
-                    </div>
-                    <!-- End Single Event -->
-                </div>
             </div>
 
 
