@@ -12,11 +12,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Egy Finance Courses {{ isset($page_title) && !empty($page_title) ?  ' | ' .  $page_title : '' }}
+    <title>Egy Finance Courses {{ isset($page_title) && !empty($page_title) ? ' | ' . $page_title : '' }}
     </title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{asset('courses_template/images/favicon.png')}}">
+    {{-- <link rel="icon" type="image/png" href="{{asset('courses_template/images/favicon.png')}}"> --}}
+    <link rel="shortcut icon" href="{{ url('/courses_template') }}/images/favicon.png" type="image/x-icon">
 
     <!-- Web Font -->
     {{--

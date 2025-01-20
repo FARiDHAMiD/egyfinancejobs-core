@@ -161,7 +161,7 @@
                                 <div class="faq-heading" id="events">
                                     <h4 class="faq-title">
                                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-                                            href="#Events"><i class="fa fa-book"></i><span class="text-center"
+                                            href="#Events"><i class="fa fa-calendar"></i><span class="text-center"
                                                 style="font-size: x-large">Events</span></a>
                                     </h4>
                                 </div>

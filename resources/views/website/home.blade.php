@@ -157,7 +157,8 @@
             <div class="col-md-4 col-12">
                 <div class="counter-box mid">
                     <img src="{{ url('/website') }}/img/visitors.png">
-                    <p class="counter">{{$employee}}</p>
+                    {{-- <p class="counter">{{$employee}}</p> --}}
+                    <p class="counter">+{{3200}}</p>
                     <p>Employees</p>
                 </div>
             </div>

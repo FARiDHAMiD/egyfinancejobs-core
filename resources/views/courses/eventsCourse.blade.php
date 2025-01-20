@@ -36,122 +36,120 @@
             </div>
         </div>
 
-        <div class="row">
-            {{-- picture --}}
-            <div class="col-lg-5 col-12">
-                <div class="event-img">
-                    <img src="{{asset('courses_template/images/event-left.jpg')}}" alt="#">
+        @if ($events->count() < 1) <h4 class="text-muted text-center">
+            No Upcoming Events At this moment, Stay Tuned!
+            </h4>
+            @else
+
+            <div class="row">
+                {{-- picture --}}
+                <div class="col-lg-5 col-12">
+                    <div class="event-img">
+                        <img src="{{asset('courses_template/images/event-left.jpg')}}" alt="#">
+                    </div>
+                </div>
+
+
+                {{-- upcoming events data --}}
+                <div class="col-lg-7 col-12">
+
+                    <div class="coming-event">
+                        @foreach ($events as $event)
+                        <!-- Single Event -->
+                        <div class="single-event">
+                            <div class="event-date">
+                                <p>{{date('d', strtotime($event->start_date))}}<span>{{date('F',
+                                        strtotime($event->start_date))}}</span></p>
+                            </div>
+                            <div class="event-content">
+                                <h3 class="event-title"><a
+                                        href="{{route('courses.events.show', $event->uuid)}}">{{$event->title}} |
+                                        {{$event->type->name}}</a></h3>
+                                <p>{{$event->description}}
+                                </p>
+                                <span class="entry-date-time"><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    {{date('jS,
+                                    F
+                                    Y', strtotime($event->start_date))}}
+                                    @if ($event->start_date != $event->end_date)
+                                    to {{date('jS, F Y',
+                                    strtotime($event->end_date))}}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <!-- End Single Event -->
+                        @endforeach
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+            @endif
+            <hr>
+
+            {{-- Completed Events --}}
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-12">
+                    <div class="section-title bg">
+                        <h2>Completed <span>Events</span></h2>
+                        <p>Financial events provide a platform for professionals, investors, and businesses to connect,
+                            collaborate, and build relationships that can lead to partnerships, investment
+                            opportunities,
+                            and business growth.</p>
+                        <div class="icon"><i class="fa fa-check"></i></div>
+                    </div>
                 </div>
             </div>
 
-            {{-- upcoming events data --}}
-            <div class="col-lg-7 col-12">
+            @if ($completed_events->count() < 1) <h4 class="text-muted text-center">
+                No Completed Events At This Moment!
+                </h4>
+                @else
 
-                <div class="coming-event">
-                    @foreach ($events as $event)
-                    <!-- Single Event -->
-                    <div class="single-event">
-                        <div class="event-date">
-                            <p>{{date('d', strtotime($event->start_date))}}<span>{{date('F',
-                                    strtotime($event->start_date))}}</span></p>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title"><a
-                                    href="{{route('courses.events.show', $event->uuid)}}">{{$event->title}} |
-                                    {{$event->type->name}}</a></h3>
-                            <p>{{$event->description}}
-                            </p>
-                            <span class="entry-date-time"><i class="fa fa-calendar" aria-hidden="true"></i> {{date('jS,
-                                F
-                                Y', strtotime($event->start_date))}}
-                                @if ($event->start_date != $event->end_date)
-                                to {{date('jS, F Y',
-                                strtotime($event->end_date))}}</span>
-                            @endif
+                <div class="row">
+                    {{-- picture --}}
+                    <div class="col-lg-5 col-12">
+                        <div class="event-img">
+                            <img src="{{asset('courses_template/images/event-single.jpg')}}" alt="#">
                         </div>
                     </div>
-                    <!-- End Single Event -->
-                    @endforeach
-                </div>
 
-            </div>
+                    {{-- upcoming events data --}}
+                    <div class="col-lg-7 col-12">
 
-
-        </div>
-        <hr>
-        {{-- Completed Events --}}
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3 col-12">
-                <div class="section-title bg">
-                    <h2>Completed <span>Events</span></h2>
-                    <p>Financial events provide a platform for professionals, investors, and businesses to connect,
-                        collaborate, and build relationships that can lead to partnerships, investment opportunities,
-                        and business growth.</p>
-                    <div class="icon"><i class="fa fa-check"></i></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            {{-- picture --}}
-            <div class="col-lg-5 col-12">
-                <div class="event-img">
-                    <img src="{{asset('courses_template/images/event-single.jpg')}}" alt="#">
-                </div>
-            </div>
-
-            {{-- upcoming events data --}}
-            <div class="col-lg-7 col-12">
-
-                <div class="coming-event">
-                    @foreach ($completed_events as $event)
-                    <!-- Single Event -->
-                    <div class="single-event">
-                        <div class="event-date">
-                            <p>{{date('d', strtotime($event->start_date))}}<span>{{date('F',
-                                    strtotime($event->start_date))}}</span></p>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title"><a
-                                    href="{{route('courses.events.show', $event->uuid)}}">{{$event->title}} |
-                                    {{$event->type->name}}</a></h3>
-                            <p>{{$event->description}}
-                            </p>
-                            <span class="entry-date-time"><i class="fa fa-calendar" aria-hidden="true"></i> {{date('jS,
-                                F
-                                Y', strtotime($event->start_date))}}
-                                @if ($event->start_date != $event->end_date)
-                                to {{date('jS, F Y',
-                                strtotime($event->end_date))}}</span>
-                            @endif
+                        <div class="coming-event">
+                            @foreach ($completed_events as $event)
+                            <!-- Single Event -->
+                            <div class="single-event">
+                                <div class="event-date">
+                                    <p>{{date('d', strtotime($event->start_date))}}<span>{{date('F',
+                                            strtotime($event->start_date))}}</span></p>
+                                </div>
+                                <div class="event-content">
+                                    <h3 class="event-title"><a
+                                            href="{{route('courses.events.show', $event->uuid)}}">{{$event->title}} |
+                                            {{$event->type->name}}</a></h3>
+                                    <p>{{$event->description}}
+                                    </p>
+                                    <span class="entry-date-time"><i class="fa fa-calendar" aria-hidden="true"></i>
+                                        {{date('jS,
+                                        F
+                                        Y', strtotime($event->start_date))}}
+                                        @if ($event->start_date != $event->end_date)
+                                        to {{date('jS, F Y',
+                                        strtotime($event->end_date))}}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <!-- End Single Event -->
+                            @endforeach
                         </div>
                     </div>
-                    <!-- End Single Event -->
-                    @endforeach
                 </div>
-                <div class="coming-event">
-
-                    <!-- Single Event -->
-                    <div class="single-event">
-                        <div class="event-date">
-                            <p>05<span>Jun</span></p>
-                        </div>
-                        <div class="event-content">
-                            <h3 class="event-title"><a href="{{route('courses.events.show', $event->uuid)}}">Actualized
-                                    Network Seminar</a></h3>
-                            <p>Showcasing Innovations: Financial institutions, banks, and fintech companies often use
-                                events to launch new financial products or services, attracting attention from the
-                                press, investors, and consumers.
-                            </p>
-                            <span class="entry-date-time"><i class="fa fa-clock-o" aria-hidden="true"></i> 08:00 AM
-                                - 09:30 PM </span>
-                        </div>
-                    </div>
-                    <!-- End Single Event -->
-                </div>
-            </div>
-        </div>
-    </div>
+                @endif
 </section>
 <!--/ End Events -->
 @endsection

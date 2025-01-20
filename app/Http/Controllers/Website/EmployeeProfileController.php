@@ -281,7 +281,7 @@ class EmployeeProfileController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'bio' => 'max:150',
+            'bio' => 'max:250',
             'birthdate' => [
                 'required',
                 'date',
