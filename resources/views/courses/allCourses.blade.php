@@ -105,7 +105,7 @@
                         <span class="price">Free</span>
                         @endif
                     </div>
-                    <h4 class="c-title"><a href="{{route('courses.show', 1)}}">{{$course->name}}</a>
+                    <h4 class="c-title"><a href="{{route('courses.show', $course->uuid)}}">{{$course->name}}</a>
                     </h4>
                     <p>{{substr($course->info, 0, 150)}} ...</p>
                 </div>
@@ -118,7 +118,7 @@
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star"></i></li>
                         <li><i class="fa fa-star-half-o"></i></li>
-                        <li class="point"><span>{{mt_rand(4.5*10, 5*10) / 10}}</span></li>
+                        <li class="point"><span>{{mt_rand(4.5*10, 4.9*10) / 10}}</span></li>
                     </ul>
                     <!-- Course Info -->
                     <div class="course-info">

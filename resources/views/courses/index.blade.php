@@ -108,7 +108,7 @@
                                 <span class="price">Free</span>
                                 @endif
                             </div>
-                            <h4 class="c-title"><a href="{{route('courses.show', 1)}}">{{$course->name}}</a>
+                            <h4 class="c-title"><a href="{{route('courses.show', $course->uuid)}}">{{$course->name}}</a>
                             </h4>
                             <p>{{substr($course->info, 0, 150)}} ...</p>
                         </div>

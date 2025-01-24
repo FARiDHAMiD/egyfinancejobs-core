@@ -10,18 +10,19 @@
         content="Discover a wide range of expert-led financial courses designed to enhance your knowledge and skills. Whether you're looking to manage personal finances, explore investment strategies, or advance your career in finance, our platform offers flexible, comprehensive courses to suit all levels. Start learning today and unlock new opportunities in the world of finance!">
     <meta name='copyright' content='Egy Finance Jobs'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:image"
+        content="{{ isset($page_image) && !empty($page_image) ? $page_image : url('/website') . '/img/logo.png' }}">
+
 
     <!-- Title -->
     <title>Egy Finance Courses {{ isset($page_title) && !empty($page_title) ? ' | ' . $page_title : '' }}
     </title>
 
     <!-- Favicon -->
-    {{-- <link rel="icon" type="image/png" href="{{asset('courses_template/images/favicon.png')}}"> --}}
     <link rel="shortcut icon" href="{{ url('/courses_template') }}/images/favicon.png" type="image/x-icon">
 
     <!-- Web Font -->
-    {{--
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet"> --}}
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="{{asset('courses_template/css/bootstrap.min.css')}}">

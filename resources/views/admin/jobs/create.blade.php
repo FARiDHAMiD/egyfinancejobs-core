@@ -273,14 +273,14 @@
                     </div>
                     <div class="col-md-2 col-6 mb-3">
                         <div class="form-check mt-4">
-                            <input class="form-check-input" type="radio" name="net_gross" id="flexRadioDefault1"
+                            <input class="form-check-input" type="radio" name="net_gross" value="0" id="flexRadioDefault1"
                                 checked>
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Net
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="net_gross" id="flexRadioDefault2">
+                            <input class="form-check-input" type="radio" name="net_gross" value="1" id="flexRadioDefault2">
                             <label class="form-check-label" for="flexRadioDefault2">
                                 Gross
                             </label>

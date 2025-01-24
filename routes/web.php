@@ -57,7 +57,7 @@ Route::namespace('Courses')->group(function () {
     Route::get('/courses-soon', 'CourseController@soon')->name('courses.soon');
     Route::get('/courses-privacy', 'CourseController@privacy')->name('courses.privacy');
     Route::get('/courses-terms', 'CourseController@terms')->name('courses.terms');
-    
+
     //Enroll
     Route::post('/courses-enroll/{student_id}/{course_id}', 'CourseController@enroll')->name('courses.enroll');
     Route::post('/courses-cancel_enroll/{id}', 'CourseController@cancel_enroll')->name('courses.enroll.cancel');
@@ -67,7 +67,7 @@ Route::namespace('Courses')->group(function () {
 
     // Instructors
     Route::get('/instructor-create', 'CourseController@createInstructor')->name('instructor.create');
-    Route::post('/instructor-create', 'CourseController@storeInstructor')->name('instructor.store');
+    Route::post('/instructor-store', 'CourseController@storeInstructor')->name('instructor.store');
     Route::get('/courses-instructorProfile/{uuid}', 'CourseController@instructorProfile')->name('courses.instructorProfile'); //show
     Route::get('/courses-instructorProfile/edit/{uuid}', 'CourseController@instructorProfileEdit')->name('instructorProfile.edit');
     Route::post('/courses-instructorProfile/update/{uuid}', 'CourseController@instructorProfileUpdate')->name('instructor.update');
@@ -103,7 +103,10 @@ Route::namespace('Website')->group(function () {
         Route::get('/jobs', 'JobController@index')->name('jobs');
         Route::get('/jobs/{job_uuid}', 'JobController@show')->name('job-details');
     });
-    
+
+    // Terms - privacy
+    Route::get('/terms', 'HomeController@terms')->name('website.terms');
+    Route::get('/privacy', 'HomeController@privacy')->name('website.privacy');
 
     Route::get('/employee/profile/view/{id?}', 'EmployeeProfileController@view_profile')->name('employee.profile.view');
     //employee routes

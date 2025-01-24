@@ -104,7 +104,50 @@
                                         placeholder="Bio">{{$profile->bio}}</textarea>
                                 </div>
                             </div>
+                            <hr>
+                            <h6 class="text-dark ml-2 mb-2">Add your social links</h6>
+                            <div class="row">
+
+                                <div class="col-md-6 col-12 my-2">
+                                    <div class="form-group">
+                                        <label class="text-weight-bold ml-2">Facebook
+                                            <i class="fa fa-facebook"></i>
+                                        </label>
+                                        <input type="text" name="facebook" placeholder="Facebook"
+                                            value="{{$instructor->user_social_links != null ? $instructor->user_social_links->facebook : ''}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 my-2">
+                                    <div class="form-group">
+                                        <label class="text-weight-bold ml-2">LinkedIn
+                                            <i class="fa fa-linkedin"></i>
+                                        </label>
+                                        <input type="text" name="linkedin" placeholder="Linkedin"
+                                            value="{{$instructor->user_social_links != null ? $instructor->user_social_links->linkedin : ''}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 my-2">
+                                    <div class="form-group">
+                                        <label class="text-weight-bold ml-2">Youtube
+                                            <i class="fa fa-youtube"></i></label>
+                                        <input type="text" name="youtube" placeholder="Youtube"
+                                            value="{{$instructor->user_social_links != null ? $instructor->user_social_links->youtube : ''}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12 my-2">
+                                    <div class="form-group">
+                                        <label class="text-weight-bold ml-2">Website
+                                            <i class="fa fa-link"></i>
+                                        </label>
+                                        <input type="text" name="website" placeholder="Website"
+                                            value="{{$instructor->user_social_links != null ? $instructor->user_social_links->website : ''}}" />
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
+
+
 
                         <!--/ End Instructor Create Form -->
                     </div>

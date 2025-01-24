@@ -61,10 +61,10 @@
                             <p><span class="text-dark font-weight-bold">Status: </span>{{$course->statu->name}}</p>
                             <p><span class="text-dark font-weight-bold">Location: </span>{{$course->place ?
                                 $course->place : 'N/A'}}</p>
-                            <p><span class="text-dark font-weight-bold">From: </span> {{date('d-m-Y',
+                            <p><span class="text-dark font-weight-bold">From: </span> {{date('d-M-Y',
                                 strtotime($course->start_date))}}
                                 <span class="text-dark font-weight-bold"> to </span>
-                                {{date('d-m-Y',strtotime($course->end_date))}}
+                                {{date('d-M-Y',strtotime($course->end_date))}}
                             </p>
                             <p>
                                 <span class="text-dark font-weight-bold">Price:</span>
@@ -97,7 +97,7 @@
                         <!-- End Course-Info -->
 
                         <!-- Instructor Info-Info -->
-                        
+
                         @if ($course->user_instructor)
                         <div class="contact-info">
                             <div class="icon"><i class="fa fa-address-book" style="font-size: x-large"></i></div>
@@ -217,7 +217,7 @@
                                                 {{$enroll->student->first_name}} {{$enroll->student->last_name}}
                                             </a>
                                         </td>
-                                        <td>{{date('d-m-Y', strtotime($enroll->created_at));}}</td>
+                                        <td>{{date('d-M-Y', strtotime($enroll->created_at));}}</td>
                                         @if($enroll->accepted_by)
                                         <td class="text-success">Approved!</td>
                                         @else

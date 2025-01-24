@@ -58,12 +58,28 @@
                     <div class="teacher-head overlay">
                         <img src="{{ empty($instructor->getFirstMedia('instructor_profile')) ? asset('/website/img/teacher-avatar.png') : $instructor->getFirstMedia('instructor_profile')->getUrl() }}"
                             alt="" class="profile_image">
+                        @if($instructor->user_social_links)
                         <ul class="social">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                            @if($instructor->user_social_links->facebook)
+                            <li><a target="_blank" href="{{$instructor->user_social_links->facebook}}"><i
+                                        class="fa fa-facebook"></i></a></li>
+                            @endif
+                            @if($instructor->user_social_links->linkedin)
+                            <li><a target="_blank" href="{{$instructor->user_social_links->linkedin}}"><i
+                                        class="fa fa-linkedin"></i></a></li>
+                            @endif
+                            @if($instructor->user_social_links->youtube)
+                            <li><a target="_blank" href="{{$instructor->user_social_links->youtube}}"><i
+                                        class="fa fa-youtube"></i></a>
+                            </li>
+                            @endif
+                            @if($instructor->user_social_links->website)
+                            <li><a target="_blank" href="{{$instructor->user_social_links->website}}"><i
+                                        class="fa fa-link"></i></a>
+                            </li>
+                            @endif
                         </ul>
+                        @endif
                     </div>
                     <div class="teacher-content">
                         <a href="{{route('courses.instructorProfile', $instructor->uuid)}}" class="text-dark">

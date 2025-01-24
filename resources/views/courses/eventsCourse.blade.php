@@ -37,7 +37,7 @@
         </div>
 
         @if ($events->count() < 1) <h4 class="text-muted text-center">
-            No Upcoming Events At this moment, Stay Tuned!
+            No Upcoming Events At This Moment, Stay Tuned!
             </h4>
             @else
 

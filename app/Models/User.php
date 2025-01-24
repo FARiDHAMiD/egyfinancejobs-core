@@ -97,7 +97,7 @@ class User extends Authenticatable implements HasMedia
                 ->get('employee_skills.*');
         }
     }
-    public function employee_social_links()
+    public function user_social_links()
     {
         return $this->hasOne(SocialLink::class)->latest();
     }

@@ -206,7 +206,7 @@ class JobController extends Controller
 
         $data = [
             'page_name' => 'job_details',
-            'page_title' => $job->job_title . ' | Jobs | Egy Finance',
+            'page_title' => $job->job_title,
             'job' => $job,
             'employer' => $employer,
             'job_applications' => $job_applications, // appear for admin only

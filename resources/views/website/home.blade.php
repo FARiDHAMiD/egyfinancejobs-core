@@ -157,8 +157,7 @@
             <div class="col-md-4 col-12">
                 <div class="counter-box mid">
                     <img src="{{ url('/website') }}/img/visitors.png">
-                    {{-- <p class="counter">{{$employee}}</p> --}}
-                    <p class="counter">+{{3200}}</p>
+                    <p class="counter">{{$employee}}</p> 
                     <p>Employees</p>
                 </div>
             </div>
@@ -175,6 +174,161 @@
     </div>
 </div>
 <!-- Counters end -->
+
+{{-- contact us --}}
+<div class="popular-categories content-area-7 bg-grea">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h3 class="h5 mb-3">Egy Finance Jobs Team Would Like To Help You!</h3>
+                <!-- Form content box start -->
+                <div class="form-content-box w-100 mt-0">
+                    <!-- details -->
+                    <div class="details text-left  border-radius-5">
+                        <!-- Form start -->
+                        <!-- Form start -->
+                        <form action="{{route('website.contact_us.create')}}" method="POST">
+                            @csrf
+                            @if(!auth()->check())
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" class="input-text @error('name') is-invalid @enderror"
+                                    value="{{old('name')}}" placeholder="Your Name ..." required>
+                            </div>
+                            @error('name')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+
+                            <div class="form-group">
+                                <label>Mobile</label>
+                                <input type="text" name="mobile"
+                                    class="input-text @error('mobile') is-invalid @enderror" value="{{old('mobile')}}"
+                                    placeholder="Mobile No.">
+                            </div>
+                            @error('mobile')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" class="input-text @error('email') is-invalid @enderror"
+                                    value="{{old('email')}}" placeholder="Please provide valid email address ...">
+                            </div>
+                            @error('email')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+                            @endif
+
+                            <div class="form-group">
+                                <label>How can we help you?</label>
+                                <textarea name="description"
+                                    class="input-text @error('description') is-invalid @enderror"
+                                    placeholder="Help, Suggestion, Recommendation, etc..." rows="3"
+                                    required>{{old('description')}}</textarea>
+                            </div>
+                            @error('employer')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+
+                            @auth
+                            @else
+                            <div class="my-2 d-flex justify-content-center">
+                                {!!htmlFormSnippet()!!}
+                                @error('g-recaptcha-response')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            @endauth
+
+                            <div class="text-right">
+                                <button type="submit" class="btn button-theme px-5">
+                                    Send
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- Form content box end -->
+            </div>
+        </div>
+    </div>
+</div>
+{{-- end contact us --}}
+
+<!-- Courses Banner start -->
+<div class="banner bg-color-full" id="banner">
+    <div id="bannerCarousole" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item banner-max-height active">
+                <img class="d-block w-100 h-100" src="{{ url('/website') }}/img/event-avatar.jpg" alt="banner">
+                <div class="carousel-caption banner-slider-inner d-flex text-center"></div>
+            </div>
+        </div>
+    </div>
+    <div class="banner-inner">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="b-text banner-title">Egy Finance Courses  <br/>  Coming Soon!</h1>
+
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-12">
+                        <p class="fs-10 mb-2">
+                            Our goal is to empowering you with the knowledge and tools to master your finances.
+                            Whether you’re just starting out or looking to refine your financial strategies, our
+                            expert-designed courses will guide you every step of the way.
+                        </p>
+                        
+                        <a target="_blank" href="{{route('courses.index')}}" class="btn button-theme mt-2">
+                            Explore Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Courses Banner end -->
+
+
+<!-- FAQs -->
+<div class="job-listing-section content-area job-details">
+    <h5 class="text-center my-2">Our Clients Frequently Asked Questions</h5>
+    <div class="container mt-3">
+
+        <div id="accordion">
+            @foreach ($faqs as $index => $faq)
+            <div class="card my-2">
+                <div class="card-header" id="heading{{$index}}">
+                    <h5 class="mb-0">
+                        <a class="" data-toggle="collapse" data-target="#collapse{{$index}}" aria-expanded="true"
+                            aria-controls="collapseOne">
+                            <h6 class="mb-1" style="color: navy;">{{$faq->question}}</h6>
+                        </a>
+                    </h5>
+                </div>
+
+                <div id="collapse{{$index}}" class="collapse" aria-labelledby="heading{{$index}}"
+                    data-parent="#accordion">
+                    <div class="card-body">
+                        <h6 class="mb-2">{{$faq->answer}}</h6>
+                    </div>
+                </div>
+            </div>
+
+            @endforeach
+        </div>
+        <div class="text-center mt-3">
+            <a href="{{route('faqs')}}" class="btn button-theme">
+                See All FAQs
+            </a>
+        </div>
+    </div>
+</div>
+{{-- End FAQs --}}
+
 <!-- Latest Jobs strat in cairo -- temp remove -->
 {{-- <div class="popular-categories content-area-7 bg-grea">
     <div class="container">

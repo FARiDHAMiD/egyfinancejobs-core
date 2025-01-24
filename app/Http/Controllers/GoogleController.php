@@ -43,18 +43,20 @@ class GoogleController extends Controller
         try {
             $user = Socialite::driver('google')->user();
             $finduser = User::where('google_id', $user->id)->first();
+            // dd($finduser);
             if ($finduser) {
                 Auth::login($finduser);
-                return redirect(session('prev_link'));
+                session()->flash(
+                    'alert_message',
+                    ['message' => 'Welcome Back, ' .  $finduser->first_name . '!', 'icon' => 'success']
+                );
+                if (session('prev_link')) {
+
+                    return redirect(session('prev_link'));
+                } else {
+                    return redirect()->route('website.home');
+                }
             } else {
-                // session()->flash(
-                //     'alert_message',
-                //     ['message' => 'This Google Email is not registered, Please Register First! ', 'icon' => 'danger']
-                // );
-                // return redirect()->intended('/login');
-                // if ($request->url == ('admin/*')) {
-                //     // code
-                // }
                 $newUser = User::create([
                     // 'first_name' => ucfirst($user->user['given_name']), // first name
                     // 'last_name' =>  ucfirst($user->user['family_name']), // second and family name

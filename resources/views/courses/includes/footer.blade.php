@@ -128,4 +128,4 @@
 <script src="{{ url('/website') }}/js/jquery.scrollUp.js"></script>
 <script src="{{ url('/website') }}/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="{{ url('/website') }}/js/select2.min.js"></script>
-{{-- <script src="{{ url('/website') }}/js/app.js"></script> --}}
+<script src="{{ url('/website') }}/js/app.js"></script>

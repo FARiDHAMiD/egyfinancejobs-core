@@ -5,6 +5,29 @@
         max-height: 600px;
         width: 100%
     }
+
+    .share-buttons .social-list li {
+        display: inline-block;
+    }
+
+    .share-buttons .social-list li a {
+        margin-right: 0px;
+        color: #fff;
+        background-color: #05c46b;
+        width: 35px;
+        height: 35px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        border: 2px solid #05c46b;
+    }
+
+    .share-buttons .social-list li a:hover {
+        color: #05c46b !important;
+        background-color: #fff;
+    }
 </style>
 <!-- Breadcrumb -->
 <div class="breadcrumbs overlay" style="background-image:url('{{asset('courses_template/images/breadcrumb-bg.jpg')}}')">
@@ -62,6 +85,68 @@
                     <img src="{{ empty($instructor->getFirstMedia('instructor_profile')) ? asset('/website/img/teacher-avatar.png') : $instructor->getFirstMedia('instructor_profile')->getUrl() }}"
                         alt="" class="profile_image">
                 </div>
+
+                {{-- Soical Links --}}
+                @if($instructor->user_social_links)
+                <hr>
+                <div class="col-12 text-center share-buttons">
+                    <ul class="social-list social">
+
+                        @if($instructor->user_social_links->facebook)
+                        <li>
+                            <a class="facebook-bg" href="{{$instructor->user_social_links->facebook}}" target="_blank">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                        </li>
+                        @endif()
+
+                        @if ($instructor->user_social_links->linkedin)
+                        <li>
+                            <a class="linkedin-bg" href="{{$instructor->user_social_links->linkedin}}" target="_blank">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if ($instructor->user_social_links->youtube)
+                        <li>
+                            <a class="youtube-bg" href="{{$instructor->user_social_links->youtube}}" target="_blank">
+                                <i class="fa fa-youtube"></i>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if($instructor->instructor_profile->mobile)
+                        <li>
+                            <a href="https://wa.me/+2{{$instructor->instructor_profile->mobile}}?text=Hello%20{{$instructor->first_name}}"
+                                target="_blank" class="whatsapp"><i class="fa fa-whatsapp"></i></a>
+
+                        </li>
+                        @endif
+
+
+                        @if ($instructor->user_social_links->website)
+                        <li>
+                            <a class="website-bg" href="{{$instructor->user_social_links->website}}" target="_blank">
+                                <i class="fa fa-link"></i>
+                            </a>
+                        </li>
+                        @endif
+
+
+                        <li>
+                            <a class="copy-bg copyLink"
+                                href="{{ route('courses.instructorProfile', $instructor->uuid) }}"><i
+                                    class="fa fa-copy"></i></a>
+                            <p class="copyMessage" style="display: none;">Link copied!</p>
+                        </li>
+
+                    </ul>
+                </div>
+                @endif
+
+                {{-- End Social Links --}}
+
             </div>
             <div class="col-lg-7 col-12">
                 <div class="faq-main">
@@ -119,7 +204,7 @@
                                     </h4>
                                 </div>
                                 <div id="Bio" class="panel-collapse expand show" role="tabpanel" aria-labelledby="bio">
-                                    <div class="faq-body">{{$profile->bio}}</div>
+                                    <div class="faq-body">{{$profile->bio}} | {{$profile->qualification}}</div>
                                 </div>
                             </div>
                             <!--/ End Bio -->
@@ -193,9 +278,28 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
 <!--/ End Faqs -->
+@section('scripts')
+<script type="text/javascript">
+    $(document).ready(function () {
+    $('.copyLink').click(function (e) {
+        console.log('copied')
+        e.preventDefault();
+        var copyText = $(this).attr('href');
+        document.addEventListener('copy', function (e) {
+            e.clipboardData.setData('text/plain', copyText);
+            e.preventDefault();
+        }, true);
 
+        document.execCommand('copy');
+        $('.copyMessage').fadeIn().delay(1000).fadeOut();
+    });
+});
+
+</script>
+@endsection
 @endsection

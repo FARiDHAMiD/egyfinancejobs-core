@@ -88,7 +88,7 @@ class EmployeeProfileController extends Controller
         }
         $data = [
             'page_name' => 'employee_profile',
-            'page_title' => $employee->first_name . ' ' . $employee->last_name . ' | Egy Finance Jobs',
+            'page_title' => $employee->first_name . ' ' . $employee->last_name,
             'employee' => $employee,
             'profile' => $employee->employee_profile,
             'experiences' => $employee->employee_experiences,
@@ -100,7 +100,7 @@ class EmployeeProfileController extends Controller
             'technical_skills' => $employee->employee_skills('technical'),
             'technology_skills' => $employee->employee_skills('technology'),
             'employee_achievements' => $employee->employee_achievements,
-            'employee_social_links' => $employee->employee_social_links,
+            'user_social_links' => $employee->user_social_links,
         ];
 
         return view('website.employee.profile.view-profile', $data);
@@ -279,14 +279,14 @@ class EmployeeProfileController extends Controller
     {
         $employee = auth()->user();
         $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
             'bio' => 'max:250',
             'birthdate' => [
                 'required',
                 'date',
                 'before:' . Carbon::now()->subYears(18),
-                'after:' . Carbon::now()->subYears(70),
+                'after:' . Carbon::now()->subYears(80),
             ],
 
             'gender' => 'required|in:male,female',
@@ -298,8 +298,13 @@ class EmployeeProfileController extends Controller
             'phone' => 'required|digits:11',
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($employee->id)],
         ], [
-            'birthdate.before' => 'يجب ألا يقل السن عن 18 سنة',
-            'birthdate.after' => 'يجب ألا يزيد السن عن 70 سنة',
+            'first_name.required' => 'First Name is Required',
+            'first_name.max' => 'Too long first name',
+            'last_name.required' => 'Last Name is Required',
+            'last_name.max' => 'Too long last name',
+            'birthdate.before' => 'Age must be over 18 years old',
+            'birthdate.after' => 'Age must be under 80 years old',
+            'phone.digits' => 'Plese Enter Valid Phone Number',
         ]);
 
 
@@ -371,15 +376,23 @@ class EmployeeProfileController extends Controller
     public function update_career_inetrests(Request $request)
     {
         $employee = auth()->user();
-        $request->validate([
-            'career_level_id' => 'required|string|max:50',
-            'open_job_type_ids' => 'required|array|min:1',
-            'open_job_type_ids.*' => 'required|numeric|exists:job_types,id',
-            'job_title_id' => 'required|string|max:50',
-            'job_category_ids' => 'required|array|min:1',
-            'job_category_ids.*' => 'required|numeric|exists:job_categories,id',
-            'accepted_salary' => 'required|numeric|min:1|max:1000000',
-        ]);
+        $request->validate(
+            [
+                'career_level_id' => 'required|string|max:50',
+                'open_job_type_ids' => 'required|array|min:1',
+                'open_job_type_ids.*' => 'required|numeric|exists:job_types,id',
+                'job_title_id' => 'required|string|max:50',
+                'job_category_ids' => 'required|array|min:1',
+                'job_category_ids.*' => 'required|numeric|exists:job_categories,id',
+                'accepted_salary' => 'required|numeric|min:1|max:1000000',
+            ],
+            [
+                'accepted_salary.required' => 'Salary is required',
+                'accepted_salary.mix' => 'Salary must be positive number',
+                'accepted_salary.max' => 'Salary must be positive number under 1000000',
+                'accepted_salary.numeric' => 'Salary must be positive number under 1000000',
+            ]
+        );
 
 
         EmployeeProfile::where('employee_id', $employee->id)->update([
@@ -437,6 +450,15 @@ class EmployeeProfileController extends Controller
             ],
             'ending_in' => 'nullable|required_without:currently_work_there|date|after_or_equal:starting_from',
             'currently_work_there' => 'nullable|required_without:ending_in|in:on',
+        ], [
+            'starting_from.required' => 'Enter Start Date',
+            'starting_from.date' => 'Enter Valid Start Date',
+            'starting_from.before' => 'Start Date must be in the past',
+            'starting_from.after' => 'At least 14 years from your birthdate to add your first experience',
+
+            'ending.required' => 'Enter End Date',
+            'ending.date' => 'Enter Valid End Date',
+            'ending.after_or_equal' => 'End Date must be after or equal Start date',
         ]);
         Experience::find($experience_id)->update([
             'job_title' => $request->job_title,
@@ -706,7 +728,7 @@ class EmployeeProfileController extends Controller
             'Other' => 'nullable|string|max:255',
         ]);
 
-        if ($employee->employee_social_links != null) {
+        if ($employee->user_social_links != null) {
             SocialLink::where('user_id', $employee->id)->update([
                 'linkedin' => $request->linkedIn,
                 'facebook' => $request->Facebook,

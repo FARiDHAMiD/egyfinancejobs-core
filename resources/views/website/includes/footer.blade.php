@@ -26,7 +26,7 @@
                             @endif
                         </li>
                         <li>
-                            <a href="{{ route('website.jobs') }}">Find Jobs</a>
+                            <a href="{{ route('website.privacy') }}">Privacy Policy</a>
                         </li>
 
                         <li>
@@ -84,7 +84,8 @@
         <div class="text-center">
             <p class="copy">Copyright ©{{date('Y')}} Egy finance jobs . All rights reserved.
                 Use of this site is subject
-                to certain Terms and Conditions.</p>
+                to certain <a target="_blank" class="text-light font-weight-bold"
+                    href="{{route('website.terms')}}">Terms and Conditions.</a></p>
         </div>
     </div>
 </div>

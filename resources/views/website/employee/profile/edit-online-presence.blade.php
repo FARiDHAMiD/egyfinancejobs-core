@@ -2,7 +2,7 @@
 @section('website.content')
 <div class="main">
     <div class="container user-settings">
-       
+
         <div class="row">
             <div class="mb-4 col-md-4">
                 @include('website.employee.profile.user-settings-sidebar')
@@ -26,7 +26,9 @@
                                         </div>
                                         <div class="col-lg-10">
                                             <div class="form-group mb-0">
-                                                <input value="{{$employee->employee_social_links != null ? $employee->employee_social_links->linkedin : ''}}" type="text" name="linkedIn" class="input-text"
+                                                <input
+                                                    value="{{$employee->user_social_links != null ? $employee->user_social_links->linkedin : ''}}"
+                                                    type="text" name="linkedIn" class="input-text"
                                                     placeholder="LinkedIn">
                                             </div>
                                         </div>
@@ -37,7 +39,9 @@
                                         </div>
                                         <div class="col-lg-10">
                                             <div class="form-group mb-0">
-                                                <input value="{{$employee->employee_social_links != null ? $employee->employee_social_links->facebook : ''}}" type="text" name="Facebook" class="input-text"
+                                                <input
+                                                    value="{{$employee->user_social_links != null ? $employee->user_social_links->facebook : ''}}"
+                                                    type="text" name="Facebook" class="input-text"
                                                     placeholder="Facebook">
                                             </div>
                                         </div>
@@ -48,8 +52,9 @@
                                         </div>
                                         <div class="col-lg-10">
                                             <div class="form-group mb-0">
-                                                <input value="{{$employee->employee_social_links != null ? $employee->employee_social_links->youtube : ''}}" type="text" name="YouTube" class="input-text"
-                                                    placeholder="YouTube">
+                                                <input
+                                                    value="{{$employee->user_social_links != null ? $employee->user_social_links->youtube : ''}}"
+                                                    type="text" name="YouTube" class="input-text" placeholder="YouTube">
                                             </div>
                                         </div>
                                     </div>
@@ -59,8 +64,9 @@
                                         </div>
                                         <div class="col-lg-10">
                                             <div class="form-group mb-0">
-                                                <input value="{{$employee->employee_social_links != null ? $employee->employee_social_links->website : ''}}" type="text" name="Website" class="input-text"
-                                                    placeholder="Website">
+                                                <input
+                                                    value="{{$employee->user_social_links != null ? $employee->user_social_links->website : ''}}"
+                                                    type="text" name="Website" class="input-text" placeholder="Website">
                                             </div>
                                         </div>
                                     </div>
@@ -70,8 +76,9 @@
                                         </div>
                                         <div class="col-lg-10">
                                             <div class="form-group mb-0">
-                                                <input value="{{$employee->employee_social_links != null ? $employee->employee_social_links->other : ''}}" type="text" name="Other" class="input-text"
-                                                    placeholder="Other">
+                                                <input
+                                                    value="{{$employee->user_social_links != null ? $employee->user_social_links->other : ''}}"
+                                                    type="text" name="Other" class="input-text" placeholder="Other">
                                             </div>
                                         </div>
                                     </div>

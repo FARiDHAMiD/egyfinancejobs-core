@@ -58,6 +58,19 @@
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
 
+
+                            @auth
+                            @else
+                            <div class="my-2 d-flex justify-content-center">
+                                {!!htmlFormSnippet()!!}
+                                @error('g-recaptcha-response')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            @endauth
+
                             <div class="text-right">
                                 <button type="submit" class="btn button-theme px-5">
                                     Send

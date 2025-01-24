@@ -24,6 +24,8 @@ Route::group(['middleware' => ['web', 'admin']], function () {
 
     // Courses
     Route::get('/courses',  [CourseController::class, 'admin_index'])->name('admin.course.index');
+    // Courses Categories
+    Route::resource('/cats', 'CoursesCatsController');
 
     // review enrolls by admin
     Route::get('/courses-enrolls',  [CourseController::class, 'courses_enroll_review'])->name('admin.course.enrolls');

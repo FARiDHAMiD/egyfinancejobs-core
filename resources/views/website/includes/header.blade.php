@@ -1,14 +1,22 @@
-<title>{{ isset($page_title) && !empty($page_title) ? $page_title : 'Egy Finance Jobs' }}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
+<!DOCTYPE html>
+<html lang="en">
 
-<meta property="og:url" content="https://egyfinancejobs.com">
-<meta property="og:title" content="{{ isset($page_title) && !empty($page_title) ? $page_title : 'Egy Finance Jobs' }}">
-<meta property="og:description"
-    content="{{ isset($page_description) && !empty($page_description) ? $page_description : 'Egy Finance Jobs' }}">
+<!-- Meta Tags -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="EgyFinanceJobs">
+<meta name='copyright' content='Egy Finance Jobs'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta property="og:image"
     content="{{ isset($page_image) && !empty($page_image) ? $page_image : url('/website') . '/img/logo.png' }}">
 
+
+<!-- Title -->
+<title>Egy Finance Jobs {{ isset($page_title) && !empty($page_title) ? ' | ' . $page_title : '' }}
+</title>
+
+
+    
 
 
 <!-- External CSS libraries -->

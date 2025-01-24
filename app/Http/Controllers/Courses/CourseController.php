@@ -14,6 +14,7 @@ use App\Models\Courses\CourseType;
 use App\Models\Courses\InstructorProfile;
 use App\Models\Events\Event;
 use App\Models\Events\EventRegister;
+use App\Models\SocialLink;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -247,7 +248,7 @@ class CourseController extends Controller
         }
         $data = [
             'page_name' => 'Profile',
-            'page_title' => 'Profile',
+            'page_title' => $instructor->first_name . ' ' . $instructor->last_name,
             'instructor' => $instructor,
             'profile' => $instructor_profile,
             'instructor_courses' => $instructor_courses,
@@ -292,8 +293,34 @@ class CourseController extends Controller
                 'before:' . Carbon::now()->subYears(16),
                 'after:' .  Carbon::now()->subYears(90),
             ],
+
             'bio' => 'nullable|max:500',
+            'facebook' => 'nullable|string|max:250',
+            'linkedin' => 'nullable|string|max:250',
+            'youtube' => 'nullable|string|max:250',
+            'website' => 'nullable|string|max:250',
         ]);
+
+
+        if ($instructor->user_social_links != null) {
+            SocialLink::where('user_id', $instructor->id)->update([
+                'linkedin' => $request->linkedin,
+                'facebook' => $request->facebook,
+                'youtube' => $request->youtube,
+                'website' => $request->website,
+            ]);
+        } else {
+            SocialLink::create([
+                'user_id' => $instructor->id,
+                'linkedin' => $request->linkedIn,
+                'facebook' => $request->facebook,
+                'youtube' => $request->youtube,
+                'website' => $request->website,
+            ]);
+        }
+
+
+
 
         // change instructor profile image
         if ($request->has('profile_img')) {

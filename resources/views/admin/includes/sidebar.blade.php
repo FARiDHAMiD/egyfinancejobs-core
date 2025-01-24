@@ -52,6 +52,13 @@
             <span>Courses</span></a>
     </li>
 
+    <li
+        class="nav-item {{ isset($page_name) && $page_name == 'CATs' || isset($page_name) && $page_name == 'Edit CATs' ? 'active' : '' }}">
+        <a class="nav-link" href="{{route('cats.index')}}">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Courses Cats</span></a>
+    </li>
+
     <li class="nav-item {{ isset($page_name) && $page_name == 'Courses Enrolls' ? 'active' : '' }}">
         <a class="nav-link" href="{{route('admin.course.enrolls')}}">
             <i class="fas fa-fw fa-graduation-cap"></i>

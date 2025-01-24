@@ -68,6 +68,7 @@ class ContactUsController extends Controller
                 'mobile' => 'nullable|digits:11',
                 'email' => 'email:rfc,dns',
                 'description' => 'required|string',
+                'g-recaptcha-response' => 'recaptcha',
             ]);
             ContactUs::create(
                 [

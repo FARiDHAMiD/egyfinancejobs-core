@@ -235,7 +235,7 @@
                         <label for="currency" class="text-dark"><strong>Currency</strong></label>
                         <select name="currency" class="form-control @error('currency') is-invalid @enderror">
                             @foreach ($currencies as $currency)
-                            <option value="{{ $currency->id }}" {{ old('currency')==$currency->id ?
+                            <option value="{{ $currency->id }}" {{ $job->currency_id==$currency->id ?
                                 'selected' : '' }}>
                                 {{ $currency->name }}
                             </option>
@@ -245,7 +245,7 @@
                     <div class="col-md-2 col-6 mb-3">
                         <div class="form-check mt-4">
                             <input class="form-check-input" type="radio" name="net_gross" id="flexRadioDefault1"
-                                value="1" {{ old('net_gross')==0 || $job->net_gross ? 'checked'
+                                value="0" {{ old('net_gross')==0 || $job->net_gross ? 'checked'
                             : '' }}>
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Net

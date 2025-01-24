@@ -158,7 +158,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    @if($employee_social_links)
+                                    @if($user_social_links)
                                     <hr class="my-1">
                                     <div class="row">
                                         <div class="col-12">
@@ -166,33 +166,30 @@
                                             </p>
                                             <div class="employer-links justify-content-center">
                                                 <ul class="social-media">
-                                                    @if($employee_social_links->facebook)<li>
-                                                        <a class="facebook-bg"
-                                                            href="{{$employee_social_links->facebook}}"
+                                                    @if($user_social_links->facebook)<li>
+                                                        <a class="facebook-bg" href="{{$user_social_links->facebook}}"
                                                             target="_blank"><i class="fa fa-facebook"></i></a>
                                                     </li>
                                                     @endif
-                                                    @if($employee_social_links->linkedin)<li>
-                                                        <a class="linkedin-bg"
-                                                            href="{{$employee_social_links->linkedin}}"
+                                                    @if($user_social_links->linkedin)<li>
+                                                        <a class="linkedin-bg" href="{{$user_social_links->linkedin}}"
                                                             target="_blank"><i class="fa fa-linkedin"></i></a>
                                                     </li>
                                                     @endif
-                                                    @if($employee_social_links->youtube)<li>
+                                                    @if($user_social_links->youtube)<li>
                                                         <a class="youtube-bg" style="background-color:    #f00;"
-                                                            href="{{$employee_social_links->youtube}}"
-                                                            target="_blank"><i class="fa fa-youtube"></i></a>
+                                                            href="{{$user_social_links->youtube}}" target="_blank"><i
+                                                                class="fa fa-youtube"></i></a>
                                                     </li>
                                                     @endif
-                                                    @if($employee_social_links->website)<li>
+                                                    @if($user_social_links->website)<li>
                                                         <a class="website-bg" style="background-color:    #1c4ea7;"
-                                                            href="{{$employee_social_links->website}}"
-                                                            target="_blank"><i class="fa fa-sitemap"
-                                                                aria-hidden="true"></i></a>
+                                                            href="{{$user_social_links->website}}" target="_blank"><i
+                                                                class="fa fa-sitemap" aria-hidden="true"></i></a>
                                                     </li>
                                                     @endif
-                                                    @if($employee_social_links->other)<li>
-                                                        <a class="other-bg" href="{{$employee_social_links->other}}"
+                                                    @if($user_social_links->other)<li>
+                                                        <a class="other-bg" href="{{$user_social_links->other}}"
                                                             target="_blank"><i class="fa fa-cubes"
                                                                 aria-hidden="true"></i></a>
                                                     </li>
@@ -323,7 +320,7 @@
 
                             <li>
                                 <a class="linkedin-bg"
-                                    href="https://www.linkedin.com/shareArticle?mini=true&url={{ route('employee.profile.view', $employee->uuid) }}&title={{ $employee->first_name . ' ' . $employee->last_name }}&summary={{ $profile->job_title->name }} | {{ $profile->career_level->name ?? '' }}&source={{ route('website.home') }}"
+                                    href="https://www.linkedin.com/shareArticle?mini=true&url={{ route('employee.profile.view', $employee->uuid) }}&title={{ $employee->first_name }}&summary={{ str_replace(' ', '%', $employee->employee_profile->job_title) }} | {{ str_replace(' ', '%', $employee->employee_profile->bio) }}&source={{ route('website.home') }}"
                                     target="_blank" rel="noopener noreferrer">
                                     <i class="fa fa-linkedin"></i></a>
                                 </a>
