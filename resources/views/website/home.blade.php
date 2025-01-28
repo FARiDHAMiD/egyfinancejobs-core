@@ -157,7 +157,7 @@
             <div class="col-md-4 col-12">
                 <div class="counter-box mid">
                     <img src="{{ url('/website') }}/img/visitors.png">
-                    <p class="counter">{{$employee}}</p> 
+                    <p class="counter">{{$employee}}</p>
                     <p>Employees</p>
                 </div>
             </div>
@@ -271,7 +271,7 @@
     <div class="banner-inner">
         <div class="container">
             <div class="text-center">
-                <h1 class="b-text banner-title">Egy Finance Courses  <br/>  Coming Soon!</h1>
+                <h1 class="b-text banner-title">Egy Finance Courses</h1>
 
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-12">
@@ -280,7 +280,7 @@
                             Whether you’re just starting out or looking to refine your financial strategies, our
                             expert-designed courses will guide you every step of the way.
                         </p>
-                        
+
                         <a target="_blank" href="{{route('courses.index')}}" class="btn button-theme mt-2">
                             Explore Now
                         </a>

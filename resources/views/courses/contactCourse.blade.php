@@ -37,38 +37,63 @@
             <div class="col-lg-5 col-md-5 col-12">
                 <div class="form-head">
                     <!-- Contact Form -->
-                    <form class="form" action="mail/mail.php">
+                    <form class="form" method="POST" action="{{route('website.contact_us.create')}}">
+                        @csrf
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-12">
+                            @if(!auth()->check())
+                            <div class="col-lg-12 col-md-12 col-12">
                                 <div class="form-group">
                                     <i class="fa fa-user"></i>
-                                    <input name="first-name" type="text" placeholder="First name">
+                                    <input type="text" name="name" class="@error('name') is-invalid @enderror"
+                                        value="{{old('name')}}" placeholder="Full Name ..." required>
+                                </div>
+
+                                @error('name')
+                                <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <i class="fa fa-phone"></i>
+                                    <input type="text" name="mobile"
+                                        class="input-text @error('mobile') is-invalid @enderror"
+                                        value="{{old('mobile')}}" placeholder="Mobile No.">
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
+                            <div class="col-lg-12 col-md-12 col-12">
                                 <div class="form-group">
                                     <i class="fa fa-envelope"></i>
-                                    <input name="last-name" type="text" placeholder="Last name">
+                                    <input type="email" name="email" class="@error('email') is-invalid @enderror"
+                                        value="{{old('email')}}" placeholder="Please provide valid email address ...">
+
+                                    @error('email')
+                                    <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                                    @enderror
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-12">
-                                <div class="form-group">
-                                    <i class="fa fa-envelope"></i>
-                                    <input name="email" type="email" placeholder="Email address">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-12">
-                                <div class="form-group">
-                                    <i class="fa fa-envelope"></i>
-                                    <input name="url" type="url" placeholder="Website url">
-                                </div>
-                            </div>
+                            @endif
                             <div class="col-12">
                                 <div class="form-group message">
                                     <i class="fa fa-pencil"></i>
-                                    <textarea name="message" placeholder="Type your message"></textarea>
+                                    <textarea name="description"
+                                        class="input-text @error('description') is-invalid @enderror"
+                                        placeholder="Please describe how we can help you" rows="6"
+                                        required>{{old('description')}}</textarea>
                                 </div>
                             </div>
+                            @auth
+                            @else
+
+                            <div class="my-2 d-flex justify-content-center">
+                                {!!htmlFormSnippet()!!}
+                                @error('g-recaptcha-response')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                            @endauth
+
                             <div class="col-12">
                                 <div class="form-group">
                                     <div class="button">
@@ -77,6 +102,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </form>
                     <!--/ End Contact Form -->
                 </div>
@@ -87,7 +113,7 @@
                     <div class="contact-info">
                         <div class="icon"><i class="fa fa-map"></i></div>
                         <h3>Our Location</h3>
-                        <p>60 Elhegaz St, Heliopolis Sq., Cairo, Egypt.</p>
+                        <p>Heliopolis Sq., Cairo, Egypt.</p>
                     </div>
                     <div id="map">
                         <gmp-map center="30.090984, 31.322708" zoom="10" map-id="DEMO_MAP_ID" style="height: 400px">
@@ -103,7 +129,7 @@
                         <div class="icon"><i class="fa fa-envelope"></i></div>
                         <h3>contact information</h3>
                         <p><a href="mailto:info@egyfinancejobs.com">info@egyfinancejobs.com</a></p>
-                        <p> 01015891836</p>
+                        <p> 01001085717</p>
                     </div>
                     <!-- Contact-Info -->
                 </div>

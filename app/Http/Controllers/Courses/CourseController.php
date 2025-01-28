@@ -12,6 +12,7 @@ use App\Models\Faq;
 use App\Models\Courses\CourseStatu;
 use App\Models\Courses\CourseType;
 use App\Models\Courses\InstructorProfile;
+use App\Models\Currency;
 use App\Models\Events\Event;
 use App\Models\Events\EventRegister;
 use App\Models\SocialLink;
@@ -257,6 +258,28 @@ class CourseController extends Controller
         return view('courses.instructorProfile', $data);
     }
 
+    function disableInstructorProfile($id)
+    {
+
+        $instructor = InstructorProfile::where('instructor_id', $id)->first();
+        $instructor->update([
+            'active' => 0,
+        ]);
+        session()->flash('alert_message', ['message' => 'Instructor Disabled Sucessfully!', 'icon' => 'success']);
+        return back();
+    }
+
+    function enableInstructorProfile($id)
+    {
+
+        $instructor = InstructorProfile::where('instructor_id', $id)->first();
+        $instructor->update([
+            'active' => 1,
+        ]);
+        session()->flash('alert_message', ['message' => 'Instructor Enabled Sucessfully!', 'icon' => 'success']);
+        return back();
+    }
+
     // edit instructor profile
     public function instructorProfileEdit($uuid = null)
     {
@@ -452,6 +475,7 @@ class CourseController extends Controller
         $types = CourseType::all();
         $status = CourseStatu::all();
         $instructors = User::whereRoleIs('instructor')->get();
+        $currencies = Currency::all();
         $data = [
             'page_name' => 'Admin Courses',
             'page_title' => 'Create Course',
@@ -459,6 +483,7 @@ class CourseController extends Controller
             'types' => $types,
             'status' => $status,
             'instructors' => $instructors,
+            'currencies' => $currencies,
         ];
         return view('admin.courses.create', $data);
     }
@@ -473,8 +498,8 @@ class CourseController extends Controller
     {
         // dd($request->all());
         $request->validate([
-            'name' => 'string|max:255',
-            'info' => 'string|max:500',
+            'name' => 'required|string|max:255',
+            'info' => 'required|string',
             'cat_id' => 'required',
             'type_id' => 'required',
             'statu_id' => 'required',
@@ -488,6 +513,7 @@ class CourseController extends Controller
                 'date',
                 'after:start_date'
             ],
+            'rank' => 'nullable|numeric|max:5|min:0',
             'hours' => 'nullable|numeric',
             'max_enroll' => 'nullable|numeric|max:100000',
             'price' => 'nullable|numeric',
@@ -531,7 +557,9 @@ class CourseController extends Controller
             'video_url' => $request->video_url,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'rank' => $request->rank,
             'featured' => $request->boolean(key: 'featured'),
+            'currency_id' => $request->currency,
             'hide_price' => $request->boolean(key: 'hide_price'),
             'user_id' => Auth::id(),
         ]);
@@ -590,6 +618,7 @@ class CourseController extends Controller
         $types = CourseType::all();
         $status = CourseStatu::all();
         $instructors = User::whereRoleIs('instructor')->get();
+        $currencies = Currency::all();
         $data = [
             'page_name' => 'Edit Course',
             'page_title' => 'Edit Course',
@@ -598,6 +627,7 @@ class CourseController extends Controller
             'status' => $status,
             'instructors' => $instructors,
             'course' => $course,
+            'currencies' => $currencies,
         ];
         return view('admin.courses.edit', $data);
     }
@@ -613,8 +643,8 @@ class CourseController extends Controller
     {
 
         $request->validate([
-            'name' => 'string|max:255',
-            'info' => 'string|max:500',
+            'name' => 'required|string|max:255',
+            'info' => 'required|string',
             'cat_id' => 'required',
             'type_id' => 'required',
             'statu_id' => 'required',
@@ -628,6 +658,7 @@ class CourseController extends Controller
                 'date',
                 'after:start_date',
             ],
+            'rank' => 'nullable|numeric|max:5|min:0',
             'hours' => 'nullable|numeric',
             'max_enroll' => 'nullable|numeric|min:1|max:100000',
             'price' => 'nullable|numeric',
@@ -645,11 +676,13 @@ class CourseController extends Controller
             'hours' => $request->hours,
             'max_enroll' => $request->max_enroll,
             'price' => $request->price,
+            'currency_id' => $request->currency,
             'place' => $request->place,
             'prerequisite' => $request->prerequisite,
             'video_url' => $request->video_url,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'rank' => $request->rank,
             'featured' => $request->boolean(key: 'featured'),
             'hide_price' => $request->boolean(key: 'hide_price'),
             'user_id' => Auth::id(),

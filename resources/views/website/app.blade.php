@@ -68,9 +68,9 @@
         $("#alert-message-modal").modal('show');
         $("#errors-modal").modal('show');
     </script>
-    {{-- custom scripts  --}}
+    {{-- custom scripts --}}
     @yield('scripts')
-    
+
 </body>
 
 </html>

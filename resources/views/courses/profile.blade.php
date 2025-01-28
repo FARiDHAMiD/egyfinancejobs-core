@@ -9,8 +9,8 @@
                 @if(auth()->check() && auth()->user()->hasRole('instructor') || auth()->check() &&
                 auth()->user()->hasRole('admin'))
                 <h2 class="mb-0">{{$student->first_name}} {{$student->last_name}}</h2>
-                <h5 class="text-light mb-1 mt-1">{{$student->employee_profile->job_title->name}} |
-                    {{$student->employee_profile->city->name}} | {{$student->employee_profile->phone}}</h5>
+                <h5 class="text-light mb-1 mt-1">{{$student->employee_profile->job_title->name ?? 'Deleted Job Title'}} |
+                    {{$student->employee_profile->city->name ?? 'Invalid City'}} | {{$student->employee_profile->phone}}</h5>
                 @else
                 <h2>Welcome, {{auth()->user()->first_name}}</h2>
                 @endif
@@ -119,6 +119,7 @@
                                         <h6>
                                             <a target="_blank" target="_blank"
                                                 href="{{route('courses.show', $enroll->course->uuid)}}">{{$enroll->course->name}}</a>
+                                            @if($enroll->course->user_instructor)
                                             <span class="text-muted">
                                                 | by
                                             </span>
@@ -127,6 +128,7 @@
                                                 {{$enroll->course->user_instructor->first_name}}
                                                 {{$enroll->course->user_instructor->last_name}}
                                             </a>
+                                            @endif
                                             <br>
                                             <p class="text-muted">{{$enroll->course->cat->name}} |
                                                 {{$enroll->course->type->name}} </p>
@@ -167,6 +169,7 @@
                                         <h6>
                                             <a target="_blank" target="_blank"
                                                 href="{{route('courses.show', $enroll->course->uuid)}}">{{$enroll->course->name}}</a>
+                                            @if($enroll->course->user_instructor)
                                             <span class="text-muted">
                                                 | by
                                             </span>
@@ -175,6 +178,7 @@
                                                 {{$enroll->course->user_instructor->first_name}}
                                                 {{$enroll->course->user_instructor->last_name}}
                                             </a>
+                                            @endif
                                             <br>
                                             <p class="text-muted">{{$enroll->course->cat->name}} |
                                                 {{$enroll->course->type->name}} </p>
@@ -207,6 +211,7 @@
                                             Courses</a>
                                     </h4>
                                 </div>
+
                                 {{-- All Student Courses --}}
                                 <div id="faq4" class="panel-collapse collapse show" role="tabpanel"
                                     aria-labelledby="FaqTitle4">
@@ -215,6 +220,7 @@
                                         <h6>
                                             <a target="_blank" target="_blank"
                                                 href="{{route('courses.show', $enroll->course->uuid)}}">{{$enroll->course->name}}</a>
+                                            @if($enroll->course->user_instructor)
                                             <span class="text-muted">
                                                 | by
                                             </span>
@@ -223,6 +229,7 @@
                                                 {{$enroll->course->user_instructor->first_name}}
                                                 {{$enroll->course->user_instructor->last_name}}
                                             </a>
+                                            @endif
                                             <br>
                                             <p class="text-muted">{{$enroll->course->cat->name}} |
                                                 {{$enroll->course->type->name}} | <span

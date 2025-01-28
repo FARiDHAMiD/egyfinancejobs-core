@@ -20,7 +20,7 @@ Route::group(['middleware' => ['web', 'admin']], function () {
     // Route::get('/instructors',  'InstructorProfileController@index')->name('instructor.index');
     Route::get('/instructors',  [InstructorProfileController::class, 'index'])->name('instructor.index');
     Route::get('/instructor/verify/{id}',  [InstructorProfileController::class, 'verify_instructor'])->name('admin.instructor.verify');
-    Route::post('/instructor/delete/{id}',  [InstructorProfileController::class, 'delete_instructor'])->name('admin.instructor.delete');
+    Route::get('/instructor/delete/{id}',  [InstructorProfileController::class, 'delete_instructor'])->name('admin.instructor.delete');
 
     // Courses
     Route::get('/courses',  [CourseController::class, 'admin_index'])->name('admin.course.index');

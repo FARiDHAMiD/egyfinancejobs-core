@@ -69,6 +69,8 @@ Route::namespace('Courses')->group(function () {
     Route::get('/instructor-create', 'CourseController@createInstructor')->name('instructor.create');
     Route::post('/instructor-store', 'CourseController@storeInstructor')->name('instructor.store');
     Route::get('/courses-instructorProfile/{uuid}', 'CourseController@instructorProfile')->name('courses.instructorProfile'); //show
+    Route::get('/courses-disableInstructorProfile/{uuid}', 'CourseController@disableInstructorProfile')->name('courses.instructorProfile.disable');
+    Route::get('/courses-enableInstructorProfile/{uuid}', 'CourseController@enableInstructorProfile')->name('courses.instructorProfile.enable');
     Route::get('/courses-instructorProfile/edit/{uuid}', 'CourseController@instructorProfileEdit')->name('instructorProfile.edit');
     Route::post('/courses-instructorProfile/update/{uuid}', 'CourseController@instructorProfileUpdate')->name('instructor.update');
 });

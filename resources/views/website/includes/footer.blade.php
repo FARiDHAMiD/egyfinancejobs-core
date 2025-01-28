@@ -95,6 +95,7 @@
 <script src="{{ url('/website') }}/js/popper.min.js"></script>
 <script src="{{ url('/website') }}/js/bootstrap.min.js"></script>
 <script src="{{ url('/website') }}/js/bootstrap-submenu.js"></script>
+<script type="module" src="{{ url('/website') }}/js/api.js"></script>
 <script src="{{ url('/website') }}/js/rangeslider.js"></script>
 <script src="{{ url('/website') }}/js/jquery.mb.YTPlayer.js"></script>
 <script src="{{ url('/website') }}/js/bootstrap-select.min.js"></script>

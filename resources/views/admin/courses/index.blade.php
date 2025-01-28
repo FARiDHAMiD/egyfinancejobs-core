@@ -48,7 +48,7 @@
                                     ''}}
                                 </a>
                             </td>
-                            <td>{{$course->price}}</td>
+                            <td>{{$course->price}} {{$course->price ? $course->currency->name : ''}}</td>
                             <td>{{$course->start_date}}</td>
                             <td>{{$course->user->first_name ?? ''}} {{$course->user->last_name ?? ''}}</td>
                             <td>

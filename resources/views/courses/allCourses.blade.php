@@ -64,7 +64,7 @@
             <h3 class="text-muted">No Courses Available for this category at the moment !</h3>
     </div>
     @endif
-
+    <h5 class="text-muted text-right">{{$courses->count()}} Courses Found</h5>
     <div class="row">
         @foreach ($courses as $course)
         <div class="col-lg-4 col-md-6 col-12">
@@ -100,7 +100,7 @@
                         @if($course->hide_price)
                         <span class="price">N/A</span>
                         @elseif($course->price)
-                        <span class="price">EGP {{number_format($course->price)}}</span>
+                        <span class="price">{{$course->currency->name}} {{number_format($course->price)}}</span>
                         @else
                         <span class="price">Free</span>
                         @endif
@@ -113,19 +113,42 @@
                 <div class="course-meta">
                     <!-- Rattings -->
                     <ul class="rattings">
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star-half-o"></i></li>
-                        <li class="point"><span>{{mt_rand(4.5*10, 4.9*10) / 10}}</span></li>
+                        {{-- full stars --}}
+                        @for ($i = 0; $i < $course->rank - 1; $i++)
+                            <li>
+                                <i class="fa fa-star"></i>
+                            </li>
+                            @endfor
+                            {{-- half stars --}}
+                            @if($course->rank - floor($course->rank) >= 0.5)
+                            <li><i class="fa fa-star-half-o"></i></li>
+                            @endif
+
+                            {{-- empty stars --}}
+                            {{-- Empty stars --}}
+                            @for ($i = 0; $i < 5 - floor($course->rank) - ($course->rank - floor($course->rank) ? 1 : 0); $i++)
+                                <li><i class="fa fa-star-o"></i></li>
+                                @endfor
+                                <li class="point"><span>{{$course->rank}}</span></li>
                     </ul>
+
+                    
                     <!-- Course Info -->
                     <div class="course-info">
                         <span><i class="fa fa-users"></i>{{$course->max_enroll}} Enroll</span>
-                        <span><i
-                                class="fa fa-calendar-o"></i>{{\Carbon\Carbon::parse($course->start_date)->diffInMonths(\Carbon\Carbon::parse($course->end_date))}}
-                            Months</span>
+                        <span><i class="fa fa-calendar-o"></i>
+                            {{
+                            round(
+                            \Carbon\Carbon::parse($course->start_date)
+                            ->diffInDays(\Carbon\Carbon::parse($course->end_date)) / 30
+                            ) < 1 ? \Carbon\Carbon::parse($course->start_date)
+                                ->diffInDays(\Carbon\Carbon::parse($course->end_date)) . ' Days' :
+                                round(\Carbon\Carbon::parse($course->start_date)
+                                ->diffInDays(\Carbon\Carbon::parse($course->end_date))
+                                / 30) . ' Months'
+                                }}
+
+                        </span>
                         @if($course->start_time)
                         <span><i class="fa fa-clock-o"></i>{{$course->start_time}} - {{$course->end_time}}</span>
                         @endif

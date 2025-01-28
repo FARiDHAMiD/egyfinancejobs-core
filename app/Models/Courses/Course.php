@@ -3,6 +3,7 @@
 namespace App\Models\Courses;
 
 use App\Models\CourseReview;
+use App\Models\Currency;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +33,11 @@ class Course extends Model implements HasMedia
     public function statu()
     {
         return $this->belongsTo(CourseStatu::class, 'statu_id');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
     }
 
     // created by

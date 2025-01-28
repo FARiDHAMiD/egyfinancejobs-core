@@ -50,7 +50,9 @@ class InstructorProfileController extends Controller
     // by admin
     function delete_instructor($instructor_id)
     {
-        $instructor = InstructorProfile::find($instructor_id);
+        $user = User::find($instructor_id);
+        $instructor = InstructorProfile::where('instructor_id', $instructor_id)->first();
+        $user->delete();
         $instructor->delete();
         session()->flash('alert_message', ['message' => 'Instructor Deleted Successfully!', 'icon' => 'success']);
         return redirect()->back();

@@ -20,6 +20,7 @@
                             <th>Name</th>
                             <th>email</th>
                             <th>Verified</th>
+                            <th>Active</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -37,6 +38,13 @@
                                 @endif
                             </td>
                             <td>
+                                @if($instructor->instructor_profile && $instructor->instructor_profile->active)
+                                <span class="text-success">Active</span>
+                                @else
+                                <span class="text-danger">Disabled!</span>
+                                @endif
+                            </td>
+                            <td>
                                 @if(!$instructor->email_verified_at)
                                 <a href="{{ route('admin.instructor.verify', $instructor->id) }}"
                                     class="btn btn-success btn-sm m-1">
@@ -47,11 +55,20 @@
                                     class="btn btn-info btn-sm m-1" type="submit">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <form method="post" class="d-inline"
+                                @if($instructor->instructor_profile && $instructor->instructor_profile->active)
+                                <a href="{{route('courses.instructorProfile.disable', $instructor->id)}}"
+                                    class="btn btn-warning btn-sm m-1" type="submit">
+                                    <i class="fas fa-ban"></i>
+                                </a>
+                                @else
+                                <a href="{{route('courses.instructorProfile.enable', $instructor->id)}}"
+                                    class="btn btn-success btn-sm m-1" type="submit">
+                                    <i class="fas fa-user-check"></i>
+                                </a>
+                                @endif
+                                <form method="get" class="d-inline"
                                     action="{{ route('admin.instructor.delete', $instructor->id) }}">
-                                    @method('delete')
                                     @csrf
-
                                     <button onclick="return confirm('Are you sure you want to delete this?')"
                                         class="btn btn-danger btn-sm m-1" type="submit">
                                         <i class="fas fa-trash"></i>

@@ -19,7 +19,8 @@
                                 <p class="text-dark m-0">
                                     <strong>{{ $employee->first_name . ' ' . $employee->last_name }}</strong>
                                 </p>
-                                <p class="text-sm text-dark-light m-0">{{ $profile->job_title->name }} | {{
+                                <p class="text-sm text-dark-light m-0">{{ $profile->job_title->name ?? 'Deleted Job
+                                    Title'}} | {{
                                     $profile->career_level->name ?? '' }}</p>
                                 <p class="text-sm text-dark-light m-0 text-gray mb-1">{{ empty($profile->area) ? null :
                                     $profile->area->name }},
@@ -225,7 +226,7 @@
                         @foreach ($experiences as $experience)
                         <div class="work-experience-box">
                             <div class="description">
-                                <h5 class="title">{{$experience->job_title}}
+                                <h5 class="title">{{$experience->job_title ?? ''}}
                                     <span>{{$experience->job_type->name}}</span>
                                 </h5>
                                 <p>{{$experience->company_name}} - {{$experience->industry->name}}</p>
@@ -320,7 +321,7 @@
 
                             <li>
                                 <a class="linkedin-bg"
-                                    href="https://www.linkedin.com/shareArticle?mini=true&url={{ route('employee.profile.view', $employee->uuid) }}&title={{ $employee->first_name }}&summary={{ str_replace(' ', '%', $employee->employee_profile->job_title) }} | {{ str_replace(' ', '%', $employee->employee_profile->bio) }}&source={{ route('website.home') }}"
+                                    href="https://www.linkedin.com/shareArticle?mini=true&url={{ route('employee.profile.view', $employee->uuid) }}&title={{ $employee->first_name }}&summary={{ str_replace(' ', '%', $employee->employee_profile->job_title ?? '') }} | {{ str_replace(' ', '%', $employee->employee_profile->bio) }}&source={{ route('website.home') }}"
                                     target="_blank" rel="noopener noreferrer">
                                     <i class="fa fa-linkedin"></i></a>
                                 </a>

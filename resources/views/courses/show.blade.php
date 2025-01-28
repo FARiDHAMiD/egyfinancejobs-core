@@ -69,7 +69,7 @@
                             <p>
                                 <span class="text-dark font-weight-bold">Price:</span>
                                 <span class="text-success font-weight-bold">
-                                    {{$course->hide_price ? 'N/A' : ($course->price ? 'EGP ' .
+                                    {{$course->hide_price ? 'N/A' : ($course->price ? $course->currency->name . ' ' .
                                     number_format($course->price) : 'Free')}}
                                 </span>
                             </p>
@@ -82,13 +82,13 @@
                                     <div class="star-icon">
                                         <label for="" class="text-dark" style="font-size: large">
 
-                                            {{'4.7'}}
+                                            {{$course->rank}}
 
                                         </label>
                                         <input type="radio" value="1" name="course_rating" checked id="rating1">
                                         <label for="rating1" class="fa fa-star"></label>
                                         <span class="text-secondary" style="font-size: small">
-                                            ({{'22 reviews'}})
+                                            {{-- ({{'22 reviews'}}) --}}
                                         </span>
                                     </div>
                                 </div>
@@ -128,6 +128,11 @@
                     <div class="embed-responsive embed-responsive-16by9">
                         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{$course->video_url}}"
                             allowfullscreen></iframe>
+                    </div>
+                    @else
+                    <div class="course-head">
+                        <img src="{{ empty($course->getFirstMedia('course_img')) ? asset('courses_template/images/courses/course3.jpg') : $course->getFirstMedia('course_img')->getUrl() }}"
+                            alt="">
                     </div>
                     @endif
 

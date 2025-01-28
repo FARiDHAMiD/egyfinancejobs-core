@@ -43,7 +43,7 @@
                                 <label class="text-dark"><strong>Instructor</strong></label>
                                 <select type="text" name="instructor_id"
                                     class="form-control @error('instructor_id') is-invalid @enderror ">
-
+                                    <option value="">--select--</option>
                                     @foreach ($instructors as $instructors)
                                     <option {{ $course->instructor_id == $instructors->id ? 'selected' : '' }}
                                         value="{{$instructors->id}}">{{$instructors->first_name}}
@@ -152,7 +152,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-6 col-12">
+                        <div class="col-md-4 col-12">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Place</strong></label>
                                 <input type="text" name="place"
@@ -163,6 +163,8 @@
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
                         </div>
+
+
 
                         <div class="col-md-3 col-12">
                             <div class="mb-3">
@@ -176,19 +178,32 @@
                             @enderror
                         </div>
 
+                        <div class="col-md-2 col-6 mb-0">
+                            <label for="currency" class="text-dark"><strong>Currency</strong></label>
+                            <select name="currency" class="form-control @error('currency') is-invalid @enderror">
+                                @foreach ($currencies as $currency)
+                                <option value="{{ $currency->id }}" {{ $course->currency_id==$currency->id ?
+                                    'selected' : '' }}>
+                                    {{ $currency->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
                         <div class="col-md-3 mb-3">
                             <span class="text-muted">Hide Course Price From Users</span>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" {{ old('featured')==1
-                                    ? 'checked' : '' }} name="hide_price" id="hide_price">
+                                <input class="form-check-input" type="checkbox" value="1" {{ $course->hide_price==1
+                                ? 'checked' : '' }} name="hide_price" id="hide_price">
                                 <label class="text-success" for="hide_price">
-                                    Hide Salary
+                                    Hide Price
                                 </label>
                             </div>
                         </div>
 
 
-                        <div class="col-md-6 col-12">
+                        <div class="col-md-4 col-12">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Start Time <span class="text-muted">start session
                                             time</span></strong></label>
@@ -201,7 +216,8 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-6 col-12">
+
+                        <div class="col-md-4 col-12">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>End Time <span class="text-muted">end session
                                             time</span></strong></label>
@@ -213,6 +229,19 @@
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
                         </div>
+                        {{-- Course Rank --}}
+                        <div class="col-md-4 col-12">
+                            <div class="mb-3">
+                                <label class="text-dark">Rank <span class="text-muted" style="font-size: small">(Temp.
+                                        Untill Reviews Working)</span></label>
+                                <input type="text" class="form-control @error('rank') is-invalid @enderror" name="rank"
+                                    value="{{$course->rank}}">
+                                @error('rank')
+                                <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Prerequisites</strong></label>

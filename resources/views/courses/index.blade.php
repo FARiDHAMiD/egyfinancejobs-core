@@ -69,7 +69,7 @@
             <!-- Single Course -->
             <div class="row">
                 @foreach ($courses as $course)
-                <div class="col-lg-4 col-md-6 col-12">
+                <div class="col-lg-6 col-md-6 col-12">
                     <!-- Single Course -->
                     <div class="single-course">
                         <!-- Course Head -->
@@ -103,7 +103,7 @@
                                 @if($course->hide_price)
                                 <span class="price">N/A</span>
                                 @elseif($course->price)
-                                <span class="price">EGP {{number_format($course->price)}}</span>
+                                <span class="price">{{$course->currency->name}} {{number_format($course->price)}}</span>
                                 @else
                                 <span class="price">Free</span>
                                 @endif
@@ -116,13 +116,26 @@
                         <div class="course-meta">
                             <!-- Rattings -->
                             <ul class="rattings">
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star"></i></li>
-                                <li><i class="fa fa-star-half-o"></i></li>
-                                <li class="point"><span>{{mt_rand(4.5*10, 5*10) / 10}}</span></li>
+                                {{-- full stars --}}
+                                @for ($i = 0; $i < $course->rank - 1; $i++)
+                                    <li>
+                                        <i class="fa fa-star"></i>
+                                    </li>
+                                    @endfor
+                                    {{-- half stars --}}
+                                    @if($course->rank - floor($course->rank) >= 0.5)
+                                    <li><i class="fa fa-star-half-o"></i></li>
+                                    @endif
+
+                                    {{-- empty stars --}}
+                                    {{-- Empty stars --}}
+                                    @for ($i = 0; $i < 5 - floor($course->rank) - ($course->rank - floor($course->rank)
+                                        ? 1 : 0); $i++)
+                                        <li><i class="fa fa-star-o"></i></li>
+                                        @endfor
+                                        <li class="point"><span>{{$course->rank}}</span></li>
                             </ul>
+
                             <!-- Course Info -->
                             <div class="course-info">
                                 <span><i class="fa fa-users"></i>{{$course->max_enroll}} Enroll</span>
@@ -405,7 +418,7 @@
             <div class="col-lg-8 col-md-8 col-12">
                 <div class="client-slider">
                     <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client1.png')}}" class="client_images"
+                        <a href="#"><img src="{{asset('courses_template/images/client1.jpg')}}" class="client_images"
                                 alt="#"></a>
                     </div>
                     <div class="single-slider">
@@ -417,11 +430,7 @@
                                 alt="#"></a>
                     </div>
                     <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client4.png')}}" class="client_images"
-                                alt="#"></a>
-                    </div>
-                    <div class="single-slider">
-                        <a href="#"><img src="{{asset('courses_template/images/client5.png')}}" class="client_images"
+                        <a href="#"><img src="{{asset('courses_template/images/client4.jpg')}}" class="client_images"
                                 alt="#"></a>
                     </div>
                 </div>

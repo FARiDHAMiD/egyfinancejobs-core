@@ -51,7 +51,7 @@
         <div class="row">
 
             @foreach ($instructors as $instructor)
-            @if($instructor->instructor_profile)
+            @if($instructor->instructor_profile && $instructor->instructor_profile->active)
             <div class="col-lg-4 col-md-6 col-12">
                 <!-- Single Teacher -->
                 <div class="single-teacher">
