@@ -72,7 +72,7 @@
                             <span class="text-muted">Will appear in top results</span>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ $event->featured==1
-                                    ? 'checked' : '' }} name="featured" id="featured">
+                                ? 'checked' : '' }} name="featured" id="featured">
                                 <label class="text-success" for="featured">
                                     Is Featured
                                 </label>
@@ -132,7 +132,6 @@
                             </div>
                         </div>
 
-
                         <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Video URL <span class="text-muted">(Youtube Id video
@@ -142,6 +141,35 @@
                                     value="{{$event->video_url}}">
                             </div>
                             @error('video_url')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+                        </div>
+
+
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="text-dark"><strong>Register Link <span class="text-muted">(Url or Email)
+                                        </span> </strong> </label>
+                                <input type="text" name="register_link"
+                                    class="form-control @error('register_link') 'is-invalid' @enderror"
+                                    value="{{$event->register_link}}">
+                            </div>
+                            @error('register_link')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="text-dark"><strong>Email <span class="text-muted">(Will appear in event
+                                            page)
+                                        </span> </strong> </label>
+                                <input type="email" name="email"
+                                    class="form-control @error('email') 'is-invalid' @enderror"
+                                    value="{{$event->email}}">
+                            </div>
+                            @error('email')
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
                         </div>

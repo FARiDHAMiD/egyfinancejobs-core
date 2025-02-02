@@ -65,7 +65,7 @@ class EmployerController extends Controller
         $data = [
             'page_name' => 'employers',
             'page_title' => 'Employers',
-            'employers' => $rows->get(),
+            'employers' => $rows->orderBy('id', 'desc')->get(),
             'search' => $search,
         ];
         return view('admin.employers.index', $data);

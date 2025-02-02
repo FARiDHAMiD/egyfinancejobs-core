@@ -107,7 +107,10 @@
                     </div>
                     <h4 class="c-title"><a href="{{route('courses.show', $course->uuid)}}">{{$course->name}}</a>
                     </h4>
-                    <p>{{substr($course->info, 0, 150)}} ...</p>
+                    <p>{{preg_match('/\p{Arabic}/u', $course->info) ?
+                        mb_substr($course->info, 0, 150) :
+                        substr($course->info, 0, 150)}}
+                        ...</p>
                 </div>
                 <!-- Course Meta -->
                 <div class="course-meta">
@@ -126,13 +129,14 @@
 
                             {{-- empty stars --}}
                             {{-- Empty stars --}}
-                            @for ($i = 0; $i < 5 - floor($course->rank) - ($course->rank - floor($course->rank) ? 1 : 0); $i++)
+                            @for ($i = 0; $i < 5 - floor($course->rank) - ($course->rank - floor($course->rank) ? 1 :
+                                0); $i++)
                                 <li><i class="fa fa-star-o"></i></li>
                                 @endfor
                                 <li class="point"><span>{{$course->rank}}</span></li>
                     </ul>
 
-                    
+
                     <!-- Course Info -->
                     <div class="course-info">
                         <span><i class="fa fa-users"></i>{{$course->max_enroll}} Enroll</span>

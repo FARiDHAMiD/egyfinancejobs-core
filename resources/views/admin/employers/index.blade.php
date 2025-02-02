@@ -93,6 +93,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Employer Name</th>
                             <th>Mobile Number</th>
                             <th>Company Name</th>
@@ -101,21 +102,12 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Employer Name</th>
-                            <th>Mobile Number</th>
-                            <th>Company Name</th>
-                            <th>Company location</th>
-                            <th>Created at</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
                     <tbody>
 
                         @foreach ($employers as $employer)
                         @php $employer_profile = $employer->employer_profile; @endphp
                         <tr>
+                            <td>{{$loop->iteration}}</td>
                             <td><a href="{{ route('employer.profile', $employer->uuid) }}" target="_blank">{{
                                     $employer->first_name }}</a></td>
                             <td>{{ $employer_profile->mobile_number ?? ''}}</td>
@@ -125,7 +117,8 @@
                                 empty($employer_profile->city) ? null : $employer_profile->city->name }}, {{
                                 $employer_profile->country->name ?? '' }}</td>
 
-                            <td>{{date('d-m-Y', strtotime($employer->created_at))}}</td>
+                            {{-- <td>{{date('d-m-Y', strtotime($employer->created_at))}}</td> --}}
+                            <td>{{$employer->created_at}}</td>
                             <td>
                                 <a href="{{ route('employers.edit', $employer->id) }}" class="btn btn-info btn-sm">
                                     <i class="fas fa-pen"></i>

@@ -116,12 +116,12 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Job Title</th>
                             <th>Company</th>
-                            <th>Location</th>
                             <th>Category</th>
                             <th>Job Type</th>
                             <th>Active</th>
@@ -144,6 +144,7 @@
                     <tbody>
                         @foreach ($jobs as $job)
                         <tr class="text-center">
+                            <td>{{$loop->iteration}}</td>
                             <td><a href="{{ route('website.job-details', $job->job_uuid) }}" target="_blank">{{
                                     $job->job_title}}</a></td>
                             <td>
@@ -155,8 +156,6 @@
                                 no company added
                                 @endif
                             </td>
-                            <td> {{ empty($job->area) ? null : $job->area->name }}, {{ empty($job->city) ? null :
-                                $job->city->name }}, {{ $job->country->name }}</td>
                             <td>{{ empty($job->category) ? 'uncategorized' : $job->category->name }}</td>
                             <td>{{ $job->type->name }}</td>
                             <td>
@@ -167,7 +166,7 @@
                                 @endif
                             </td>
 
-                            <td>{{date('d-m-Y', strtotime($job->created_at))}}</td>
+                            <td>{{$job->created_at}}</td>
                             <td>
                                 <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-info btn-sm m-1">
                                     <i class="fas fa-pen"></i>

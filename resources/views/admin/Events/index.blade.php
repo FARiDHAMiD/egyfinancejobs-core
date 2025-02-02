@@ -35,8 +35,8 @@
                         @foreach ($events as $event)
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$event->title}}</td>
-                            <td>{{$event->user_instructor->first_name}} {{$event->user_instructor->last_name}}</td>
+                            <td><a href="{{route('courses.events.show', $event->uuid)}}">{{$event->title}}</a></td>
+                            <td>{{$event->user_instructor->first_name ?? ''}} {{$event->user_instructor->last_name ?? ''}}</td>
                             <td>{{$event->statu->name}}</td>
                             <td>{{$event->start_date}}</td>
                             <td>{{$event->user->first_name}} {{$event->user->last_name}}</td>

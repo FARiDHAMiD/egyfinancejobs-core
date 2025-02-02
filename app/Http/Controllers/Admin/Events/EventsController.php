@@ -64,7 +64,7 @@ class EventsController extends Controller
         // dd($request->all());
         $request->validate([
             'title' => 'string|max:255',
-            'description' => 'string|max:500',
+            'description' => 'string',
             'type_id' => 'required',
             'statu_id' => 'required',
             'start_date' => [
@@ -110,6 +110,8 @@ class EventsController extends Controller
             'end_date' => $request->end_date,
             'location' => $request->location,
             'video_url' => $request->video_url,
+            'register_link' => $request->register_link,
+            'email' => $request->email,
             'featured' => $request->boolean(key: 'featured'),
             'user_id' => Auth::id(),
         ]);
@@ -180,7 +182,7 @@ class EventsController extends Controller
 
         $request->validate([
             'title' => 'string|max:255',
-            'description' => 'string|max:500',
+            'description' => 'string',
             'type_id' => 'required',
             'statu_id' => 'required',
             'start_date' => [
@@ -226,6 +228,8 @@ class EventsController extends Controller
             'end_date' => $request->end_date,
             'location' => $request->location,
             'video_url' => $request->video_url,
+            'register_link' => $request->register_link,
+            'email' => $request->email,
             'featured' => $request->boolean(key: 'featured'),
         ]);
 

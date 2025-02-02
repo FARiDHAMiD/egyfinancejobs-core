@@ -56,7 +56,7 @@ class JobController extends Controller
                 return $query->whereIn('jobs.type_id', $selectedJobTypes)->latest();
             })
             ->when($selectedExperienceYears != null, function ($query) use ($selectedExperienceYears) {
-                return $query->where('jobs.years_experience', $selectedExperienceYears)->latest();
+                return $query->where('jobs.years_experience_from', $selectedExperienceYears)->latest();
             })
             ->when(in_array('past_week', $selectedPostedDate), function ($query) {
                 return $query->where('jobs.created_at', '>=', Carbon::now()->subWeek())->latest();

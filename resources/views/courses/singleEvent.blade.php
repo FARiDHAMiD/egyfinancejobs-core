@@ -32,10 +32,14 @@
                                 <span class="text-dark font-weight-bold"> to </span>
                                 {{date('jS, F Y',strtotime($event->end_date))}}
                             </p>
+                            @if($event->email)
+                            <p><span class="text-dark font-weight-bold">Email: </span>{{$event->email}}</p>
+                            @endif
                         </div>
                         <!-- End Event-Info -->
 
                         <!-- Instructor / Organizer Info-Info -->
+                        @if($event->user_instructor)
                         <div class="contact-info">
                             <div class="icon"><i class="fa fa-address-book" style="font-size: x-large"></i></div>
                             <h3 class="font-weight-bold">Organizer Information</h3>
@@ -53,6 +57,7 @@
                             <p><span class="font-weight-bold">Mobile:
                                 </span>{{$event->user_instructor->instructor_profile->mobile}}</p>
                         </div>
+                        @endif
                         {{-- End Instructor Info --}}
                     </div>
 
@@ -66,36 +71,19 @@
                         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{$event->video_url}}"
                             allowfullscreen></iframe>
                     </div>
-                    @endif
-
-                    {{-- Feed Back Section --}}
-
-
-
-                    {{-- check if current login user registered in this event before --}}
-                    @if($user_registered)
-                    <button type="button" class="btn btn-success my-2" disabled>Registered Successfully</button>
-                    {{-- check if event start date not coming - user can cancel register --}}
-                    @if($event->start_date > now()) <form method="POST"
-                        action="{{route('events.register.cancel', $user_registered->id)}}">
-                        @csrf
-                        <button type="submit" class="btn danger my-2">Cancel !</button>
-                    </form>
-                    @endif {{-- check if user employee(user) --}}
-                    @elseif(auth()->
-                    check() && auth()->user()->hasRole('employee') || auth()->check() &&
-                    auth()->user()->hasRole('instructor'))
-                    <div class="">
-                        <form method="POST" action="{{route('events.register', [auth()->user()->id, $event->id])}}">
-                            @csrf
-                            <button type="submit" class="btn primary my-2">Register</button>
-                        </form>
-                    </div>
                     @else
-                    <div class="">
-                        <a href="{{route('login_page')}}" class="btn primary my-2">Register</a>
+                    <div class="course-head">
+                        <img src="{{ empty($event->getFirstMedia('event_img')) ? asset('courses_template/images/courses/course3.jpg') : $event->getFirstMedia('event_img')->getUrl() }}"
+                            alt="">
                     </div>
                     @endif
+
+                    @if($event->register_link)
+                    <a target="_blank" href="{{$event->register_link}}" class="btn primary my-2">Register Here</a>
+                    @endif
+
+
+
                 </div>
             </div>
         </div>

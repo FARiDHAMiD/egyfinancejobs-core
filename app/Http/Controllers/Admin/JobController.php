@@ -29,7 +29,7 @@ class JobController extends Controller
     public function index(Request $request)
     {
         $search = [];
-        $jobs = Job::orderBy('created_at', 'desc')->get();
+        $jobs = Job::orderBy('id', 'desc')->get();
         if ($request->has('job') && !empty($request->get('job'))) {
             $search['job'] = $request->job;
             $searchTerms = $request->job;

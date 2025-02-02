@@ -15,7 +15,8 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Event Title</strong></label>
-                                <input type="text" name="title" class="form-control @error('title') is-invalid @enderror "
+                                <input type="text" name="title"
+                                    class="form-control @error('title') is-invalid @enderror "
                                     value="{{ old('title') }}">
                                 @error('title')
                                 <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
@@ -58,8 +59,9 @@
                         <div class="col-md-8">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Description (Description)</strong></label>
-                                <textarea name="description" class="form-control @error('description') is-invalid @enderror "
-                                    cols="30" rows="3">{{old('description')}}</textarea>
+                                <textarea name="description"
+                                    class="form-control @error('description') is-invalid @enderror " cols="30"
+                                    rows="3">{{old('description')}}</textarea>
                                 @error('description')
                                 <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                                 @enderror
@@ -76,7 +78,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Location</strong></label>
@@ -88,7 +90,7 @@
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
                         </div>
-                        
+
                         <div class="col-md-6 col-12">
                             <div class="mb-3">
                                 <label class="text-dark"><strong>Event Status</strong></label>
@@ -142,6 +144,34 @@
                             <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
                             @enderror
                         </div>
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="text-dark"><strong>Register Link <span class="text-muted">(Url or Email)
+                                        </span> </strong> </label>
+                                <input type="text" name="register_link"
+                                    class="form-control @error('register_link') 'is-invalid' @enderror"
+                                    value="{{old('register_link')}}">
+                            </div>
+                            @error('register_link')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="text-dark"><strong>Email <span class="text-muted">(Will appear in event
+                                            page)
+                                        </span> </strong> </label>
+                                <input type="email" name="email"
+                                    class="form-control @error('email') 'is-invalid' @enderror"
+                                    value="{{old('register_link')}}">
+                            </div>
+                            @error('email')
+                            <span role="alert" class="invalid-feedback">( {{ $message }} )</span>
+                            @enderror
+                        </div>
+
 
                         {{-- image --}}
                         <div class="col-12">

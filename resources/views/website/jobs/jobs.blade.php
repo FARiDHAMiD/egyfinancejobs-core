@@ -293,7 +293,7 @@
 
                             {{-- Years Of Experience Filter --}}
                             <div class="form-group">
-                                <h5 class="filter-title mb-3">Years of experience</h5>
+                                <h5 class="filter-title mb-3">Experience From</h5>
                                 <input type="number" class="w-100 input-text" name="years_of_experience"
                                     placeholder="years of experience" value="{{ request('years_of_experience') }}">
                             </div>

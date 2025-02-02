@@ -65,8 +65,11 @@
                                 <h3 class="event-title"><a
                                         href="{{route('courses.events.show', $event->uuid)}}">{{$event->title}} |
                                         {{$event->type->name}}</a></h3>
-                                <p>{{$event->description}}
-                                </p>
+
+                                <p>{{preg_match('/\p{Arabic}/u', $event->description) ?
+                                    mb_substr($event->description, 0, 250) :
+                                    substr($event->description, 0, 250)}}
+                                    ...</p>
                                 <span class="entry-date-time"><i class="fa fa-calendar" aria-hidden="true"></i>
                                     {{date('jS,
                                     F
