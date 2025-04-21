@@ -6,16 +6,10 @@
     </button>
 
 
-
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
-
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none">
-            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-            </a>
             <!-- Dropdown - Messages -->
             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                 aria-labelledby="searchDropdown">
@@ -32,6 +26,21 @@
                 </form>
             </div>
         </li>
+        @php
+        $pending_job_requests = \App\Models\JobRequest::where('pending', 1)->get();
+        @endphp
+        <div class="nav-item mt-4">
+            <a href="{{route('jobs.requests')}}" class="text-nowrap">
+                Job Requests <span class="badge
+                    {{$pending_job_requests->count() > 0 ? 'badge-danger' : 'badge-secondary'}}
+                      badge-counter">{{$pending_job_requests->count()}}</span>
+            </a>
+        </div>
+        <div class="topbar-divider"></div>
+        <div class="nav-item mt-4">
+            <a target="_blank" href="{{route('reports.index')}}">Reports</a>
+        </div>
+        <div class="topbar-divider"></div>
         <!-- Nav Item - Alerts -->
         @php
         $admin = \App\Models\User::whereRoleIs('admin')->first();
@@ -72,7 +81,8 @@
         </li>
 
 
-        <div class="topbar-divider d-none d-sm-block"></div>
+        <div class="topbar-divider"></div>
+
         @if(Auth::check() && auth()->user()->hasRole('admin'))
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">

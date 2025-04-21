@@ -51,4 +51,9 @@ class EmployeeProfile extends Model
     {
         return $this->belongsTo(CareerLevel::class, 'career_level_id');
     }
+
+    public function applications()
+    {
+        return $this->hasMany(JobApplication::class, 'employee_id');
+    }
 }

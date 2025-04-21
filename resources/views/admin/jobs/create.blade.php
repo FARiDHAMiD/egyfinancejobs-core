@@ -58,9 +58,7 @@
                                 @foreach ($employers as $employer)
                                 <option data-value="{{$employer->id}}"
                                     value="{{ $employer->employer_profile->company_name }}">
-                                    {{ $employer->first_name }} {{ $employer->last_name }}
-                                    {{ $employer->employer_profile != null ? ' | ' .
-                                    $employer->employer_profile->company_name : '' }}
+                                    {{ $employer->first_name }}
                                 </option>
                                 @endforeach
                             </datalist>
@@ -273,14 +271,15 @@
                     </div>
                     <div class="col-md-2 col-6 mb-3">
                         <div class="form-check mt-4">
-                            <input class="form-check-input" type="radio" name="net_gross" value="0" id="flexRadioDefault1"
-                                checked>
+                            <input class="form-check-input" type="radio" name="net_gross" value="0"
+                                id="flexRadioDefault1" checked>
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Net
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="net_gross" value="1" id="flexRadioDefault2">
+                            <input class="form-check-input" type="radio" name="net_gross" value="1"
+                                id="flexRadioDefault2">
                             <label class="form-check-label" for="flexRadioDefault2">
                                 Gross
                             </label>
@@ -418,7 +417,9 @@
     $("#employerInput").on('input', function () {
         var val = this.value;
         var shownVal = document.getElementById("employerInput").value;
-        var value2send = document.querySelector("#companyList option[value='"+shownVal+"']").dataset.value;
+        var safeValue = shownVal.replace(/["\\]/g, '\\$&');
+        var value2send = document.querySelector(`#companyList option[value="${safeValue}"]`).dataset.value;
+        // var value2send = document.querySelector("#companyList option[value='"+shownVal+"']").dataset.value;
         var reult = $("#employerInput-hidden").val(value2send)
         console.log(reult)
     });

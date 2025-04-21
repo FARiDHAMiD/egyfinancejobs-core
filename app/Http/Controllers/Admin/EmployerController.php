@@ -16,6 +16,7 @@ use App\Models\Country;
 use App\Models\City;
 use App\Models\Area;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 
@@ -86,7 +87,6 @@ class EmployerController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'first_name' => 'string|max:255',
             'last_name' => 'string|max:255',
@@ -120,9 +120,8 @@ class EmployerController extends Controller
                     'company_logo.max' => 'The file size must not exceed 5 MB.'
                 ]
             );
-            $employer->clearMediaCollection('company_logo');
             $employer->addMediaFromRequest('company_logo')
-                ->toMediaCollection('company-logo');
+                ->toMediaCollection('company_logo');
         }
 
         if ($request->has('company_banner')) {
@@ -151,6 +150,7 @@ class EmployerController extends Controller
             'area_id' => $request->area,
             'area_id' => $request->area,
             'featured' => $request->boolean(key: 'featured'),
+            'created_by' => Auth::id(), // admin who created the company
         ]);
 
         session()->flash('alert_message', ['message' => 'The employer has been created successfully', 'icon' => 'success']);

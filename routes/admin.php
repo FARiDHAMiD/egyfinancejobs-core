@@ -11,6 +11,11 @@ Route::group(['middleware' => ['web', 'admin']], function () {
     Route::post('/AboutUs-Update',  'HomeController@about_us_update')->name('AboutUsUpdate');
 
 
+    Route::post('/employee-featured/{emp_id}',  'EmployeeController@featured')->name('admin.employee.featured');
+    Route::post('/employee-unfeatured/{emp_id}',  'EmployeeController@unfeatured')->name('admin.employee.unfeatured');
+
+
+
     Route::resource('/job-applications', 'JobApplicationController');
     Route::resource('/jobs', 'JobController');
     Route::resource('/employers', 'EmployerController');
@@ -41,6 +46,7 @@ Route::group(['middleware' => ['web', 'admin']], function () {
 
     Route::get('/jobs-requests', 'JobController@jobs_requests')->name('jobs.requests');
     Route::get('/jobs-requests/{id}', 'JobController@request_details')->name('jobs.requests.details');
+    Route::post('/jobs-requests-reviewed/{id}', 'JobController@request_reviewed')->name('job.request.reviewed');
 
     // Job archive / reactivate
     Route::get('/jobs/archive/{job_id}',  'JobController@archive')->name('admin.job.archive');

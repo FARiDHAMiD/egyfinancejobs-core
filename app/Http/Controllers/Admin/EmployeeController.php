@@ -9,6 +9,7 @@ use App\Models\JobQuestion;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 
 class EmployeeController extends Controller
 {
@@ -88,5 +89,29 @@ class EmployeeController extends Controller
         //     'employee' => $employee,
         // ];
         return view('website.employee.jobs.app_answers', $data);
+    }
+
+    function featured($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        $user->featured = 1;
+        $user->save();
+        session()->flash('alert_message', ['message' => 'The user has been marked as featured successfully', 'icon' => 'success']);
+        return redirect()->back();
+    }
+
+    function unfeatured($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        try {
+            $user->featured = 0;
+            $user->save();
+
+            session()->flash('alert_message', ['message' => 'The user has been marked as unfeatured successfully', 'icon' => 'warning']);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            session()->flash('alert_message', ['message' => 'Error: ' . $e->getMessage(), 'icon' => 'error']);
+            return redirect()->back();
+        }
     }
 }

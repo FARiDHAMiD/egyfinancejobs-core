@@ -76,9 +76,24 @@
                 </div>
             </div>
         </div>
+        @if ($job->pending)
+
         <div class="card-footer text-center">
-            <a href="#" class="btn btn-primary">Mark as Reviewed <i class="fa fa-check"></i></a>
-            <a href="#" class="btn btn-danger">Delete Request <i class="fa fa-trash"></i></a>
+            <form action="{{route('job.request.reviewed', $job->id)}}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-primary w-100">Mark as Reviewed <i
+                        class="fa fa-check"></i></button>
+            </form>
+        </div>
+        @else
+        <div class="text-center text-dark">
+            This request has been reviewed by {{$job->reviewed->first_name . ' ' . $job->reviewed->last_name}} at
+            {{$job->updated_at}}
+        </div>
+        @endif
+        <div class="container text-center">
+
+            <a href="#" class="btn btn-danger w-100 my-1">Delete Request <i class="fa fa-trash"></i></a>
         </div>
     </div>
 </div>

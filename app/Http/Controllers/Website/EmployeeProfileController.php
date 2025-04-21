@@ -347,8 +347,6 @@ class EmployeeProfileController extends Controller
             'phone' => $request->phone,
         ]);
 
-
-
         session()->flash('alert_message', ['message' => 'The general info has been updated successfully', 'icon' => 'success']);
         return redirect()->back();
     }

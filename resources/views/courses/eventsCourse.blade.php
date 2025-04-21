@@ -41,20 +41,20 @@
             </h4>
             @else
 
+            @foreach ($events as $event)
             <div class="row">
-                {{-- picture --}}
+                {{-- pictures --}}
                 <div class="col-lg-5 col-12">
                     <div class="event-img">
-                        <img src="{{asset('courses_template/images/event-left.jpg')}}" alt="#">
+                        <img src="{{ empty($event->getFirstMedia('event_img')) ? asset('courses_template/images/event-left.jpg') : $event->getFirstMedia('event_img')->getUrl() }}"
+                            alt="">
                     </div>
                 </div>
 
 
                 {{-- upcoming events data --}}
                 <div class="col-lg-7 col-12">
-
                     <div class="coming-event">
-                        @foreach ($events as $event)
                         <!-- Single Event -->
                         <div class="single-event">
                             <div class="event-date">
@@ -69,7 +69,7 @@
                                 <p>{{preg_match('/\p{Arabic}/u', $event->description) ?
                                     mb_substr($event->description, 0, 250) :
                                     substr($event->description, 0, 250)}}
-                                    ...</p>
+                                    ...</p> <a href="{{route('courses.events.show', $event->uuid)}}">more</a>
                                 <span class="entry-date-time"><i class="fa fa-calendar" aria-hidden="true"></i>
                                     {{date('jS,
                                     F
@@ -81,15 +81,10 @@
                             </div>
                         </div>
                         <!-- End Single Event -->
-                        @endforeach
                     </div>
-
                 </div>
-
-
-
-
             </div>
+            @endforeach
             @endif
             <hr>
 
@@ -112,19 +107,20 @@
                 </h4>
                 @else
 
+                @foreach ($completed_events as $event)
                 <div class="row">
-                    {{-- picture --}}
+                    {{-- pictures --}}
                     <div class="col-lg-5 col-12">
                         <div class="event-img">
-                            <img src="{{asset('courses_template/images/event-single.jpg')}}" alt="#">
+                            <img src="{{ empty($event->getFirstMedia('event_img')) ? asset('courses_template/images/event-left.jpg') : $event->getFirstMedia('event_img')->getUrl() }}"
+                                alt="">
                         </div>
                     </div>
 
+
                     {{-- upcoming events data --}}
                     <div class="col-lg-7 col-12">
-
                         <div class="coming-event">
-                            @foreach ($completed_events as $event)
                             <!-- Single Event -->
                             <div class="single-event">
                                 <div class="event-date">
@@ -135,8 +131,11 @@
                                     <h3 class="event-title"><a
                                             href="{{route('courses.events.show', $event->uuid)}}">{{$event->title}} |
                                             {{$event->type->name}}</a></h3>
-                                    <p>{{$event->description}}
-                                    </p>
+
+                                    <p>{{preg_match('/\p{Arabic}/u', $event->description) ?
+                                        mb_substr($event->description, 0, 250) :
+                                        substr($event->description, 0, 250)}}
+                                        ...</p> <a href="{{route('courses.events.show', $event->uuid)}}">more</a>
                                     <span class="entry-date-time"><i class="fa fa-calendar" aria-hidden="true"></i>
                                         {{date('jS,
                                         F
@@ -148,10 +147,10 @@
                                 </div>
                             </div>
                             <!-- End Single Event -->
-                            @endforeach
                         </div>
                     </div>
                 </div>
+                @endforeach
                 @endif
 </section>
 <!--/ End Events -->

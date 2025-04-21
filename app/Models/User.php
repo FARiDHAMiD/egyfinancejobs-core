@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Courses\Course;
+use App\Models\Courses\CourseEnroll;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,7 +35,8 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
         'email_verified_at',
         'cv',
-        'google_id'
+        'google_id',
+        'featured',
     ];
 
     /**
@@ -70,7 +73,7 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasOne("App\Models\Courses\InstructorProfile", 'instructor_id', 'id');
     }
-    
+
     public function employee_experiences()
     {
         return $this->hasMany(Experience::class, 'employee_id')->orderBy('currently_work_there', 'DESC')->orderBy('ending_in', 'DESC')->latest();
@@ -115,14 +118,22 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsToMany(Job::class, 'saved_jobs', 'employee_id');
     }
+
     public function applied_jobs()
     {
         return $this->belongsToMany(Job::class, 'job_applications', 'employee_id');
     }
+
+    public function courses()
+    {
+        return $this->hasMany(CourseEnroll::class, 'student_id');
+    }
+
     public function job_applications()
     {
         return $this->hasMany(JobApplication::class, 'employee_id');
     }
+
     public function applications()
     {
         return $this->hasMany(JobApplication::class, 'employee_id');
@@ -157,5 +168,11 @@ class User extends Authenticatable implements HasMedia
     public function reviews()
     {
         return $this->hasMany(CourseReview::class);
+    }
+
+    // instructor courses
+    public function instructor_courses()
+    {
+        return $this->hasMany(Course::class, 'instructor_id');
     }
 }

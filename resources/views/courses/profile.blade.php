@@ -10,7 +10,7 @@
                 auth()->user()->hasRole('admin'))
                 <h2 class="mb-0">{{$student->first_name}} {{$student->last_name}}</h2>
                 <h5 class="text-light mb-1 mt-1">{{$student->employee_profile->job_title->name ?? 'Deleted Job Title'}} |
-                    {{$student->employee_profile->city->name ?? 'Invalid City'}} | {{$student->employee_profile->phone}}</h5>
+                    {{$student->employee_profile->city->name ?? 'Invalid City'}} | {{$student->employee_profile->phone ?? ''}}</h5>
                 @else
                 <h2>Welcome, {{auth()->user()->first_name}}</h2>
                 @endif

@@ -46,6 +46,7 @@ class Course extends Model implements HasMedia
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    // Instructor
     public function user_instructor()
     {
         return $this->belongsTo(User::class, 'instructor_id');
@@ -55,5 +56,10 @@ class Course extends Model implements HasMedia
     public function reviews()
     {
         return $this->hasMany(CourseReview::class);
+    }
+
+    function enrolls()
+    {
+        return $this->hasMany(CourseEnroll::class, 'course_id');
     }
 }

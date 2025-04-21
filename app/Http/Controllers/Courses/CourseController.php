@@ -111,9 +111,11 @@ class CourseController extends Controller
         if (!$student->hasRole('employee')) {
             session()->flash('alert_message', ['message' => 'Please create student profile to enroll in this course', 'icon' => 'danger']);
             return redirect()->back();
+        } elseif ($student->employee_profile == null) {
+            session()->flash('alert_message', ['message' => 'Please, Complete your profile first!', 'icon' => 'danger']);
+            return redirect()->route('employee.profile.create');
         } else {
             // student_id and course_id unique together 
-
             $data = [
                 'student_id' => $student_id,
                 'course_id' => $course_id,

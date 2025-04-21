@@ -83,9 +83,15 @@ class Job extends Model
     {
         return $this->belongsTo(EducationLevel::class, 'education_level_id');
     }
+
     public function skills()
     {
         return $this->belongsToMany(Skill::class);
+    }
+    
+    public function applications()
+    {
+        return $this->hasMany(JobApplication::class);
     }
 
     public function currencies()

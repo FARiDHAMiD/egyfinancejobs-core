@@ -126,6 +126,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {{-- Marital Status --}}
                                         <div class="col-12">
                                             <div class="form-group m-0">
                                                 <label>Marital Status</label>
@@ -149,9 +150,9 @@
                                                 <div class="mr-4">
                                                     <label
                                                         class="btn button-theme radio-btn inline-radio {{ $profile->marital_status == 'single' ? 'active' : '' }}">
-                                                        <input {{ $profile->marital_status == 'single' ? 'active' : ''
-                                                        }} name="marital_status" value="single" type="radio"
-                                                        autocomplete="off">
+                                                        <input {{ $profile->marital_status == 'single' ? 'active' :
+                                                        '' }} checked name="marital_status" value="single"
+                                                        type="radio" autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -159,12 +160,12 @@
                                                     </label>
                                                     <label class="mb-0">Single</label>
                                                 </div>
-                                                <div>
+                                                <div class="mr-4">
                                                     <label
                                                         class="btn button-theme radio-btn inline-radio {{ $profile->marital_status == 'married' ? 'active' : '' }}">
-                                                        <input {{ $profile->marital_status == 'married' ? 'active' : ''
-                                                        }} name="marital_status" value="married" type="radio"
-                                                        autocomplete="off">
+                                                        <input {{ $profile->marital_status == 'married' ? 'active' :
+                                                        '' }} checked name="marital_status" value="married"
+                                                        type="radio" autocomplete="off">
                                                         <p class="m-0">
                                                             <i class="fa fa-check fa-lg check-icon"
                                                                 aria-hidden="true"></i>
@@ -172,8 +173,11 @@
                                                     </label>
                                                     <label class="mb-0">Married</label>
                                                 </div>
+
                                             </div>
                                         </div>
+
+                                        {{-- Military Status --}}
                                         <div class="col-12">
                                             <div class="form-group m-0">
                                                 <label>Military Status</label>

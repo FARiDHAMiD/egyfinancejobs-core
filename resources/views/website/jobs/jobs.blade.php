@@ -32,7 +32,7 @@
                 <h2 class="page-main-title mt-0 mb-2">Filters</h2>
                 <a href="{{ route('website.jobs') }}"
                     class="btn py-1 ml-md-4 d-lg-inline d-none
-                                {{ request()->hasAny('search_field', 'country', 'city', 'area', 'career_level', 'years_of_experience', 'job_category', 'job_type', 'date_posted') ? 'btn-warning' : 'btn-default' }}">
+                                {{ request()->hasAny('search_field', 'country', 'city', 'area', 'career_level', 'years_experience_from', 'years_experience_to', 'job_category', 'job_type', 'date_posted') ? 'btn-warning' : 'btn-default' }}">
                     Clear All filters </a>
             </div>
 
@@ -44,9 +44,10 @@
                 <button data-toggle="collapse" data-target="#filter-col" class="btn button-theme w-50 mr-1 collapsed"
                     type="button"><i class="fa fa-filter"></i>
                     Filter</button>
-                <button class="btn btn-default w-50 ml-1 clear-filter">
+                <a href="{{ route('website.jobs') }}"
+                    class="btn {{ request()->hasAny('search_field', 'country', 'city', 'area', 'career_level', 'years_experience_from', 'years_experience_to', 'job_category', 'job_type', 'date_posted') ? 'btn-warning' : 'btn-default' }} w-50 ml-1 clear-filter">
                     Clear All filters
-                </button>
+                </a>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-12 mb-5 collapse" id="filter-col">
                 <div class="sidebar-right form-content-box m-0">
@@ -293,9 +294,21 @@
 
                             {{-- Years Of Experience Filter --}}
                             <div class="form-group">
-                                <h5 class="filter-title mb-3">Experience From</h5>
-                                <input type="number" class="w-100 input-text" name="years_of_experience"
-                                    placeholder="years of experience" value="{{ request('years_of_experience') }}">
+                                <h5>Experience</h5>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h5 class="filter-title mb-3">From</h5>
+                                        <input type="number" class="w-100 input-text" name="years_experience_from"
+                                            placeholder="Min. Years" value="{{ request('years_experience_from') }}">
+
+                                    </div>
+                                    <div class="col-6">
+                                        <h5 class="filter-title mb-3">To</h5>
+                                        <input type="number" class="w-100 input-text" name="years_experience_to"
+                                            placeholder="Max. Years" value="{{ request('years_experience_to') }}">
+
+                                    </div>
+                                </div>
                             </div>
                             <hr>
 

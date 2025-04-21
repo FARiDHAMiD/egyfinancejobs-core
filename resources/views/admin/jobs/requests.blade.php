@@ -19,7 +19,7 @@
                             <th>Job Title</th>
                             <th>Company</th>
                             <th>Date</th>
-                            <th>Approved</th>
+                            <th>Status</th>
                             <th>Details</th>
                         </tr>
                     </thead>
@@ -31,7 +31,7 @@
                             <td>{{$job->title}}</td>
                             <td>{{$job->company}}</td>
                             <td>{{date('d-m-Y', strtotime($job->created_at))}}</td>
-                            <td>{{ $job->approved ? 'Approved!' : 'Pending...' }}</td>
+                            <td>{{ $job->pending ? 'Pending...' : 'Reviewed' }}</td>
                             <td>
                                 <a href="{{ route('jobs.requests.details', $job->id) }}"
                                     class="btn btn-info btn-sm m-1">

@@ -109,9 +109,9 @@ class JobController extends Controller
             'title' => 'required|string|max:30|min:2',
 
             'excerpt' => 'nullable|string|max:100',
-            'description' => 'required|string|max:800|min:20',
-            'requirements' => 'required|string|max:800|min:20',
-            'location' => 'required|string|max:800',
+            'description' => 'required|string|max:1500|min:20',
+            'requirements' => 'required|string|max:1500|min:20',
+            'location' => 'required|string|max:500',
             'type_id' => 'required',
             'category_id' => 'required',
             'education_level_id' => 'required',
@@ -120,7 +120,7 @@ class JobController extends Controller
             'years_experience_to' => 'numeric|gte:years_experience_from',
             'salary_from' => 'nullable|numeric|min:0',
             'salary_to' => 'nullable|numeric|gte:salary_from',
-            'g-recaptcha-response' => 'recaptcha',
+            // 'g-recaptcha-response' => 'recaptcha',
         ]);
 
         JobRequest::create([
@@ -171,6 +171,17 @@ class JobController extends Controller
         ];
 
         return view('admin.jobs.request_details', $data);
+    }
+
+    function request_reviewed($job_id)
+    {
+        $job_request = JobRequest::find($job_id);
+        $job_request->update([
+            'pending' => 0,
+            'reviewed_by' => Auth::id(),
+        ]);
+        session()->flash('alert_message', ['message' => 'The request has been reviewed successfully', 'icon' => 'success']);
+        return redirect()->route('jobs.requests');
     }
 
     public function create()

@@ -37,6 +37,23 @@
                     <a href="{{ route('employee.profile.general-info.edit') }}"><button class="edit-btn bg-grea-3"><i
                                 class="fa fa-pencil-square-o"></i></button></a>
                     @endif
+                    @auth
+                    @if (auth()->user()->hasRole('admin'))
+                    @if ($employee->featured)
+                    <form method="POST" action="{{route('admin.employee.unfeatured', $employee->id)}}">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-outline-danger text-dark">Mark as
+                            unfeatured</button>
+                    </form>
+                    @else
+                    <form method="POST" action="{{route('admin.employee.featured', $employee->id)}}">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-outline-success text-dark">Mark as
+                            featured</button>
+                    </form>
+                    @endif
+                    @endif
+                    @endauth
                 </div>
 
                 {{-- General Info Section --}}

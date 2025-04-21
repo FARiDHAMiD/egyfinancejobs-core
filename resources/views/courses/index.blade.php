@@ -142,9 +142,18 @@
                             <!-- Course Info -->
                             <div class="course-info">
                                 <span><i class="fa fa-users"></i>{{$course->max_enroll}} Enroll</span>
-                                <span><i
-                                        class="fa fa-calendar-o"></i>{{\Carbon\Carbon::parse($course->start_date)->diffInMonths(\Carbon\Carbon::parse($course->end_date))}}
-                                    Months</span>
+                                <span><i class="fa fa-calendar-o"></i>
+                                    {{
+                                    round(
+                                    \Carbon\Carbon::parse($course->start_date)
+                                    ->diffInDays(\Carbon\Carbon::parse($course->end_date)) / 30
+                                    ) < 1 ? \Carbon\Carbon::parse($course->start_date)
+                                        ->diffInDays(\Carbon\Carbon::parse($course->end_date)) . ' Days' :
+                                        round(\Carbon\Carbon::parse($course->start_date)
+                                        ->diffInDays(\Carbon\Carbon::parse($course->end_date))
+                                        / 30) . ' Months'
+                                        }}
+                                </span>
                                 @if($course->start_time)
                                 <span><i class="fa fa-clock-o"></i>{{$course->start_time}} -
                                     {{$course->end_time}}</span>
@@ -265,17 +274,18 @@
                 </div>
             </div>
         </div>
+        @foreach ($events as $event)
         <div class="row">
             <div class="col-lg-5 col-12">
                 <div class="event-img">
-                    <img src="{{asset('courses_template/images/event-left.jpg')}}" alt="#">
+                    <img src="{{ empty($event->getFirstMedia('event_img')) ? asset('courses_template/images/event-left.jpg') : $event->getFirstMedia('event_img')->getUrl() }}"
+                        alt="">
                 </div>
             </div>
             {{-- upcoming events data --}}
             <div class="col-lg-7 col-12">
 
                 <div class="coming-event">
-                    @foreach ($events as $event)
                     <!-- Single Event -->
                     <div class="single-event">
                         <div class="event-date">
@@ -298,11 +308,12 @@
                         </div>
                     </div>
                     <!-- End Single Event -->
-                    @endforeach
                 </div>
 
             </div>
         </div>
+        @endforeach
+
         <div class="text-center my-4 mb-0">
             <div class="button">
                 <a href="{{route('courses.events')}}" class="btn primary">More Events...</a>

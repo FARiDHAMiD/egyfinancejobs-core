@@ -21,6 +21,7 @@ class EmployerProfile extends Model
         'area_id',
         'featured', //default 0
         'bio',
+        'created_by',
     ];
 
     use HasFactory;
@@ -36,8 +37,14 @@ class EmployerProfile extends Model
     {
         return $this->belongsTo(Area::class, 'area_id');
     }
+
     public function industry()
     {
         return $this->belongsTo(Industry::class, 'company_industry_id');
+    }
+
+    public function user_created()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

@@ -9,8 +9,10 @@
                     <div class="row">
                         <div class="col-md-7 col-5 d-flex justify-content-between align-items-center">
                             <div class="company-logo">
-                                <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
-                                    alt="brand" class="img-fluid">
+                                <a href="{{route('employer.profile', $employer[0]->uuid)}}">
+                                    <img src="{{ empty($job->employer->getFirstMedia('company_logo')) ? asset('/website/img/company-logo.png') : $job->employer->getFirstMedia('company_logo')->getUrl() }}"
+                                        alt="brand" class="img-fluid">
+                                </a>
                             </div>
                         </div>
                         <div class="col-md-5 col-7 text-right">
@@ -41,8 +43,10 @@
                             </div>
                             <div class="candidate-listing-footer">
                                 <ul>
-                                    <li><i class="flaticon-work"></i> {{
-                                        optional($job->employer_profile)->company_name??'N/A' }}</li>
+                                    <li>
+                                        <i class="flaticon-work"></i>
+                                        {{optional($job->employer_profile)->company_name??'N/A' }}
+                                    </li>
                                     <li><i class="flaticon-pin"></i> {{ empty($job->area) ? null : $job->area->name }},
                                         {{ empty($job->city) ? null : $job->city->name }}, {{ $job->country->name }}
                                     </li>
@@ -60,14 +64,44 @@
                             <button class="btn button-success bg-success text-white disabled">Applied</button>
                             @else
                             @if ($job->external_url)
+                            @auth
+                            @if ((auth()->user()->hasRole('employee') && auth()->user()->employee_profile) ||
+                            auth()->user()->hasRole('admin'))
                             <a href="{{$job->external_url}}" target="_blank" class="btn button-theme">
                                 Apply on this job
                             </a>
+                            @else
+                            {{-- compelete profile before show link --}}
+                            <a href="{{route('employee.profile.view')}}" class="btn button-theme">
+                                Apply on this job
+                            </a>
+                            @endif
+                            @else
+                            <a href="{{route('login')}}" class="btn button-theme">
+                                Apply on this job
+                            </a>
+                            @endauth
                             @elseif($job->external_email)
-                            <a href="{{$job->external_email}}"
-                                class="btn button-success bg-success text-white  copyLink">
+                            @auth
+                            @if ((auth()->user()->hasRole('employee') && auth()->user()->employee_profile) ||
+                            auth()->user()->hasRole('admin'))
+                            <a target="_blank"
+                                href="mailto:{{$job->external_email}}?subject=Application for {{$job->job_title}} on Egy Finance Jobs&body=Hi,I am writing to express my interest in the {{$job->job_title}} position at {{$job->employer_profile->company_name ?? ''}}, as advertised on http://egyfinancejobs.com/"
+                                class="btn button-success bg-success text-white ">
                                 Copy E-Mail
                             </a>
+                            @else
+                            {{-- compelete profile before show link --}}
+                            <a href="{{route('employee.profile.view')}}" class="btn button-theme">
+                                Copy E-Mail
+                            </a>
+                            @endif
+
+                            @else
+                            <a href="{{route('login')}}" class="btn button-success bg-success text-white ">
+                                Copy E-Mail
+                            </a>
+                            @endauth
 
                             @else
                             <button data-toggle="modal" data-target="#apply-job" class="btn button-theme">

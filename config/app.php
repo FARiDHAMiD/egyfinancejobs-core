@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         App\Providers\AdminRouteServiceProvider::class,
+        App\Providers\ReportsRouteServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
 
         /*

@@ -29,7 +29,8 @@ class JobController extends Controller
         $selectedCareerLevels = $request->input('career_level', []);
         $selectedJobCategories = $request->input('job_category', []);
         $selectedJobTypes = $request->input('job_type', []);
-        $selectedExperienceYears = $request->input('years_of_experience');
+        $selectedExperienceYearsFrom = $request->input('years_experience_from');
+        $selectedExperienceYearsTo = $request->input('years_experience_to');
         $selectedPostedDate = $request->input('date_posted', []);
         $searchQuery = $request->input('search_field');
 
@@ -55,8 +56,11 @@ class JobController extends Controller
             ->when(count($selectedJobTypes) > 0, function ($query) use ($selectedJobTypes) {
                 return $query->whereIn('jobs.type_id', $selectedJobTypes)->latest();
             })
-            ->when($selectedExperienceYears != null, function ($query) use ($selectedExperienceYears) {
-                return $query->where('jobs.years_experience_from', $selectedExperienceYears)->latest();
+            ->when($selectedExperienceYearsFrom != null, function ($query) use ($selectedExperienceYearsFrom) {
+                return $query->where('jobs.years_experience_from', '>=', $selectedExperienceYearsFrom)->latest();
+            })
+            ->when($selectedExperienceYearsTo != null, function ($query) use ($selectedExperienceYearsTo) {
+                return $query->where('jobs.years_experience_to', '<=', $selectedExperienceYearsTo)->latest();
             })
             ->when(in_array('past_week', $selectedPostedDate), function ($query) {
                 return $query->where('jobs.created_at', '>=', Carbon::now()->subWeek())->latest();
@@ -90,16 +94,17 @@ class JobController extends Controller
         // return ($jobsQuery->get());
 
 
-        if (auth()->check() && auth()->user()->hasRole('employee') && auth()->user()->employee_profile != null) {
-            $employee_profile = auth()->user()->employee_profile;
-            $lat = empty($employee_profile->area) ? null : $employee_profile->area->lat;
-            $lon = empty($employee_profile->area) ? null : $employee_profile->area->lon;
-            $jobsQuery = $jobsQuery->select('jobs.*')
-                ->join('areas', 'jobs.area_id', '=', 'areas.id')
-                ->orderByRaw("SQRT(POWER(69.1 * (areas.lat - ?), 2) + POWER(69.1 * (? - areas.lon) * COS(areas.lat / 57.3), 2))", [$lat, $lon]);
-        } else {
-            $jobsQuery = $jobsQuery->latest();
-        }
+        // if (auth()->check() && auth()->user()->hasRole('employee') && auth()->user()->employee_profile != null) {
+        //     $employee_profile = auth()->user()->employee_profile;
+        //     $lat = empty($employee_profile->area) ? null : $employee_profile->area->lat;
+        //     $lon = empty($employee_profile->area) ? null : $employee_profile->area->lon;
+        //     $jobsQuery = $jobsQuery->select('jobs.*')
+        //         ->join('areas', 'jobs.area_id', '=', 'areas.id')
+        //         ->orderByRaw("SQRT(POWER(69.1 * (areas.lat - ?), 2) + POWER(69.1 * (? - areas.lon) * COS(areas.lat / 57.3), 2))", [$lat, $lon]);
+        // } else {
+        //     $jobsQuery = $jobsQuery->latest();
+        // }
+        $jobsQuery = $jobsQuery->latest();
 
 
         $all_jobs_ids = $jobsQuery->get('id');

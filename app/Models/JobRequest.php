@@ -29,4 +29,9 @@ class JobRequest extends Model
     {
         return $this->belongsTo(EducationLevel::class, 'education_level_id');
     }
+
+    public function reviewed()
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
+    }
 }
