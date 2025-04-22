@@ -38,6 +38,12 @@
                                 class="fa fa-pencil-square-o"></i></button></a>
                     @endif
                     @auth
+                    @if (!auth()->user()->hasRole('admin') && $employee->featured)
+                    {{-- Top Account --}}
+                    <img src="{{ url('website/img/star-photo.png')}}" width="50" alt="" style="margin-right: 20px">
+                    @endif
+                    @endauth
+                    @auth
                     @if (auth()->user()->hasRole('admin'))
                     @if ($employee->featured)
                     <form method="POST" action="{{route('admin.employee.unfeatured', $employee->id)}}">
